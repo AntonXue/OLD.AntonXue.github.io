@@ -1,0 +1,85 @@
+% LaTeX file for resume 
+% This file uses the resume document class (res.cls)
+
+\documentclass[margin]{res} 
+
+\usepackage[pdftex]{hyperref}
+
+% the margin option causes section titles to appear to the left of body text 
+\textwidth=5.4in % increase textwidth to get smaller right margin
+%\usepackage{helvetica} % uses helvetica postscript font (download helvetica.sty)
+%\usepackage{newcent}   % uses new century schoolbook postscript font 
+
+\begin{document} 
+
+\name{Anton Xue\\[12pt]} % the \\[12pt] adds a blank line after name
+ 
+\address{{\bf Address} \\ 17 Broadway 2L \\ New Haven, CT 06511}
+ 
+\address{{\bf Contact} \\ \texttt{anton.xue@yale.edu} \\ (617) 755-5257}
+
+\begin{resume} 
+ 
+\section{Interests} 
+Programming languages, software analysis, formal methods, combinatorics, probability
+
+\section{Experience}
+\textit{Lab Member} \hfill September 2015 --- Present \\
+Yale University Computer Science Department
+
+\textit{Research Intern} \hfill May 2017 --- August 2017 \\
+Max Planck Institute for Software Systems
+
+\section{Education} 
+\textit{B.S. Mathematics and Computer Science} \hfill September 2015 --- May 2019 \\
+Yale University
+
+% \section{Honors} None
+
+% \section{Publications} None
+
+\section{Presentations}
+\textit{Building a Symbolic Execution Engine for Haskell} \hfill August 2017 \\
+TAPAS 2017
+
+\textit{A Symbolic Execution Framework for Haskell} \hfill January 2017 \\
+POPL 2017 Student Research Competition
+
+\section{Teaching}
+\textit{Teaching Assistant} \\
+  Mathematical Tools for Computer Science \hfill Fall 2016, Fall 2017 \\
+  Design and Analysis of Algorithms \hfill Spring 2017
+
+\section{Community}
+\textit{Committee Member} \\
+Yale Computer Science Department Student Advisory Committee \hfill Fall 2017
+
+\section{Software}
+\textit{G2 Symbolic Execution Engine for Haskell} \\
+\href{https://github.com/AntonXue/G2}{\texttt{https://github.com/AntonXue/G2}}
+
+\textit{Multi-Terminal Interval Decision Diagrams} \\
+\href{https://github.com/dzufferey/mtidd}{\texttt{https://github.com/dzufferey/mtidd}}
+
+\section{Technical}
+\textit{Programming Languages} \\
+Haskell, C, C++, Python, Java, Scala
+ 
+
+\if false
+% Tabulate Computer Skills; p{3in} defines paragraph 3 inches wide
+\section{Computer \\ Skills}
+   \begin{tabular}{l p{3in}}
+    \underline{Languages:} & COBOL, Pascal,C, APL, Basic \\
+
+     \underline{Software:} &  SPIRES, dBase III, Datastar database 
+                        systems, GPSS simulation, FCS-EPS financial 
+                        planning, SAS statistical analysis, 
+                        Lotus1-2-3, MPSX optimization modeling 
+   \end{tabular}
+ \fi
+
+\end{resume} 
+\end{document} 
+
+

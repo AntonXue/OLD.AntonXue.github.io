@@ -1,0 +1,81 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=6em]{geometry} % 1 cm = 2.84528 em
+\usepackage[colorlinks=true,linkcolor=red,urlcolor=blue]{hyperref}
+\usepackage{lipsum}
+
+% Paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% Includes
+\input{antonxue-lib}
+
+\let\H\undefined
+\newcommand{\H}{\mathcal{H}}
+
+\let\F\undefined
+\newcommand{\F}{\mathcal{F}}
+
+% Author
+\author{}
+\title{Discrete Fourier Transforms for Non-linear Real Arithmetics}
+% \date{\today}
+\date{}
+
+% Document
+\begin{document}
+\maketitle
+
+\subsection*{General Fourier Transform}
+Consider the Hilbert space $\H = L^2 \parens{\brackets{0, 1}}$ endowed with
+the orthonormal bases $\braces{e_n}_{n \in \Z}$, where we define
+$e_n \parens{x} = e^{i 2\pi n x}$.
+A Fourier transform $\type{\F_n}{\H}{\C}$ can be defined as the inner product:
+
+\begin{align*}
+  \F_n\brackets{f}
+    = \inner{f, e_n}
+    = \int_0^1 f\parens{x} \overline{e_n \parens{x}} dx
+    = \int_0^1 f\parens{x} e^{-i 2 \pi n x} dx
+\end{align*}
+
+By linearity of the integral, each Fourier transform $\F_n$
+can be seen as a linear functional.
+We make a stronger claim, that the Fourier transform is continuous with
+norm $1$:
+
+\begin{align*}
+  \norm{F_n}_{\adj{\H}}
+    = \sup_{\norm{f}_{\H} = 1}
+        \abs{\int_0^1 f\parens{x} \overline{e_n \parens{x}} dx}
+    \leq \parens{\int_0^1 \abs{f\parens{x}}^2 dx}^{1/2}
+              \parens{\int_0^1 \abs{e_n \parens{x}}^2 dx}^{1/2}
+    = \norm{f}_{\H} \cdot \norm{e_n}_{H}
+\end{align*}
+The inequality is sharp when $f = e_{n}$.
+We write the partial Fourier series $\type{S_N}{\H}{\H}$ as:
+
+\begin{align*}
+  S_N \brackets{f}
+    = \sum_{n = -N}^{N} \inner{f, e_n}
+    = \sum_{n = -N}^{N} \int_0^1 f(x) e^{- i 2 \pi n x} dx
+\end{align*}
+
+We omit the proof, but do note that this converges in norm for any
+$f \in \mathcal{H}$:
+\begin{align*}
+  \lim_{N \to \infty} \norm{f - S_N \brackets{f}}_{\H}
+    = \lim_{N \to \infty}
+      \abs{f\parens{x} -
+            \sum_{n = -N}^{N} \int_0^1 f\parens{x} e^{-i 2\pi nx} dx}
+    \to 0
+\end{align*}
+
+\subsection*{Discrete Fourier Transform}
+
+
+
+\end{document}
+
