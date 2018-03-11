@@ -1,8 +1,12 @@
-\BOOKMARK [2][-]{subsection.0.1}{The Problem}{}% 1
+\BOOKMARK [2][-]{subsection.0.1}{The Problem\(s\)}{}% 1
 \BOOKMARK [2][-]{subsection.0.2}{Background}{}% 2
 \BOOKMARK [3][-]{subsubsection.0.2.1}{The Fourier Transform}{subsection.0.2}% 3
 \BOOKMARK [3][-]{subsubsection.0.2.2}{Multi-Dimensional Fourier Transform}{subsection.0.2}% 4
-\BOOKMARK [2][-]{subsection.0.3}{The Idea}{}% 5
-\BOOKMARK [3][-]{subsubsection.0.3.1}{Linearization}{subsection.0.3}% 6
-\BOOKMARK [3][-]{subsubsection.0.3.2}{Error Analysis}{subsection.0.3}% 7
-\BOOKMARK [2][-]{subsection.0.4}{Remarks}{}% 8
+\BOOKMARK [3][-]{subsubsection.0.2.3}{Linear Real Arithmetics}{subsection.0.2}% 5
+\BOOKMARK [2][-]{subsection.0.3}{The Idea}{}% 6
+\BOOKMARK [3][-]{subsubsection.0.3.1}{Linearization}{subsection.0.3}% 7
+\BOOKMARK [3][-]{subsubsection.0.3.2}{Program Synthesis}{subsection.0.3}% 8
+\BOOKMARK [3][-]{subsubsection.0.3.3}{Error Analysis}{subsection.0.3}% 9
+\BOOKMARK [3][-]{subsubsection.0.3.4}{Complexity Analysis}{subsection.0.3}% 10
+\BOOKMARK [3][-]{subsubsection.0.3.5}{Efficient Implementation}{subsection.0.3}% 11
+\BOOKMARK [2][-]{subsection.0.4}{Remarks}{}% 12

@@ -3,6 +3,11 @@
 % Packages
 \usepackage[margin=6em]{geometry} % 1 cm = 2.84528 em
 \usepackage[colorlinks=true,linkcolor=red,urlcolor=blue]{hyperref}
+
+\usepackage[backend=bibtex]{biblatex}
+\bibliography{sources}
+\nocite{*}
+
 \usepackage{lipsum}
 
 % Paragraphs
@@ -28,7 +33,7 @@
 \begin{document}
 \maketitle
 
-\subsection{The Problem}
+\subsection{The Problem(s)}
 We first consider the satisfiability of first-order logic formulae over
 non-linear real arithmetics:
 
@@ -42,7 +47,7 @@ non-linear real arithmetics:
   \varepsilon_{i, j} \geq 0
 \end{align*}
 
-The quesiton of satisfiability, however, is undecidable:
+The question of satisfiability, however, is undecidable:
 we cannot yield algorithms that, given $\varphi$, is able to find some
 $\vec{x}$ if there exists a satisfying configuration.
 We thus seek to approximate solutions, which throws away soundness for
@@ -60,8 +65,8 @@ We never said these programs have to be fancy, did we?
 
 
 \subsection{Background}
-We provide a brief overview of the Fourier transform and the thoery of linear
-real arithemtics.
+We provide a brief overview of the Fourier transform and the theory of linear
+real arithmetics.
 
 \subsubsection{The Fourier Transform}
 Consider the separable Hilbert space $\H = L^2 \parens{\brackets{0, 1}}$
@@ -78,19 +83,6 @@ be expressed as an inner product:
 \end{align*}
 
 Observe that because $f$ is real-valued, the integration yields real values.
-We further claim that the Fourier transform is continuous with
-norm $1$:
-
-\begin{align*}
-  \norm{F_n}_{\adj{\H}}
-    = \sup_{\norm{f}_{\H} = 1}
-        \abs{\int_0^1 f\parens{x} \overline{e_n \parens{x}} dx}
-    \leq \parens{\int_0^1 \abs{f\parens{x}}^2 dx}^{1/2}
-              \parens{\int_0^1 \abs{e_n \parens{x}}^2 dx}^{1/2}
-    = \norm{f}_{\H} \cdot \norm{e_n}_{H}
-\end{align*}
-
-The inequality is sharp when $f = e_{n}$.
 We recall that the partial Fourier series $\type{S_n}{\H}{\H}$ is a
 (finite dimensional) compact operator:
 
@@ -105,7 +97,7 @@ Consider some $m$ such that
 $\abs{m} > N$:
 
 \begin{align*}
-  \inner{e_m, S_n}
+  \inner{e_m, S_N}
     = \inner{e_m, \sum_{n = -N}^{N} \inner{f, e_n} e_n}
     = \sum_{n = -N}^{N} \inner{f, e_n} \cdot \inner{e_m, e_n}
     = \sum_{n = -N}^{N} \inner{f, e_n} \cdot 0
@@ -130,46 +122,43 @@ over compact (perhaps convex?) domains.
 
 \subsubsection{Multi-Dimensional Fourier Transform}
 We now consider the Fourier transform when we consider $n$ dimensions.
-For $\H = L^2 \parens{\brackets{0, 1}^n}$.
-We define as the orhonormal basis:
+Consider the vector $\vec{N} = \parens{N_1, \ldots, N_n} \in \Z^n$.
+For $\H = L^2 \parens{\brackets{0, 1}^n}$,
+we define as the orthonormal basis:
 
 \begin{align*}
-  \phi_{d_1, \ldots, d_n} \parens{x_1, \ldots, x_n}
-    = \prod_{i = 1}^{n} e_{d_i} \parens{x_i}
-    = e^{i 2 \pi \parens{d_1 x_1 + \cdots + d_n x_n}}
-    \qquad
-    d_1, \ldots, d_n \in \Z
+  \phi_{\vec{N}} \parens{x_1, \ldots, x_n}
+    = \prod_{i = 1}^{n} e_{N_i} \parens{x_i}
+    = e^{i 2 \pi \parens{N_1 x_1 + \cdots + N_n x_n}}
 \end{align*}
 
 We likewise define the
-Fourier transform $\type{F_{i_1, \ldots, i_n}}{\R^n}{\R}$ as a
+Fourier transform $\type{F_{\vec{N}}}{\R^n}{\R}$ as a
 linear functional in the form of an inner product,
 with $\vec{x} \in \R^n$:
 
 \begin{align*}
-  \mathcal{F}_{i_1, \ldots, i_n} \brackets{f} \parens{\vec{x}}
-    = \inner{f, \phi_{i_1, \ldots, i_n}}
+  \mathcal{G}_{\vec{N}} \brackets{f} \parens{\vec{x}}
+    = \inner{f, \phi_{\vec{N}}}
     = \int_{\brackets{0, 1}^n}
-      f\parens{\vec{x}} \overline{\phi_{i_1, \ldots, i_n} \parens{\vec{x}}} d \vec{x}
+      f\parens{\vec{x}} \overline{\phi_{\vec{N}} \parens{\vec{x}}} d \vec{x}
 \end{align*}
 
-A Fourier series for $N_1, \ldots, N_n$:
+A multi-dimensional Fourier series is thus the following operator mapping:
 
 \begin{align*}
-  S_{N_1, \ldots, N_n} \brackets{f} \parens{\vec{x}}
+  \mathcal{T}_{\vec{N}} \brackets{f}\parens{\vec{x}}
     = \sum_{i_1 = -N_1}^{N_1} \cdots \sum_{i_n = -N_n}^{N_n}
-        \inner{f, \phi_{i_1, \ldots, i_n}} \phi_{i_1, \ldots, i_n}
-          \parens{\vec{x}}
+        \inner{f, \phi_{i_1, \ldots, i_n}} \phi_{i_1, \ldots, i_n} \parens{x}
 \end{align*}
 
 I am sure a proof of convergence in $L^2$ norm for this exists somewhere.
 
 
-\subsection{The Idea}
-We approach the problem of approximate satisfiability and synthesis
-by linearzation.
-Recall that a non-linear real arithmetic formula is boolean conjunction
-of form:
+\subsubsection{Linear Real Arithmetics}
+Linear real arithmetics is a restriction of non-linear real arithmetics
+that we considered above.
+Recall the following formula:
 
 \begin{align*}
   \varphi
@@ -181,24 +170,75 @@ of form:
   \varepsilon_{i, j} \geq 0
 \end{align*}
 
-For each $f_{i, j}$ we may find Fourier series, whose coefficients are real.
+In \textbf{linear} real arithmetics, each inequality now has form:
+
+\begin{align*}
+  \varphi
+    = \bigwedge_{i = 1}^{N} \parens{\bigvee_{j = 1}^{M}
+        \parens{\sum_{k = 1}^{n} a_{i, j, k} x_k} \leq \varepsilon_{i, j}}
+  \qquad
+  \vec{x} = \parens{x_1, \ldots, x_n} \in K \subseteq \R^n, \enskip
+  a_{i, j, k} \in \R, \enskip
+  \varepsilon_{i, j} \geq 0
+\end{align*}
+
+Variants of this problem include cases when the disjunctions
+are unit, which is equivalent to the problem of intersection finding for
+halfspaces.
+Convex optimization problems often take such form, and have elegant
+theories and techniques.
+However, the importance here is that the theory of linear real arithmetics
+is decidable.
+
+
+\subsection{The Idea}
+We approach the problem of approximate satisfiability and synthesis
+by linearized approximations.
+For each $f_{i, j}$ in the boolean conjunction that makes up a
+non-linear real arithmetic formula,
+we may find Fourier series, whose coefficients are real.
 Such a reduction yields a problem in the domain of real arithemtics, which
 is decidable.
 We formalize the approach, and perform error analysis.
 
 \subsubsection{Linearization}
+We rewrite a formula over non-linear real arithmetics as follows:
+
+\begin{align*}
+  \varphi
+    = \bigwedge_{i = 1}^{N} \parens{\bigvee_{j = 1}^{M}
+   T_{\vec{N}} \brackets{f_{i,j}}\parens{\vec{x}} \leq \varepsilon_{i,j}}
+  \qquad
+  \vec{x} \in K \subseteq \R^n, \enskip
+  \vec{N} \in \Z^n, \enskip
+  \type{f_{i, j}}{K}{\R}, \enskip
+  \varepsilon_{i, j} \geq 0
+\end{align*}
+
+Because we have real-valued functions, we induce real-valued coefficients,
+and this brings the problem back into a decidable theory.
+
+
+\subsubsection{Program Synthesis}
+TODO: The linear methods described in Kuncak, Victor, Mayer, Mika\"{e}l
+and Piskac's paper is still applicable here.
+But really we want a more custom LRA solution that I need to read up on.
+
 
 \subsubsection{Error Analysis}
+Oh fuck.
+
+\subsubsection{Complexity Analysis}
+Time consuming.
+
+\subsubsection{Efficient Implementation}
 
 
 \subsection{Remarks}
 
 
-\textbf{We may approximate the precondition as a matrix of linear inequalities
-over the dual space of the domain, and likewise for the codomain.
-This therefore becomes an LP problem with respect to the dual spaces, and
-all that's left is figuring out how fast the L2 norms converge}
+
+\printbibliography
 
 
 \end{document}
-
