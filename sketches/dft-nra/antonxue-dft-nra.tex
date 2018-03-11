@@ -60,11 +60,11 @@ We never said these programs have to be fancy, did we?
 
 
 \subsection{Background}
-\subsubsection*{The Fourier Transform}
+\subsubsection{The Fourier Transform}
 Consider the separable Hilbert space $\H = L^2 \parens{\brackets{0, 1}}$
 endowed with the Fourier basis $\braces{e_n}_{n \in \Z}$, where we define
 $e_n \parens{x} = e^{i 2\pi n x}$.
-A Fourier transform $\type{\F_n}{\H}{\C}$ is a linear functional that can
+A Fourier transform $\type{\F_n}{\H}{\R}$ is a linear functional that can
 be expressed as an inner product:
 
 \begin{align*}
@@ -74,6 +74,7 @@ be expressed as an inner product:
     = \int_0^1 f\parens{x} e^{-i 2 \pi n x} dx
 \end{align*}
 
+Observe that because $f$ is real-valued, the integration yields real values.
 We further claim that the Fourier transform is continuous with
 norm $1$:
 
@@ -138,7 +139,7 @@ We define as the orhonormal basis:
 \end{align*}
 
 We likewise define the
-Fourier transform $\type{F_{i_1, \ldots, i_n}}{\R^n}{\C}$ as a
+Fourier transform $\type{F_{i_1, \ldots, i_n}}{\R^n}{\R}$ as a
 linear functional in the form of an inner product,
 with $\vec{x} \in \R^n$:
 
@@ -154,13 +155,15 @@ A Fourier series for $N_1, \ldots, N_n$:
 \begin{align*}
   S_{N_1, \ldots, N_n} \brackets{f} \parens{\vec{x}}
     = \sum_{i_1 = -N_1}^{N_1} \cdots \sum_{i_n = -N_n}^{N_n}
-        \inner{f, \phi_{i_1, \ldots, i_n}} \phi_{i_1, \ldots, i_n} \vec{x}
+        \inner{f, \phi_{i_1, \ldots, i_n}} \phi_{i_1, \ldots, i_n}
+          \parens{\vec{x}}
 \end{align*}
 
 I am sure a proof of convergence in $L^2$ norm for this exists somewhere.
 
-\subsubsection{Discrete Fourier Transform}
 
+\subsubsection{Discrete Fourier Transform}
+The discrete Fourier transform bridges the continuous and 
 
 
 \subsection{The Problem}
