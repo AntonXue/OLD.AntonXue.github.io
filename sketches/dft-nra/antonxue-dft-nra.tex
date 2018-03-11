@@ -28,11 +28,44 @@
 \begin{document}
 \maketitle
 
-\subsection*{General Fourier Transform}
-Consider the Hilbert space $\H = L^2 \parens{\brackets{0, 1}}$ endowed with
-the orthonormal bases $\braces{e_n}_{n \in \Z}$, where we define
+\subsection{The Problem}
+We first consider the satisfiability of first-order logic formulae over
+non-linear real arithmetics:
+
+\begin{align*}
+  \varphi
+    = \bigwedge_{i = 1}^{N} \parens{\bigvee_{j = 1}^{M}
+        f_{i, j}\parens{\vec{x}} \leq \varepsilon_{i, j}}
+  \qquad
+  \vec{x} \in K \subseteq \R^n, \enskip
+  \type{f_{i, j}}{K}{\R}, \enskip
+  \varepsilon_{i, j} \geq 0
+\end{align*}
+
+The quesiton of satisfiability, however, is undecidable:
+we cannot yield algorithms that, given $\varphi$, is able to find some
+$\vec{x}$ if there exists a satisfying configuration.
+We thus seek to approximate solutions, which throws away soundness for
+feasibility.
+
+However, we are interested in still another class of problems:
+program synthesis.
+Given a pre-condition $P$ that we assume at the start of program execution,
+and post-condition $Q$, does there exists some program $S$ that is able to
+transform $P$ into $Q$?
+When $P$ and $Q$ are formulae over linear integer arithmetics, for instance,
+the corresponding program is akin to a sequence of variable assignments
+that correspond to a linear transformation.
+We never said these programs have to be fancy, did we?
+
+
+\subsection{Background}
+\subsubsection*{The Fourier Transform}
+Consider the separable Hilbert space $\H = L^2 \parens{\brackets{0, 1}}$
+endowed with the Fourier basis $\braces{e_n}_{n \in \Z}$, where we define
 $e_n \parens{x} = e^{i 2\pi n x}$.
-A Fourier transform $\type{\F_n}{\H}{\C}$ can be defined as the inner product:
+A Fourier transform $\type{\F_n}{\H}{\C}$ is a linear functional that can
+be expressed as an inner product:
 
 \begin{align*}
   \F_n\brackets{f}
@@ -41,9 +74,7 @@ A Fourier transform $\type{\F_n}{\H}{\C}$ can be defined as the inner product:
     = \int_0^1 f\parens{x} e^{-i 2 \pi n x} dx
 \end{align*}
 
-By linearity of the integral, each Fourier transform $\F_n$
-can be seen as a linear functional.
-We make a stronger claim, that the Fourier transform is continuous with
+We further claim that the Fourier transform is continuous with
 norm $1$:
 
 \begin{align*}
@@ -54,17 +85,31 @@ norm $1$:
               \parens{\int_0^1 \abs{e_n \parens{x}}^2 dx}^{1/2}
     = \norm{f}_{\H} \cdot \norm{e_n}_{H}
 \end{align*}
+
 The inequality is sharp when $f = e_{n}$.
-We write the partial Fourier series $\type{S_N}{\H}{\H}$ as:
+We recall that the partial Fourier series $\type{S_n}{\H}{\H}$ is a
+(finite dimensional) compact operator:
 
 \begin{align*}
-  S_N \brackets{f}
-    = \sum_{n = -N}^{N} \inner{f, e_n}
-    = \sum_{n = -N}^{N} \int_0^1 f(x) e^{- i 2 \pi n x} dx
+  S_N \brackets{f} \parens{x}
+    = \sum_{n = -N}^{N} \inner{f, e_n} e_n \parens{x}
+    = \sum_{n = -N}^{N} e_n \parens{x} \int_0^1 f(y) e^{- i 2 \pi n y} dy
 \end{align*}
 
-We omit the proof, but do note that this converges in norm for any
-$f \in \mathcal{H}$:
+Note that this is an orthogonal projection.
+Consider some $m$ such that
+$\abs{m} > N$:
+
+\begin{align*}
+  \inner{e_m, S_n}
+    = \inner{e_m, \sum_{n = -N}^{N} \inner{f, e_n} e_n}
+    = \sum_{n = -N}^{N} \inner{f, e_n} \cdot \inner{e_m, e_n}
+    = \sum_{n = -N}^{N} \inner{f, e_n} \cdot 0
+    = 0
+\end{align*}
+
+Furthermore, we omit the proof, but do note that this converges in norm
+for any $f \in \mathcal{H}$:
 \begin{align*}
   \lim_{N \to \infty} \norm{f - S_N \brackets{f}}_{\H}
     = \lim_{N \to \infty}
@@ -73,8 +118,58 @@ $f \in \mathcal{H}$:
     \to 0
 \end{align*}
 
-\subsection*{Discrete Fourier Transform}
+We also remark that the class of continuous functions over
+compact support are dense in $L^2$.
+This motivates us to consider the problem of non-linear real arithmetics
+over compact (perhaps convex?) domains.
 
+
+\subsubsection{Multi-Dimensional Fourier Transform}
+We now consider the Fourier transform when we consider $n$ dimensions.
+For $\H = L^2 \parens{\brackets{0, 1}^n}$.
+We define as the orhonormal basis:
+
+\begin{align*}
+  \phi_{d_1, \ldots, d_n} \parens{x_1, \ldots, x_n}
+    = \prod_{i = 1}^{n} e_{d_i} \parens{x_i}
+    = e^{i 2 \pi \parens{d_1 x_1 + \cdots + d_n x_n}}
+    \qquad
+    d_1, \ldots, d_n \in \Z
+\end{align*}
+
+We likewise define the
+Fourier transform $\type{F_{i_1, \ldots, i_n}}{\R^n}{\C}$ as a
+linear functional in the form of an inner product,
+with $\vec{x} \in \R^n$:
+
+\begin{align*}
+  \mathcal{F}_{i_1, \ldots, i_n} \brackets{f} \parens{\vec{x}}
+    = \inner{f, \phi_{i_1, \ldots, i_n}}
+    = \int_{\brackets{0, 1}^n}
+      f\parens{\vec{x}} \overline{\phi_{i_1, \ldots, i_n} \parens{\vec{x}}} d \vec{x}
+\end{align*}
+
+A Fourier series for $N_1, \ldots, N_n$:
+
+\begin{align*}
+  S_{N_1, \ldots, N_n} \brackets{f} \parens{\vec{x}}
+    = \sum_{i_1 = -N_1}^{N_1} \cdots \sum_{i_n = -N_n}^{N_n}
+        \inner{f, \phi_{i_1, \ldots, i_n}} \phi_{i_1, \ldots, i_n} \vec{x}
+\end{align*}
+
+I am sure a proof of convergence in $L^2$ norm for this exists somewhere.
+
+\subsubsection{Discrete Fourier Transform}
+
+
+
+\subsection{The Problem}
+
+
+\textbf{We may approximate the precondition as a matrix of linear inequalities
+over the dual space of the domain, and likewise for the codomain.
+This therefore becomes an LP problem with respect to the dual spaces, and
+all that's left is figuring out how fast the L2 norms converge}
 
 
 \end{document}
