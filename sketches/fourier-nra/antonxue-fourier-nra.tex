@@ -19,8 +19,8 @@
 \newcommand{\F}{\mathcal{F}}
 
 % Author
-\author{}
-\title{Discrete Fourier Transforms for Non-linear Real Arithmetics}
+\title{Fourier Transforms for Non-linear Real Arithmetics}
+\author{Anton Xue}
 % \date{\today}
 \date{}
 
@@ -60,6 +60,9 @@ We never said these programs have to be fancy, did we?
 
 
 \subsection{Background}
+We provide a brief overview of the Fourier transform and the thoery of linear
+real arithemtics.
+
 \subsubsection{The Fourier Transform}
 Consider the separable Hilbert space $\H = L^2 \parens{\brackets{0, 1}}$
 endowed with the Fourier basis $\braces{e_n}_{n \in \Z}$, where we define
@@ -162,11 +165,33 @@ A Fourier series for $N_1, \ldots, N_n$:
 I am sure a proof of convergence in $L^2$ norm for this exists somewhere.
 
 
-\subsubsection{Discrete Fourier Transform}
-The discrete Fourier transform bridges the continuous and 
+\subsection{The Idea}
+We approach the problem of approximate satisfiability and synthesis
+by linearzation.
+Recall that a non-linear real arithmetic formula is boolean conjunction
+of form:
+
+\begin{align*}
+  \varphi
+    = \bigwedge_{i = 1}^{N} \parens{\bigvee_{j = 1}^{M}
+        f_{i, j}\parens{\vec{x}} \leq \varepsilon_{i, j}}
+  \qquad
+  \vec{x} \in K \subseteq \R^n, \enskip
+  \type{f_{i, j}}{K}{\R}, \enskip
+  \varepsilon_{i, j} \geq 0
+\end{align*}
+
+For each $f_{i, j}$ we may find Fourier series, whose coefficients are real.
+Such a reduction yields a problem in the domain of real arithemtics, which
+is decidable.
+We formalize the approach, and perform error analysis.
+
+\subsubsection{Linearization}
+
+\subsubsection{Error Analysis}
 
 
-\subsection{The Problem}
+\subsection{Remarks}
 
 
 \textbf{We may approximate the precondition as a matrix of linear inequalities
