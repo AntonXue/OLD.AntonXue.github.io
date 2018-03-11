@@ -199,7 +199,7 @@ non-linear real arithmetic formula,
 we may find Fourier series, whose coefficients are real.
 Such a reduction yields a problem in the domain of real arithemtics, which
 is decidable.
-We formalize the approach, and perform error analysis.
+We test the approach, formalize it, and perform error analysis.
 
 \subsubsection{Linearization}
 We rewrite a formula over non-linear real arithmetics as follows:
@@ -218,6 +218,17 @@ We rewrite a formula over non-linear real arithmetics as follows:
 
 Because we have real-valued functions, we induce real-valued coefficients,
 and this brings the problem back into a decidable theory.
+We now investigate how well this may work:
+
+\paragraph{Testing Stuff}
+As a preliminary study we consider basic functions of the form:
+\begin{align*}
+  f_1 \parens{x} \leq x - \frac{1}{2}
+  \qquad
+  f_2 \parens{x} \geq \frac{x}{2} - \frac{1}{4}
+  \qquad
+  x \in \brackets{0, 1}
+\end{align*}
 
 
 \subsubsection{Program Synthesis}
