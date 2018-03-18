@@ -4,6 +4,7 @@
 \usepackage[margin=6em]{geometry} % 1 cm = 2.84528 em
 \usepackage[colorlinks=true,linkcolor=red,urlcolor=blue]{hyperref}
 \usepackage{tikz}
+\usetikzlibrary{automata}
 \usepackage[backend=bibtex]{biblatex}
 \bibliography{sources}
 \nocite{*}
@@ -68,7 +69,7 @@ We then ask:
 \textbf{what sequence of actions will cause the application to crash?}
 
 
-\subsection{Issues}
+\subsection{Defining the Problem}
 From a high-level perspective, the problem is not well-defined in part
 because we have not discussed the level of access we have to the
 application under testing.
@@ -93,7 +94,7 @@ a pain to implement.
 
 We opt for the second.
 
-\subsection{Modeling}
+\subsection{Modeling the Problem}
 \begin{definition}[Application Graph]
 An \textit{application graph} is a directed multigraph $G = \parens{V, E}$,
 where each vertex $v \in V$ has a state $v_{\state}$ mapping
@@ -116,15 +117,35 @@ Every edge represents an action, and for each edge $e$
 the associated formula $e_{\form}$ is intended to capture the logical
 conditions that must be satisfied when the action is performed in order
 for the transition to occur.
-This means that for any $u, v \in V$, all edges that have form
-$e = \parens{u, v}$ must have formulae such that
-$e_{i, \varphi}$ and $e_{j, \varphi}$ are not mutually satisfiable if
-$i \neq j$.
-Otherwise our transitions would be confusing.
+We note that the conditions for edges that denote the same UI action
+need not be mutually unsatisfiable.
+This may be weird, and we attempt to address this later.
+% This means that for any $u, v \in V$, all edges that have form
+% $e = \parens{u, v}$ must have formulae such that
+% $e_{i, \varphi}$ and $e_{j, \varphi}$ are not mutually satisfiable if
+% $i \neq j$.
+% Otherwise our transitions would be confusing.
 
+So what does this all mean?
 
 \begin{example}[Simple UI]
-We push our \LaTeX{} skills to bring you this example!
+Testing the limits of our \LaTeX{} powers, we bring you this example.
+Here, the application consists of three displays, each with tree elements:
+
+\begin{itemize}
+  \item
+    A {\color{blue} blue $n$-value label} that shows the global value of $n$.
+
+  \item
+    A {\color{green} green action buton} that modifies $n$ according
+    to its description.
+
+  \item
+    A {\color{red} red warp button} that moves between displays.
+    Sometimes crashes.
+\end{itemize}
+
+I think the {\color{green} green color} actually hurts my eyes to read.
 
 \begin{minipage}{0.45\textwidth}
   \begin{center}
@@ -148,25 +169,30 @@ We push our \LaTeX{} skills to bring you this example!
     \node[fill=red!20,draw,rounded corners] at (1.0, 0.5) {{\small Warp!}};
     \node[fill=red!20,draw,rounded corners] at (3.5, 0.5) {{\small Warp!}};
     \node[fill=red!20,draw,rounded corners] at (6.0, 0.5) {{\small Warp!}};
+
+    \node[] at (2.0, 5.0) {{\small Initial starting display}};
+
+    \draw[->] (1.0, 4.7) -- (1.0, 3.7);
+
   \end{tikzpicture}
   \end{center}
 \end{minipage}
 \hfill
 \begin{minipage}{0.5\textwidth}
 \begin{pcode}
-// A:
-red:   set n = n + 1
-green: if n mod 5 == 1 then go to B
+// Display A:
+green: set n = n + 1
+red:   if n mod 5 == 1 then go to B
        if n mod 5 == 2 then go to C
        otherwise do nothing
-// B:
-red:   set n = n - 1
-green: if n mod 5 == 0 then go to A
+// Display B:
+green: set n = n - 1
+red:   if n mod 5 == 0 then go to A
        if n mod 5 == 2 then go to C
        otherwise do nothing
-// C:
-red:   set n = n * 3
-green: if n mod 5 == 0 then go to A
+// Display C:
+green: set n = n * 3
+red:   if n mod 5 == 0 then go to A
        if n mod 5 == 1 then go to B
        otherwise CRASH
 \end{pcode}
@@ -174,7 +200,54 @@ green: if n mod 5 == 0 then go to A
 
 The state graph is then defined as follows:
 
+{\color{red} \textbf{picture copied over from somewhere else; will fill in}}
+
+\begin{center}
+\begin{tikzpicture}
+  [->,
+   % >=stealth',
+   shorten >=1pt,
+   auto,
+   node distance=3cm,
+   semithick,
+   state/.style={circle, draw, minimum size=1cm} 
+  ]
+  \node[state, initial]   (S)                    {$q_{S}$};
+  \node[state]            (A) [above right of=S] {$q_{0}$};
+  \node[state]            (B) [below right of=S] {$q_{1}$};
+  \node[state]            (W) [below right of=A] {$q_{W}$};
+  \node[state, accepting] (H) [right of=W]       {$q_{H}$};
+
+  \path (S) edge [bend left=20] node
+            {$(0, R)$} (A)
+        (S) edge [bend right=20, left] node
+            {$(1, R)$} (B)
+
+        (A) edge [bend right=5, left] node
+            {$(0, R)$} (B)
+        (A) edge [bend left=10] node
+            {$(\#, R)$} (W)
+        
+        (B) edge [bend right=5, right] node
+            {$(1, R)$} (A)
+        (B) edge [bend right=10, right] node
+            {$(\#, R)$} (W)
+        (W) edge [] node
+            {$(\#, 1)$} (H)
+        ;
+\end{tikzpicture}
+\end{center}
+
+
+
 \end{example}
+
+
+\subsection{The Dangerous Game}
+
+
+
+\subsection{Conclusion}
 
 
 \printbibliography
