@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2018/dev/Debian) (preloaded format=pdflatex 2018.1.18)  18 MAR 2018 01:35
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2018/dev/Debian) (preloaded format=pdflatex 2018.1.18)  18 MAR 2018 03:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -936,77 +936,72 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 51.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
+) [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 (/home/celery/texmf/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 )
 (/home/celery/texmf/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
 )
-Overfull \hbox (18.59622pt too wide) in paragraph at lines 129--130
+Overfull \hbox (4.79922pt too wide) in paragraph at lines 159--160
 [][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (18.59622pt too wide) in paragraph at lines 130--131
+Overfull \hbox (4.79922pt too wide) in paragraph at lines 160--161
 [][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (18.59622pt too wide) in paragraph at lines 134--135
+Overfull \hbox (4.79922pt too wide) in paragraph at lines 164--165
 [][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (18.59622pt too wide) in paragraph at lines 135--136
+Overfull \hbox (4.79922pt too wide) in paragraph at lines 165--166
 [][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (18.59622pt too wide) in paragraph at lines 139--140
+Overfull \hbox (4.79922pt too wide) in paragraph at lines 169--170
 [][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (18.59622pt too wide) in paragraph at lines 140--141
+Overfull \hbox (4.79922pt too wide) in paragraph at lines 170--171
 [][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (2.61107pt too wide) in paragraph at lines 100--144
-[]$[]$ $[]$ 
- []
-
-[1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \hbox (33.57932pt too wide) in paragraph at lines 151--151
+Overfull \hbox (33.57932pt too wide) in paragraph at lines 181--181
 []\OT1/cmr/m/n/12 Roberto Bal-doni et al. ``A Sur-vey of Sym-bolic Ex-e-cu-tion
  Tech-niques''. In: \OT1/cmr/m/it/12 CoRR \OT1/cmr/m/n/12 abs/1610.00502
  []
 
-[2]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 153.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 153.
+[2] [3]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 183.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 183.
  (./antonxue-dangerous-graph.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 153.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 153.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 183.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 183.
 Package rerunfilecheck Info: File `antonxue-dangerous-graph.out' has not change
 d.
-(rerunfilecheck)             Checksum: CB9D06322EBCE858976335C2FEEAA508;115.
+(rerunfilecheck)             Checksum: 7F4FF6F430ACC12551253EFD11C6402A;158.
 Package logreq Info: Writing requests to 'antonxue-dangerous-graph.run.xml'.
 \openout1 = `antonxue-dangerous-graph.run.xml'.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 153.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 183.
  ) 
 Here is how much of TeX's memory you used:
- 24321 strings out of 494845
- 445679 string characters out of 6179054
- 810528 words of memory out of 5000000
- 27269 multiletter control sequences out of 15000+600000
+ 24324 strings out of 494845
+ 445707 string characters out of 6179054
+ 809528 words of memory out of 5000000
+ 27270 multiletter control sequences out of 15000+600000
  15104 words of font info for 59 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 55i,8n,56p,947b,1221s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,8n,56p,947b,1285s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/share/te
@@ -1020,10 +1015,10 @@ onts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12
 .pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><
 /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on antonxue-dangerous-graph.pdf (2 pages, 151121 bytes).
+Output written on antonxue-dangerous-graph.pdf (3 pages, 154731 bytes).
 PDF statistics:
- 123 PDF objects out of 1000 (max. 8388607)
- 103 compressed objects within 2 object streams
- 28 named destinations out of 1000 (max. 500000)
- 29 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 131 PDF objects out of 1000 (max. 8388607)
+ 110 compressed objects within 2 object streams
+ 30 named destinations out of 1000 (max. 500000)
+ 37 words of extra memory for PDF output out of 10000 (max. 10000000)
 

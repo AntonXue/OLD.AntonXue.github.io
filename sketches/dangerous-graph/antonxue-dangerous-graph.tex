@@ -49,9 +49,10 @@
 \begin{document}
 \maketitle
 
-\subsection{Real World Applications?}
+\subsection{Real-World Applications?}
 
-A friend working at \company{} talked to me about a problem:
+A friend working at \company{} told to me about a problem
+they were working on:
 how do we automatically detect crashing errors in \android{} applications?
 
 Users interacts with \android{} applications by touching
@@ -62,44 +63,70 @@ different display layout.
 When specific touches are performed, different displays may be shown.
 These display transitions are conditional on the internal state of the
 application and the current active display.
-What sequence of touches will cause the application to crash?
 
-\subsection{The Problem}
-At a high level overview standpoint, there are a number of ways to tackle
-this problem: randomized testing,
-backwards symbolic execution~\cite{baldoni-backwards},
-program slicing~\cite{weiser-slicing}, to name a few.
-The techniques that may be applied depends on whether we have
-white-box access to the program source code.
+We then ask:
+\textbf{what sequence of actions will cause the application to crash?}
 
-The most reliable techniques is also among the hardest to implement, and the
-sensible solution is perhaps one of in-depth code analysis.
-From personal experience, this is both hard and annoying, so we ignore it,
-and try something simpler.
 
-Instead, we pretend that we do not have source code access --- in fact,
-we make it even more confusing:
-we pretend that we have access to the internal program state, the UI
-representation of some sort, and of course a phone with the compiled
-application.
+\subsection{Issues}
+From a high-level perspective, the problem is not well-defined in part
+because we have not discussed the level of access we have to the
+application under testing.
+Are we given the source code?
+Can we monitor internal application state and variables during execution?
+Or are we given just the phone and told to play with it?
 
-We then model this as follows:
+If we have access to the source code, we may apply techniques such as
+backwards symbolic execution~\cite{baldoni-backwards} or
+slicing~\cite{weiser-slicing}.
 
-\if false
+If we may monitor application state during execution through some debugger
+or trace dumper, then short of decompilation, we may try techniques such
+as randomized testing or somehow approximating behavior.
+
+If we are given just a phone, then we throw it against a wall.
+
+The first condition presented, with complete source code access, is of
+course, the most favorable.
+It is also the biggest headache because all the techniques listed are
+a pain to implement.
+
+We opt for the second.
+
+\subsection{Modeling}
 \begin{definition}[Application Graph]
-An \textit{application graph} is a directed graph $G = \parens{V, E}$.
-Each $v \in V$ corresponds to a UI display, and has a state
-$v_\state$ which maps variables to elements in a domain of values $\domval$.
-Furthermore, every edge $e = (u, v)$ with tail $u$ and head $v$ has
-a corresponding label $e_{\form}$, where $\form \in \domform$ is a
-formula in some logical theory $\domform$.
+An \textit{application graph} is a directed multigraph $G = \parens{V, E}$,
+where each vertex $v \in V$ has a state $v_{\state}$ mapping
+variables to a domain of values $\domval$,
+and every edge $e = \parens{u, v}$ with tail $u$ and head $v$ is labeled
+with a formula $e_{\form}$ in some logical theory $\domform$.
 \end{definition}
-\fi
+
+The reason we define the application graph representation as a multigraph
+is because program representation is hard.
+
+Here, every vertex corresponds to some display, and we remark
+that multiple vertices may exist that represents the same display.
+For each vertex $v$, the state $v_{\state}$ is meant to map the variables
+to a logical formula over their possible values as defined by their types.
+This allows us to differentiate between the same display when, perhaps
+the underlying state variable mappings differ.
+
+Every edge represents an action, and for each edge $e$
+the associated formula $e_{\form}$ is intended to capture the logical
+conditions that must be satisfied when the action is performed in order
+for the transition to occur.
+This means that for any $u, v \in V$, all edges that have form
+$e = \parens{u, v}$ must have formulae such that
+$e_{i, \varphi}$ and $e_{j, \varphi}$ are not mutually satisfiable if
+$i \neq j$.
+Otherwise our transitions would be confusing.
+
 
 \begin{example}[Simple UI]
-We push our \LaTeX{} skills to bring you this.
+We push our \LaTeX{} skills to bring you this example!
 
-\begin{minipage}{0.5\textwidth}
+\begin{minipage}{0.45\textwidth}
   \begin{center}
   \begin{tikzpicture}
     \draw (0.0, 0.0) -- (2.0, 0.0) -- (2.0, 3.5) -- (0.0, 3.5) -- (0.0, 0.0);
@@ -124,23 +151,24 @@ We push our \LaTeX{} skills to bring you this.
   \end{tikzpicture}
   \end{center}
 \end{minipage}
+\hfill
 \begin{minipage}{0.5\textwidth}
 \begin{pcode}
 // A:
-onRed:   set n = n + 1
-onGreen: if n mod 5 == 1 then go to B
-         if n mod 5 == 2 then go to C
-         otherwise do nothing
+red:   set n = n + 1
+green: if n mod 5 == 1 then go to B
+       if n mod 5 == 2 then go to C
+       otherwise do nothing
 // B:
-onRed:   set n = n - 1
-onGreen: if n mod 5 == 0 then go to A
-         if n mod 5 == 2 then go to C
-         otherwise do nothing
+red:   set n = n - 1
+green: if n mod 5 == 0 then go to A
+       if n mod 5 == 2 then go to C
+       otherwise do nothing
 // C:
-onRed: n = n * 3
-onGreen: if n mod 5 == 0 then go to A
-         if n mod 5 == 1 then go to B
-         otherwise CRASH
+red:   set n = n * 3
+green: if n mod 5 == 0 then go to A
+       if n mod 5 == 1 then go to B
+       otherwise CRASH
 \end{pcode}
 \end{minipage}
 
