@@ -1,0 +1,177 @@
+% \documentclass[acmsmall, review]{acmart}
+\documentclass[acmsmall,screen]{acmart}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[USenglish,english,american]{babel}
+\usepackage{times, color}
+\usepackage{xspace, graphicx, subfig, footnote}
+%\usepackage[compact]{titlesec}
+\usepackage{mathpartir/mathpartir}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{proof}
+\usepackage{letltxmacro}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+\usepackage{etoolbox}
+\newcommand{\zerodisplayskips}{%
+  \setlength{\abovedisplayskip}{1em}%
+  \setlength{\belowdisplayskip}{1em}%
+  \setlength{\abovedisplayshortskip}{0pt}%
+  \setlength{\belowdisplayshortskip}{0pt}}
+\appto{\normalsize}{\zerodisplayskips}
+\appto{\small}{\zerodisplayskips}
+\appto{\footnotesize}{\zerodisplayskips}
+
+
+
+\input{commands}
+
+
+
+
+\bibliographystyle{acmart-pacmpl/ACM-Reference-Format}
+\citestyle{acmauthoryear}
+
+\usepackage{hyperref}
+\usepackage[hyphenbreaks]{breakurl}
+\usepackage{subfig}
+\usepackage{caption}
+\renewcommand{\thesection}{\arabic{section}}
+
+% \long\def\ranjit#1{{\color{gold}{\bf Ranjit: }{\small [#1]}}}
+% \long\def\anton#1{{\color{darkpastelgreen}{\bf Anton: }{\small [#1]}}}
+% \long\def\bill#1{{\color{blue}{\bf Bill: }{\small [#1]}}}
+% \long\def\ruzica#1{{\color{red}{\bf Ruzica: }{\small [#1]}}}
+
+\long\def\ranjit#1{}
+\long\def\anton#1{}
+\long\def\bill#1{}
+\long\def\ruzica#1{}
+
+
+\newcommand{\escjava}{{\textsc{EscJava}\xspace}}
+\newcommand{\dafny}{{\textsc{Dafny}\xspace}}
+\newcommand{\dml}{{\textsc{DML}\xspace}}
+\newcommand{\fstar}{{\textsc{F*}\xspace}}
+\newcommand\FIXME{FIXME\xspace}
+\newcommand\TOTALERRORS{\FIXME}
+\newcommand\TOTALPERCENT{\FIXME}
+\newcommand\CONCPERCENT{\FIXME}
+\newcommand\ABSPERCENT{\FIXME}
+\newcommand\AVGTIME{\FIXME}
+\newcommand\dsx{Faceted Symbolic Execution\xspace}
+\newcommand\dsxS{faceted symbolic execution\xspace}
+\newcommand\ie{\textit{i.e.\xspace}}
+\newcommand\eg{\textit{e.g.\xspace}}
+
+\newcommand{\ourTool}{G2\xspace}
+
+\begin{document}
+
+% \title{Haskell Symbolic Execution}
+\title{Explaining Verification Errors via \dsx}
+
+%\author{William T. Hallahan \and Anton Xue \and Ranjit Jhala \and Ruzica Piskac}
+%\institute{Yale University, New Haven, CT 06510, USA}
+
+\author{the authors and their affiliations are omitted for anonymity}
+
+\if false
+
+\author{William T. Hallahan}
+%\authornote{with author1 note}          %% \authornote is optional;
+                                        %% can be repeated if necessary
+%\orcid{nnnn-nnnn-nnnn-nnnn}             %% \orcid is optional
+\affiliation{
+  %\position{Position1}
+  \department{Computer Science}              %% \department is recommended
+  \institution{Yale University}            %% \institution is required
+  %\streetaddress{Street1 Address1}
+  %\city{City1}
+  %\state{State1}
+  %\postcode{Post-Code1}
+  \country{Unites States}                    %% \country is recommended
+}
+\email{william.hallahan@yale.edu}          %% \email is recommended
+
+\author{Anton Xue}
+%\authornote{with author1 note}          %% \authornote is optional;
+                                        %% can be repeated if necessary
+%\orcid{nnnn-nnnn-nnnn-nnnn}             %% \orcid is optional
+\affiliation{
+  %\position{Position1}
+  \department{Computer Science}              %% \department is recommended
+  \institution{Yale University}            %% \institution is required
+  %\streetaddress{Street1 Address1}
+  %\city{City1}
+  %\state{State1}
+  %\postcode{Post-Code1}
+  \country{Unites States}                    %% \country is recommended
+}
+\email{anton.xue@yale.edu}          %% \email is recommended
+
+\author{Ranjit Jhala}
+%\authornote{with author1 note}          %% \authornote is optional;
+                                        %% can be repeated if necessary
+%\orcid{nnnn-nnnn-nnnn-nnnn}             %% \orcid is optional
+\affiliation{
+  %\position{Position1}
+  \department{Computer Science}              %% \department is recommended
+  \institution{University of California San Diego}            %% \institution is required
+  %\streetaddress{Street1 Address1}
+  %\city{City1}
+  %\state{State1}
+  %\postcode{Post-Code1}
+  \country{Unites States}                    %% \country is recommended
+}
+\email{jhala@cs.ucsd.edu}          %% \email is recommended
+
+\author{Ruzica Piskac}
+%\authornote{with author1 note}          %% \authornote is optional;
+                                        %% can be repeated if necessary
+%\orcid{nnnn-nnnn-nnnn-nnnn}             %% \orcid is optional
+\affiliation{
+  %\position{Position1}
+  \department{Computer Science}              %% \department is recommended
+  \institution{Yale University}            %% \institution is required
+  %\streetaddress{Street1 Address1}
+  %\city{City1}
+  %\state{State1}
+  %\postcode{Post-Code1}
+  \country{Unites States}                    %% \country is recommended
+}
+\email{ruzica.piskac@yale.edu}          %% \email is recommended
+
+\fi
+
+\input{abstract}
+
+\maketitle
+
+
+% \input{introduction}
+\input{intro2}
+
+\input{motivation}
+
+% \input{background}
+
+\input{g2}
+
+\input{evaluation}
+
+\input{related}
+
+\input{future}
+
+\input{conclusion}
+
+\bibliography{sources}
+
+% \cd{concat function mapReduce foldr}
+
+\end{document}
