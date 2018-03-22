@@ -3,6 +3,10 @@
 % Packages
 \usepackage[margin=6em]{geometry} % 1 cm = 2.84528 em
 \usepackage[colorlinks=true,linkcolor=red,urlcolor=blue]{hyperref}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{stmaryrd}
 \usepackage{tikz}
 \usetikzlibrary{automata}
 \usepackage[backend=bibtex]{biblatex}
@@ -54,7 +58,8 @@
 
 A friend working at \company{} told to me about a problem
 they were working on:
-how do we automatically detect crashing errors in \android{} applications?
+how can we have automated detection of crashing
+errors in \android{} applications?
 
 Users interacts with \android{} applications by touching
 the phone's user interface (UI).
@@ -139,7 +144,7 @@ formula $e_{\form}$ attached to each edge is intended ot capture the
 logical conditions that must be satisfied when the action is performed
 so that the transition may take place.
 We require that the formula associated for each action be disjoint logical
-formulae, meaning that they are not mutually satisfiable.
+formulae, meaning that their conjunction is not satisfiable.
 This ensures uniqueness of action.
 
 
@@ -160,7 +165,8 @@ Here, the application consists of three displays, each with tree elements:
     Sometimes crashes.
 \end{itemize}
 
-I think the {\color{green} green color} actually hurts my eyes to read.
+I think the {\color{green} green color} hurts my eyes to read.
+{\color{red} Oof owie ouch!}
 
 \begin{minipage}{0.45\textwidth}
   \begin{center}
@@ -265,21 +271,65 @@ The application graph should then look something like:
 \end{tikzpicture}
 \end{center}
 
-What a mess, but I hope the idea is clear: the objective of the application
-graph is to capture the notion of the conditions on which transitions are
-made when UI actions are performed.
 Here $\redP$ denotes the action of the red button getting pressed.
-Here, we model all such actions as button presses, for the sake of simplicity.
+This is a mess, but I hope the idea is clear: the objective of the application
+grpah is to captur ethe notion of the conditions on which transitions are
+made when actions are performed.
+All actions as button presses, for the sake of simplicity.
+We treat the error crashing as a separate display.
 
 We chose not to draw the green button presses $\greenP$ because otherwise
 the graph would be super cluttered.
 Actions that do not bring you to a new display are treated as self-loops.
-We treat the error crashing as a separate display.
+Hence, all $\greenP$ would just be self-loops.
 $\square$
 \end{example}
 
-
 \subsection{The Dangerous Game}
+
+Here is how we play The Dangerous Game:
+\textbf{starting from an empty graph of just vertices,
+how can we construct all the edges with the correct formula
+attached to each edge?}
+
+To play the dangerous game to begin with, we have to keep
+track of some notion of current state of variable values:
+\begin{definition}[Exploration State]
+An exploration state is a pairing $\parens{G, \state}$,
+where $G$ is an application graph, and $\state$ is a mapping of all relevant
+program variables that appear in the graph to values in some
+domain $\domval$.
+\end{definition}
+
+What are the values in $\domval$?
+For now, we imagine them as logical formulae over the range of values that
+each variable may have with respect to their typings.
+Another reason for strong, static typing, yah?
+
+There are some difficulties:
+it may be impossible to, without knowing
+the source code, to guess all the conditions that the programmer decided
+to encode for making the buttons transition.
+Nevertheless, we can try some basic, basic exploration techniques.
+
+
+\begin{algorithm}[H]
+\caption{Naive exploration algorithm}
+\begin{algorithmic}[1]
+\Procedure{Naive Exploration}{$G = \parens{V, E}$}
+  \State Let $v_0$ be the starting vertex in $G$
+  \State $v \mapsfrom v_0$
+  \While{timer or ticker of some sort has not run out}
+    \State Click the next button in display $v$ according to some
+           deterministic selection.
+    \If{this transitions us to a new display $v^\prime$}
+      \State 
+      \State $v \mapsfrom v^\prime$
+    \EndIf
+  \EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 
 
