@@ -95,38 +95,53 @@ a pain to implement.
 We opt for the second.
 
 \subsection{Modeling the Problem}
-\begin{definition}[Application Graph]
-An \textit{application graph} is a directed multigraph $G = \parens{V, E}$,
-where each vertex $v \in V$ has a state $v_{\state}$ mapping
-variables to a domain of values $\domval$,
-and every edge $e = \parens{u, v}$ with tail $u$ and head $v$ is labeled
-with a formula $e_{\form}$ in some logical theory $\domform$.
+\begin{definition}[Tail and Head Set]
+For a directed multigraph $G = \parens{V, E}$,
+where each edge has form $e = \parens{u, v} \in E$ with tail $u$ and head $v$,
+we define the \textit{tail set} $T_u$ and \textit{head set} $H_v$:
+\begin{align*}
+  T_u &= \setcomp{\parens{u, v}}{\exists v \st \parens{u, v} \in E} \\
+  H_v &= \setcomp{\parens{u, v}}{\exists u \st \parens{u, v} \in E}
+\end{align*}
+$\square$
 \end{definition}
 
-The reason we define the application graph representation as a multigraph
-is because program representation is hard.
+This allows us to abbreviate some notation when reasoning about multigraphs.
 
-Here, every vertex corresponds to some display, and we remark
-that multiple vertices may exist that represents the same display.
-For each vertex $v$, the state $v_{\state}$ is meant to map the variables
-to a logical formula over their possible values as defined by their types.
-This allows us to differentiate between the same display when, perhaps
-the underlying state variable mappings differ.
+\begin{definition}[Application Graph]
+An \textit{application graph} is a directed multigraph $G = \parens{V, E}$,
+where each edge is labeled with a formula $e_{\form}$ in some logical
+theory $\domform$ such that:
+\begin{enumerate}
+  \item[(1)]
+    The formula associated with each edge in a tail set is disjoint:
+    \begin{align*}
+      \forall u \in V,
+      \forall e_i, e_j \in E_u
+      \colon
+      e_{i, \form} \land e_{j, \form} \implies \bot
+    \end{align*}
 
-Every edge represents an action, and for each edge $e$
-the associated formula $e_{\form}$ is intended to capture the logical
-conditions that must be satisfied when the action is performed in order
-for the transition to occur.
-We note that the conditions for edges that denote the same UI action
-need not be mutually unsatisfiable.
-This may be weird, and we attempt to address this later.
-% This means that for any $u, v \in V$, all edges that have form
-% $e = \parens{u, v}$ must have formulae such that
-% $e_{i, \varphi}$ and $e_{j, \varphi}$ are not mutually satisfiable if
-% $i \neq j$.
-% Otherwise our transitions would be confusing.
+  \item[(2)]
+    The disjunction of each edge in a tail set is a tautology:
+    \begin{align*}
+      \forall u \in V
+      \colon
+      \parens{\bigvee_{e \in E_u} e_{\form}} \implies \top
+    \end{align*}
+\end{enumerate}
+$\square$
+\end{definition}
 
-So what does this all mean?
+Here, every vertex corresponds to some display.
+Every edge $e$ is intended to represent an action, and the associated
+formula $e_{\form}$ attached to each edge is intended ot capture the
+logical conditions that must be satisfied when the action is performed
+so that the transition may take place.
+We require that the formula associated for each action be disjoint logical
+formulae, meaning that they are not mutually satisfiable.
+This ensures uniqueness of action.
+
 
 \begin{example}[Simple UI]
 Testing the limits of our \LaTeX{} powers, we bring you this example.
@@ -198,9 +213,13 @@ red:   if n mod 5 == 0 then go to A
 \end{pcode}
 \end{minipage}
 
-The state graph is then defined as follows:
+The application graph should then look something like:
 
-{\color{red} \textbf{picture copied over from somewhere else; will fill in}}
+\let\redP\undefined
+\newcommand{\redP}{\ensuremath{{\color{red} \textit{red}}}}
+
+\let\greenP\undefined
+\newcommand{\greenP}{\ensuremath{{\color{green} \textit{green}}}}
 
 \begin{center}
 \begin{tikzpicture}
@@ -212,34 +231,51 @@ The state graph is then defined as follows:
    semithick,
    state/.style={circle, draw, minimum size=1cm} 
   ]
-  \node[state, initial]   (S)                    {$q_{S}$};
-  \node[state]            (A) [above right of=S] {$q_{0}$};
-  \node[state]            (B) [below right of=S] {$q_{1}$};
-  \node[state]            (W) [below right of=A] {$q_{W}$};
-  \node[state, accepting] (H) [right of=W]       {$q_{H}$};
+  \node[state] (B) at (0, 1)  {B};
+  \node[state] (C) at (12, 1) {C};
+  \node[state] (A) at (6, 7)  {A};
+  \node[state] (E) at (9, -1) {E};
 
-  \path (S) edge [bend left=20] node
-            {$(0, R)$} (A)
-        (S) edge [bend right=20, left] node
-            {$(1, R)$} (B)
+  \path (A) edge [loop above] node
+      {$\redP \land \mod{n}{5} \not\in \braces{1, 2}$} (A);
+  
+  \path (A) edge [bend right, left] node
+      {$\redP \land \mod{n}{5} = 1$} (B);
 
-        (A) edge [bend right=5, left] node
-            {$(0, R)$} (B)
-        (A) edge [bend left=10] node
-            {$(\#, R)$} (W)
-        
-        (B) edge [bend right=5, right] node
-            {$(1, R)$} (A)
-        (B) edge [bend right=10, right] node
-            {$(\#, R)$} (W)
-        (W) edge [] node
-            {$(\#, 1)$} (H)
-        ;
+  \path (A) edge [below] node
+      {$\redP \land \mod{n}{5} = 2$} (C);
+
+  \path (B) edge [loop below] node
+      {$\redP \land \mod{n}{5} \not\in \braces{0, 2}$} (B);
+
+  \path (B) edge [below] node
+      {$\redP \land \mod{n}{5} = 0$} (A);
+
+  \path (B) edge [bend right] node
+      {$\redP \land \mod{n}{5} = 2$} (C);
+
+  \path (C) edge [bend right, right] node
+      {$\redP \land \mod{n}{5} = 0$} (A);
+
+  \path (C) edge [above] node
+      {$\redP \land \mod{n}{5} = 1$} (B);
+
+  \path (C) edge [right] node
+      {$\redP \land \mod{n}{5} \not\in \braces{0, 1}$} (E);
 \end{tikzpicture}
 \end{center}
 
+What a mess, but I hope the idea is clear: the objective of the application
+graph is to capture the notion of the conditions on which transitions are
+made when UI actions are performed.
+Here $\redP$ denotes the action of the red button getting pressed.
+Here, we model all such actions as button presses, for the sake of simplicity.
 
-
+We chose not to draw the green button presses $\greenP$ because otherwise
+the graph would be super cluttered.
+Actions that do not bring you to a new display are treated as self-loops.
+We treat the error crashing as a separate display.
+$\square$
 \end{example}
 
 
