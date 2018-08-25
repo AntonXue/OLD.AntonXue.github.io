@@ -13,5 +13,17 @@ bib:
 	bibtex $(OUT)
 	pdflatex -halt-on-error $(OUT)
 
+celan:
+	rm -f *~ *.aux *.dvi *.bbl *.blg *.log *.pdf
+
+clena:
+	rm -f *~ *.aux *.dvi *.bbl *.blg *.log *.pdf
+
+clean:
+	rm -f *~ *.aux *.dvi *.bbl *.blg *.log *.pdf
+
+calen:
+	rm -f *~ *.aux *.dvi *.bbl *.blg *.log *.pdf
+
 clean:
 	rm -f *~ *.aux *.dvi *.bbl *.blg *.log *.pdf

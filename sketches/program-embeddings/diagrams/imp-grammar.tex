@@ -4,29 +4,42 @@
 \begin{minipage}{0.85\linewidth}
 \begin{center}
 \begin{tabular}{lll@{\hskip 4em}l}
-  \(\expr\) & \ttcode{:=}
-      & \(\var\)
-      & \text{Variable} \\
+  \(\op\) & \ttcode{:=}
+      & \(f \in \braces{+, *}\)
+      & \\
+  \(\aexpr\) & \ttcode{:=}
+      & \(n \in \R
+          \enskip \vbar \enskip
+            \var \in \Var
+          \enskip \vbar \enskip
+            \op\parens{\aexpr_1, \ldots, \aexpr_n}\)
+      & \\
+  \(\bexpr\) & \ttcode{:=}
+      & \(\top \enskip \vbar \enskip \bot
+            \enskip \vbar \enskip \bexpr_1 \land \bexpr_2
+            \enskip \vbar \enskip \neg \bexpr\)
+      & \\
+  \(\cmd\)
+    & \ttcode{:=}
+      & \(\ttcode{skip}\)
+      & \\
     & \vbar
-      & \(\const\)
-      & \text{Constant} \\
+      & \(\var \leftarrow \aexpr\)
+      & \\
     & \vbar
-      & \(\op \parens{\expr_1, \ldots, \expr_n}\)
-      & \text{\(n\)-ary Operation} \\
+      & \(\ite{\bexpr}{\cmd_t}{\cmd_f}\)
+      & \\
     & \vbar
-      & \(\ite{\expr_1}{\expr_2}{\expr_3}\)
-      & \text{If statement} \\
+      & \(\while{\bexpr}{\cmd}\)
+      & \\
     & \vbar
-      & \(\while{\expr_1}{\expr_2}\)
-      & \text{While} \\
-    & \vbar
-      & \(\expr_1 \semi \expr_2\)
-      & \text{Sequence}
+      & \(\cmd_1 \semi \cmd_2\)
+      & \\
 \end{tabular}
 \end{center}
 \end{minipage}
 %}
 \caption{\imp{} grammar}
-\label{fig:simpler-grammar}
+\label{fig:imp-grammar}
 \end{figure}
 
