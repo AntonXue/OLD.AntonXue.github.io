@@ -1,0 +1,32 @@
+\begin{figure}[h!]
+\centering
+%\fbox{
+\begin{minipage}{0.85\linewidth}
+\begin{center}
+\begin{tabular}{lll@{\hskip 4em}l}
+  \(\expr\) & \ttcode{:=}
+      & \(\var\)
+      & \text{Variable} \\
+    & \vbar
+      & \(\const\)
+      & \text{Constant} \\
+    & \vbar
+      & \(\op \parens{\expr_1, \ldots, \expr_n}\)
+      & \text{\(n\)-ary Operation} \\
+    & \vbar
+      & \(\ite{\expr_1}{\expr_2}{\expr_3}\)
+      & \text{If statement} \\
+    & \vbar
+      & \(\while{\expr_1}{\expr_2}\)
+      & \text{While} \\
+    & \vbar
+      & \(\expr_1 \semi \expr_2\)
+      & \text{Sequence}
+\end{tabular}
+\end{center}
+\end{minipage}
+%}
+\caption{\imp{} grammar}
+\label{fig:simpler-grammar}
+\end{figure}
+

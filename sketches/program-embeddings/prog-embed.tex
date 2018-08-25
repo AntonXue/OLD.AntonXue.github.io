@@ -1,0 +1,45 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=6em]{geometry} % 1 cm = 2.84528 em
+\usepackage[colorlinks=true,linkcolor=red,urlcolor=blue]{hyperref}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{stmaryrd}
+\usepackage{tikz}
+\usetikzlibrary{automata}
+\usepackage[backend=bibtex]{biblatex}
+\bibliography{sources}
+\nocite{*}
+
+\usepackage{lipsum}
+
+% Paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% Includes
+\input{antonxue-lib.tex}
+\input{prog-lib.tex}
+
+
+% Author
+\title{Program Embeddings}
+% \author{Anton Xue}
+% \date{\today}
+\date{}
+
+% Document
+\begin{document}
+\maketitle
+
+\subsection*{Language Model}
+We describe two different language models commonly seen in the
+programming language community, which we dub \imp{} and \lamcalc{}:
+
+\subsubsection*{IMP}
+\input{diagrams/imp-grammar.tex}
+
+\end{document}
+

@@ -1,4 +1,4 @@
-OUT = danger-graph
+OUT = prog-embed
 GRAY = gray
 
 all: $(OUT).pdf	# $(GRAY).pdf
@@ -14,4 +14,4 @@ bib:
 	pdflatex -halt-on-error $(OUT)
 
 clean:
-	rm -f *~ *.aux *.dvi *.bbl *.blg *.log
+	rm -f *~ *.aux *.dvi *.bbl *.blg *.log *.pdf

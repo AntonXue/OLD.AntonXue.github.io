@@ -1,6 +1,6 @@
-This is BibTeX, Version 0.99d (TeX Live 2018/dev/Debian)
+This is BibTeX, Version 0.99d (TeX Live 2019/dev/Debian)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
-The top-level auxiliary file: antonxue-dangerous-graph.aux
+The top-level auxiliary file: danger-graph.aux
 The style file: biblatex.bst
 Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
 Reallocated global_strs (elt_size=20001) to 20 items from 10.
@@ -16,14 +16,14 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
-Database file #1: antonxue-dangerous-graph-blx.bib
+Database file #1: danger-graph-blx.bib
 Database file #2: sources.bib
 Biblatex version: 3.8
 Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 You've used 5 entries,
             6268 wiz_defined-function locations,
-            1226 strings with 10349 characters,
+            1226 strings with 10313 characters,
 and the built_in function-call counts, 31150 in all, are:
 = -- 2290
 > -- 596
