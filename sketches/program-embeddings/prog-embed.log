@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  25 AUG 2018 16:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  26 AUG 2018 23:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1094,7 +1094,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-)) [1
+)) (./kleene-algebra/kleene-algebra.tex) [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}pdfTeX warning (ext4): desti
 nation with the same identifier (name{figure.1}) has been already used, duplica
@@ -1102,38 +1102,37 @@ te ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.41 \end{document}
-                   ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 41.
- [2pdfTeX warning (ext4): destination with the same identifier (name{figure.2})
- has been already used, duplicate ignored
+l.43 \end{document}
+                   ] [2pdfTeX warning (ext4): destination with the same identif
+ier (name{figure.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.41 \end{document}
+l.43 \end{document}
                    pdfTeX warning (ext4): destination with the same identifier 
 (name{figure.3}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.41 \end{document}
+l.43 \end{document}
                    ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 41.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 43.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 43.
  (./prog-embed.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 41.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 41.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 43.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 43.
 Package rerunfilecheck Info: File `prog-embed.out' has not changed.
-(rerunfilecheck)             Checksum: C320BB26BDDB192A3E173451D88151CB;95.
+(rerunfilecheck)             Checksum: 2232C46B9EEE3D405A34F6BB94ADC519;197.
 Package logreq Info: Writing requests to 'prog-embed.run.xml'.
 \openout1 = `prog-embed.run.xml'.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 41.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 43.
  ) 
 Here is how much of TeX's memory you used:
- 25888 strings out of 492648
- 476745 string characters out of 6132015
- 853744 words of memory out of 5000000
- 29335 multiletter control sequences out of 15000+600000
+ 25896 strings out of 492648
+ 476892 string characters out of 6132015
+ 854744 words of memory out of 5000000
+ 29337 multiletter control sequences out of 15000+600000
  16184 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,15n,66p,933b,742s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1149,10 +1148,10 @@ s/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1
 s/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/ms
 bm10.pfb>
-Output written on prog-embed.pdf (2 pages, 108379 bytes).
+Output written on prog-embed.pdf (2 pages, 111294 bytes).
 PDF statistics:
- 84 PDF objects out of 1000 (max. 8388607)
- 67 compressed objects within 1 object stream
- 10 named destinations out of 1000 (max. 500000)
- 29 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 92 PDF objects out of 1000 (max. 8388607)
+ 75 compressed objects within 1 object stream
+ 12 named destinations out of 1000 (max. 500000)
+ 45 words of extra memory for PDF output out of 10000 (max. 10000000)
 
