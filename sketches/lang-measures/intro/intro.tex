@@ -76,7 +76,7 @@ and the \(\ast\) operator (Kleene star) denotes zero or more occurrences
 of a regular expression.
 We often elide \(\cdot\) when the context is clear.
 The \(\cdot\) syntactically
-binds tigher than \(+\), meaning that ``multiplication''
+binds tighter than \(+\), meaning that ``multiplication''
 distributes over ``addition''.
 
 \begin{example}
@@ -95,12 +95,18 @@ with respect to a common alphabet
 is also well-defined for regular languages.
 
 We can likewise also define a canonical representation for a
-regular expression \(\langmin\parens{E}\) with the following features:
+regular expression \(\langmin\parens{\regex}\) with the following features:
 \begin{align*}
-  \langmin\parens{E} = E_1 + E_2
-    &\implies \reglang\parens{E_1} \cap \reglang\parens{E_2} = \emptyset \\
-  \langmin\parens{E} = E_1 \cdot E_2
-    &\implies \reglang\parens{E_1} \cap \reglang\parens{E_2} = \emptyset
+  \langmin\parens{a} = a
+    &\qquad \langmin\parens{\empstr} = \empstr
+    \qquad \langmin\parens{\regex^\ast} = \langmin\parens{\regex}^\ast \\
+  \langmin\parens{\regex}
+      = \langmin\parens{\regex_1} + \langmin\parens{\regex_2}
+    &\iff \reglang\parens{\regex_1} \cap \reglang\parens{\regex_2}
+      = \emptyset \\
+  \langmin\parens{\regex}
+      = \langmin\parens{\regex_1} \cdot \langmin\parens{\regex_2}
+    &\iff \reglang\parens{\regex_1} \cap \reglang\parens{\regex_2} = \emptyset
 \end{align*}
 We take the existence of this magical \(\langmin\) function for granted,
 because the properties that it gives for regular expression
