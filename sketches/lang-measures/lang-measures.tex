@@ -1,0 +1,37 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=6em]{geometry} % 1 cm = 2.84528 em
+\usepackage[backend=bibtex]{biblatex}
+\bibliography{sources}
+\nocite{*}
+
+\usepackage{lipsum}
+
+% Paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% Includes
+\input{antonxue-lib.tex}
+\input{lang-lib.tex}
+
+
+% Author
+\title{Measures on Languages}
+% \author{Anton Xue}
+% \date{\today}
+\date{}
+
+% Document
+\begin{document}
+\maketitle
+
+\input{intro/intro.tex}
+
+\input{pre-measures/pre-measures.tex}
+
+% \input{attempt/attempt.tex}
+
+\end{document}
+

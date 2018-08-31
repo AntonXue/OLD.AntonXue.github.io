@@ -1,0 +1,36 @@
+\section{Pre-Measures on Regular Languages}
+We observe a few things.
+First, regular languages are inherently finite in representation.
+Furthermore, they are also closed under finite language union,
+intersection, and complement.
+This means that they form an algebra under these operations.
+Therefore, it makes sense to begin by defining a pre-measure on
+regular languages.
+
+\subsection{Counting Pre-measure}
+Let \(\premucount\) be the counting pre-measure defined for countable sets,
+such that:
+\begin{align*}
+  \premucount\parens{\lang} = \abs{\lang}
+\end{align*}
+
+For a regular expression \(\regex\),
+we wish to say something meaningful about the pre-measure of its
+generated regular language
+\(\premucount\parens{\reglang\parens{\regex}}\).
+Perhaps \(\premucount\) may be defined inductively in terms of
+the regular expression as follows:
+\begin{align*}
+  \premucount\parens{\empstr} = 0
+    &\qquad \forall a \in \alphabet \st \premucount\parens{a} = 1 \\
+  \langmin\parens{E} = E_1 + E_2
+    &\implies
+      \premucount\parens{E} =
+        \premucount\parens{E_1} + \premucount\parens{E_2} \\
+  \langmin\parens{E} = E_1 \cdot E_2
+    &\implies
+      \premucount\parens{E} =
+        \premucount\parens{E_1} \cdot \premucount\parens{E_2} \\
+\end{align*}
+
+

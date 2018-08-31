@@ -1,0 +1,39 @@
+\section{Assigning Measures}
+
+
+
+
+\if false
+
+\subsection{Pre-measures on Regular Languages}
+We first note that \(\parens{\alphabet, \reglang}\) is closed under
+finite language union, finite language intersection,
+and finite language complement.
+This means that \(\parens{\alphabet, \reglang}\) forms an algebra
+with respect to these operations.
+
+We must be careful about extending \(\parens{\alphabet, \reglang}\) into a
+\(\sigma\)-algebra, if we can even do so at all.
+For instance, one of the canonical examples of a language that is not
+regular, but is instead context-free, is the language the language
+over \(\alphabet = \braces{a, b}\) such that
+any sequence of \(a\)'s are followed by the same number of \(b\)'s:
+\[
+  \bigcup_{n \in \N} \braces{a^n b^n}
+\]
+Note that if the union were finite, the language would be regular,
+but because it is instead countably infinite, it is not regular in this case.
+
+\subsubsection{The Counting Measure}
+Because regular languages are finite, we take the liberty to define
+\(\langmin\parens{R}\) as the minimal reprsentation
+Let us define a counting pre-measure \(\premucount\) first on \(R\)
+as follows:
+\begin{align*}
+  \premucount\parens{\emptyset} &= 0 \\
+  \premucount\parens{R_1 + R_2} &= 
+\end{align*}
+
+
+\fi
+
