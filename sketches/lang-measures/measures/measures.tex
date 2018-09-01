@@ -1,0 +1,61 @@
+\section{Measures on Languages}
+I saw someone~\cite{aaa} do it with \(\sigma\)-algebras, and I now feel brave.
+
+\subsection{The Language \(\sigma\)-algebra}
+Let \(\mcal{L}\) be a family of languages over the alphabet \(\Sigma\).
+Take \(\Sigma^\ast\) to be the set of all finite strings.
+Then define \(\sigma\parens{\mcal{L}}\)
+the \(\sigma\)-algebra over \(\mcal{L}\) to be
+such that:
+\begin{enumerate}
+  \item[(1)]
+    \begin{align*}
+      \emptyset, \Sigma^\ast \in \sigma\parens{\mcal{L}}
+    \end{align*}
+
+  \item[(2)]
+    \begin{align*}
+      L \in \sigma\parens{\mcal{L}}
+        \implies
+          L^c = \Sigma^\ast \setminus L \in \sigma\parens{\mcal{L}}
+    \end{align*}
+
+  \item[(3)]
+    \begin{align*}
+      L_1, L_2, \ldots \in \sigma\parens{\mcal{L}}
+        \implies
+      \bigcup_{n = 1}^{\infty} L_1 \in \sigma\parens{\mcal{L}}
+    \end{align*}
+\end{enumerate}
+
+If \(\mcal{L}\) happens to be a family of regular languages,
+there is no guarantee that \(\sigma\parens{\mcal{L}}\)
+is also a regular family.
+
+\subsection{Weighting String Lenghts}
+We now attempt to define the measure on a language \(L \in \mcal{L}\).
+Consider a partition of \(L\) into strings of finite lenghts:
+\begin{align*}
+  L = L_0 \cup L_1 \cup L_2 \cup \ldots
+\end{align*}
+We may assign a discrete \(\sigma\)-finite
+measure \(\lambda\) over the natural numbers \(\N\),
+and adapt it to \(\mcal{L}\), such that:
+\begin{align*}
+  \forall i \in \N \st \lambda\parens{L_i} < \infty
+\end{align*}
+If we take a finite alphabet \(\abs{\Sigma} < \infty\), then this yields that:
+\begin{align*}
+  \forall s \in L_i \st
+    \lambda \parens{\braces{s}}
+      =
+      \begin{cases}
+        \frac{\lambda\parens{L_i}}{\abs{L_i}}
+          & \quad \abs{L_1} > 0 \\
+        0 & \quad \text{otherwise}
+      \end{cases}
+\end{align*}
+We claim that this is is a measure on \(\sigma\parens{\mcal{L}}\).
+
+
+
