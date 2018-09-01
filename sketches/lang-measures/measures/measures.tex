@@ -18,9 +18,9 @@ let \(\sigma\parens{\mcal{L}}\) be the \(\sigma\)-algebra generated on
 
   \item[(3)]
     \begin{align*}
-      L_1, L_2, \ldots \in \sigma\parens{\mcal{L}}
+      L_0, L_1, \ldots \in \sigma\parens{\mcal{L}}
         \implies
-          \bigcup_{k = 1}^{\infty} L_k \in \sigma\parens{\mcal{L}}
+          \bigcup_{k = 0}^{\infty} L_k \in \sigma\parens{\mcal{L}}
     \end{align*}
 
 \end{enumerate}
@@ -33,11 +33,11 @@ there is no guarantee that \(\sigma\parens{\mcal{L}}\)
 will still be a family of regular languages.
 A counter example is the following:
 \begin{align*}
+  L_0 = \braces{\varepsilon}
+  \qquad
   L_1 = \braces{ab}
   \qquad
   L_2 = \braces{aabb}
-  \qquad
-  L_3 = \braces{aaabbb}
   \qquad
   \ldots
   \qquad
@@ -47,7 +47,7 @@ A counter example is the following:
 \end{align*}
 But taking the countable union yields:
 \begin{align*}
-  \bigcup_{k = 1}^{\infty} L_k = \braces{a^n b^n \st n \in \Zz}
+  \bigcup_{k = 0}^{\infty} L_k = \braces{a^k b^k \st k \in \Zz}
 \end{align*}
 Which is not regular.
 \hfill\(\square\)
@@ -67,7 +67,7 @@ if we want nicer conditions.
 Observe that, by abuse of notation:
 \begin{align*}
   \Sigma^\star =
-    \bigcup_{k = 1}^{\infty} \Sigma^k
+    \bigcup_{k = 0}^{\infty} \Sigma^k
 \end{align*}
 In English: \(\Sigma^\star\) is the union of the set (language) of finite
 strings of length \(k\), denoted \(\Sigma^k\).
@@ -78,7 +78,7 @@ Because we assumed \(\abs{\Sigma} < \infty\), this also means that:
 Consider now some language \(L \in \sigma\parens{\mcal{L}}\).
 Also decompose \(L\) into disjoint sub-languages by length as follows:
 \begin{align*}
-  L = \bigcup_{k = 1}^{\infty} L_k
+  L = \bigcup_{k = 0}^{\infty} L_k
 \end{align*}
 Of course, \(L_k \subseteq \Sigma^k\).
 
@@ -88,7 +88,58 @@ the measurable space \(\parens{\mcal{L}, \sigma\parens{\mcal{L}}}\)
 is as follows:
 \begin{align*}
   \lambda\parens{L}
-    = \sum_{k = 1}^{\infty} \lambda\parens{L_k}
-    = \sum_{k = 1}^{\infty} \frac{\abs{L_k}}{\abs{\Sigma^k}} \eta\parens{k}
+    = \sum_{k = 0}^{\infty} \lambda\parens{L_k}
+    = \sum_{k = 0}^{\infty} \frac{\abs{L_k}}{\abs{\Sigma^k}} \eta\parens{k}
 \end{align*}
+
+We claim that \(\parens{\mcal{L}, \sigma\parens{\mcal{L}}, \lambda}\)
+forms a measure space.
+
+\begin{theorem}
+  \(\lambda\) is a measure.
+\end{theorem}
+\begin{proof}
+  We check (1) measure under empty set is zero and (2) countable additivity,
+  which will satisfy the requirements of a measure.
+  \begin{enumerate}
+    \item[(1)]
+      Observe that \(\lambda\parens{\emptyset} = 0\) because the sum
+      will be trivial.
+
+    \item[(2)]
+      Let \(L_0, L_1, L_2, \ldots\) be a countable collection of pairwise
+      disjoint languages.
+      We decompose each of these languages into a countably indexed set,
+      where \(L_{j, k}\) is the \(j\)th language's sub-language
+      that only contains strings of length \(k\).
+      In other words:
+      \begin{align*}
+        L_j = \bigcup_{k = 0}^{\infty} L_{j, k}
+      \end{align*}
+      Observe that by (de)-construction, for any fixed \(j\) and for all
+      \(k_1 \neq k_2\), we have \(L_{j, k_1}\) and \(L_{j, k_2}\) are
+      pairwise disjoint.
+
+      However, we have a stronger condition because each \(L_j\) is
+      assumed to be pairwise disjoint.
+      Thus, for all \(j_1 \neq j_2\) and \(k_1 \neq k_2\),
+      \(L_{j_1, k_1}\) and \(L_{j_2, k_2}\) are disjoint.
+      Then:
+      \begin{align*}
+        \lambda\parens{\bigcup_{j = 0}^{\infty} L_j}
+          &= \lambda\parens{\bigcup_{j = 0}^{\infty}
+                            \bigcup_{k = 0}^{\infty} L_{j, k}} \\
+          &= \sum_{j = 0}^{\infty}
+              \lambda\parens{\bigcup_{k = 0}^{\infty} L_{j, k}} \\
+          &= \sum_{j = 0}^{\infty}
+              \sum_{k = 0}^{\infty}
+              \frac{\abs{L_{j, k}}}{\abs{\Sigma^k}}
+                \eta\parens{k} \\
+          &= \sum_{j = 0}^{\infty} \lambda\parens{L_j}
+      \end{align*}
+  \end{enumerate}
+  This shows that \(\lambda\) is indeed a measure.
+\end{proof}
+
+
 
