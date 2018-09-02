@@ -1,4 +1,4 @@
-\section{Measures}
+\section{Measures on Languages}
 Given a family of languages \(\mcal{L}\),
 let \(\sigma\parens{\mcal{L}}\) be the \(\sigma\)-algebra generated on
 \(\mcal{L}\) satisfying the following:
@@ -54,9 +54,7 @@ Which is not regular.
 \end{remark}
 
 
-\subsection{Defining Measures}
-
-\subsubsection{From Non-negative Integers}
+\subsection{Measure 1: From Non-negative Integers}
 We first consider the non-negative integers \(\Zz\).
 Let \(\eta\) be a \(\sigma\)-finite measure on \(\Zz\).
 The \(\sigma\)-finite conditions ensures that no strange singularities
@@ -76,7 +74,8 @@ Because we assumed \(\abs{\Sigma} < \infty\), this also means that:
 \(\abs{\Sigma^k} = \abs{\Sigma}^k\).
 
 Consider now some language \(L \in \sigma\parens{\mcal{L}}\).
-Also decompose \(L\) into disjoint sub-languages by length as follows:
+Also decompose \(L\) into disjoint sub-languages by length as follows,
+with convenient subscripting:
 \begin{align*}
   L = \bigcup_{k = 0}^{\infty} L_k
 \end{align*}
