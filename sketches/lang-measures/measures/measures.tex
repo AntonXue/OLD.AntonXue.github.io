@@ -50,10 +50,10 @@ But taking the countable union yields:
   \bigcup_{k = 0}^{\infty} L_k = \braces{a^k b^k \st k \in \Zz}
 \end{align*}
 Which is not regular.
-\hfill\(\square\)
 \end{remark}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Measure 1: From Non-negative Integers}
 We first consider the non-negative integers \(\Zz\).
 Let \(\eta\) be a \(\sigma\)-finite measure on \(\Zz\).
@@ -82,27 +82,28 @@ with convenient subscripting:
 Of course, \(L_k \subseteq \Sigma^k\).
 
 Because we are able to precisely calculate \(\abs{\Sigma^k}\),
-one ``natural'' way of defining a measure \(\lambda\) on
+one ``natural'' way of defining a measure \(\lambda_{\eta}\) on
 the measurable space \(\parens{\mcal{L}, \sigma\parens{\mcal{L}}}\)
 is as follows:
 \begin{align*}
-  \lambda\parens{L}
-    = \sum_{k = 0}^{\infty} \lambda\parens{L_k}
+  \lambda_{\eta} \parens{L}
+    = \sum_{k = 0}^{\infty} \lambda_{\eta} \parens{L_k}
     = \sum_{k = 0}^{\infty} \frac{\abs{L_k}}{\abs{\Sigma^k}} \eta\parens{k}
 \end{align*}
 
-We claim that \(\parens{\mcal{L}, \sigma\parens{\mcal{L}}, \lambda}\)
+We claim that
+\(\parens{\mcal{L}, \sigma\parens{\mcal{L}}, \lambda_{\eta}}\)
 forms a measure space.
 
 \begin{theorem}
-  \(\lambda\) is a measure.
+  \(\lambda_{\eta}\) is a measure.
 \end{theorem}
 \begin{proof}
   We check (1) measure under empty set is zero and (2) countable additivity,
   which will satisfy the requirements of a measure.
   \begin{enumerate}
     \item[(1)]
-      Observe that \(\lambda\parens{\emptyset} = 0\) because the sum
+      Observe that \(\lambda_{\eta} \parens{\emptyset} = 0\) because the sum
       will be trivial.
 
     \item[(2)]
@@ -125,20 +126,80 @@ forms a measure space.
       \(L_{j_1, k_1}\) and \(L_{j_2, k_2}\) are disjoint.
       Then:
       \begin{align*}
-        \lambda\parens{\bigcup_{j = 0}^{\infty} L_j}
-          &= \lambda\parens{\bigcup_{j = 0}^{\infty}
+        \lambda_{\eta} \parens{\bigcup_{j = 0}^{\infty} L_j}
+          &= \lambda_{\eta} \parens{\bigcup_{j = 0}^{\infty}
                             \bigcup_{k = 0}^{\infty} L_{j, k}} \\
           &= \sum_{j = 0}^{\infty}
-              \lambda\parens{\bigcup_{k = 0}^{\infty} L_{j, k}} \\
+              \lambda_{\eta} \parens{\bigcup_{k = 0}^{\infty} L_{j, k}} \\
           &= \sum_{j = 0}^{\infty}
               \sum_{k = 0}^{\infty}
               \frac{\abs{L_{j, k}}}{\abs{\Sigma^k}}
                 \eta\parens{k} \\
-          &= \sum_{j = 0}^{\infty} \lambda\parens{L_j}
+          &= \sum_{j = 0}^{\infty} \lambda_{\eta} \parens{L_j}
       \end{align*}
   \end{enumerate}
-  This shows that \(\lambda\) is indeed a measure.
+  This shows that \(\lambda_{\eta} \) is indeed a measure.
 \end{proof}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Measure 2: Extending the Above}
+We may generalize \(\lambda_{\eta}\) as defined before slightly.
+Recall the definition, where
+\(L_0, L_1, L_2, \ldots\) again defines a partition of \(L\) by size:
+\begin{align*}
+  \lambda_{\eta}\parens{L}
+    = \sum_{k = 0}^{\infty} \frac{\abs{L_k}}{\abs{\Sigma^k}} \eta\parens{k}
+\end{align*}
+Instead of dividing out by \(\abs{\Sigma^k}\) at each iteration of the sum,
+we may take a countable series of measures
+\(\nu = \braces{\nu_0, \nu_1, \nu_2, \ldots}\),
+where each \(\nu_k\) has support on precisely \(\Sigma^k\).
+Then, define \(\lambda_{\eta, \nu}\) as follows,
+taking again \(L_0, L_1, L_2, \ldots\) the size partition of \(L\):
+\begin{align*}
+  \lambda_{\eta, \nu}
+    = \sum_{k = 0}^{\infty} \nu_k \parens{L_k} \eta\parens{k}
+\end{align*}
+Often it's probably convenient to just assume each \(\nu_k \in N\)
+to be the uniform distribution probability measure,
+which gets us \(\lambda_{\eta}\) as defined above.
+
+\begin{theorem}
+  \(\lambda_{\eta, \nu}\) is a measure.
+\end{theorem}
+\begin{proof}
+  We take a similar approach as before, and show
+  (1) measure under empty set is zero and
+  (2) countable additivity,
+  which will show that \(\lambda_{\eta, \nu}\) is indeed a measure.
+
+  \begin{enumerate}
+    \item[(1)]
+      Again, observe that \(\lambda_{\eta, \nu} \parens{\emptyset} = 0\)
+      since the sum will be trivial.
+
+    \item[(2)]
+      Take \(L_0, L_1, L_2, \ldots\) to be a countable collection of
+      pairwise disjoint languages.
+      Implicitly define a countably indexed set,
+      where we take each \(L_{j, k}\) as the \(j\)th language's
+      sub-language with only strings of length \(k\).
+
+      As with before, for \(j_1 \neq j_2\) and \(k_1 \neq k_2\),
+      every \(L_{j_1, k_1}\) and \(L_{j_2, k_2}\) are pairwise disjoint.
+      Then, doing the calculation:
+      \begin{align*}
+        \lambda_{\eta, \nu} \parens{\bigcup_{j = 0}^{\infty} L_j}
+          &= \lambda_{\eta, \nu} \parens{\bigcup_{j = 0}^{\infty}
+                            \bigcup_{k = 0}^{\infty} L_{j, k}} \\
+          &= \sum_{j = 0}^{\infty}
+              \lambda_{\eta, \nu} \parens{\bigcup_{k = 0}^{\infty} L_{j, k}} \\
+          &= \sum_{j = 0}^{\infty}
+              \sum_{k = 0}^{\infty}
+                \nu_k \parens{L_k} \eta\parens{k} \\
+          &= \sum_{j = 0}^{\infty} \lambda_{\eta, \nu} \parens{L_j}
+        \end{align*}
+  \end{enumerate}
+\end{proof}
 
