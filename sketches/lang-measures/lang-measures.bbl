@@ -17,6 +17,31 @@
 \endgroup
 
 \datalist[entry]{nty/global//global/global}
+  \entry{infoandcomp-kozen1994kleenealg}{article}{}
+    \name{author}{1}{}{%
+      {{hash=KD}{%
+         family={Kozen},
+         familyi={K\bibinitperiod},
+         given={Dexter},
+         giveni={D\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{KD1}
+    \strng{fullhash}{KD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{K}
+    \field{sortinithash}{K}
+    \field{number}{2}
+    \field{pages}{366\bibrangedash 390}
+    \field{title}{A completeness theorem for {K}leene algebras and the algebra
+  of regular events}
+    \field{volume}{110}
+    \field{journaltitle}{Infor. and Comput.}
+    \field{year}{1994}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
   \entry{savage1998models}{book}{}
     \name{author}{1}{}{%
       {{hash=SJE}{%

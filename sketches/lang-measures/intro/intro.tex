@@ -4,7 +4,7 @@
 
 Let \(\Sigma\) denote a non-empty, countable alphabet.
 Unless otherwise specified, assume \(\abs{\Sigma} < \infty\).
-Write \(\varepsilon\) to mean the empty string.
+Write \(\epsilon\) to mean the empty string.
 
 Let \(\Sigma^\star\) be the set of all finite strings from \(\Sigma\).
 Write strings as \(w\) or \(s\), whichever happens to be more convenient.
@@ -13,25 +13,120 @@ Let \(L\) denote a language, implicitly over \(\Sigma\).
 In other words, \(L \subseteq \Sigma^\star\).
 
 We treat the empty language \(\emptyset\) as distinct from
-the language with a single empty string \(\braces{\varepsilon}\).
+the language with a single empty string \(\braces{\epsilon}\).
 
 Let \(\mcal{L}\) be a family of languages.
 
 Write deterministic finite automatons shorthand as DFA,
-and non-deterministic finite automataons shorthand as NFA.
+and non-deterministic finite automatons shorthand as NFA.
 
 Write regular expressions shorthand as regex.
 
 If \(X\) is a set, then \(\powset{X}\) is the powerset of \(X\).
 
+Unless otherwise noted, vectors are implicitly in column format.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Regular Expressions}
+A regular expression over an alphabet \(\Sigma\) describes regular
+languages over \(\Sigma\).
+Regular expressions are inductively generated,
+and we borrow heavily from Savage~\cite{savage1998models}.
+
+\begin{definition}[Regular Expression]
+  A regular expression over the finite alphabet \(\Sigma\)
+  is defined inductively:
+  \begin{enumerate}
+    \item[(1)]
+      The empty language \(\emptyset\) is a regular expression.
+
+    \item[(2)]
+      The empty string \(\epsilon\) is a regular expression denoting
+      \(\braces{\epsilon}\).
+
+    \item[(3)]
+      For each \(a \in \Sigma\),
+      the standalone \(a\) is a regular expression
+      denoting the singleton set \(\braces{a}\).
+
+    \item[(4)]
+      If \(r\) and \(s\) are regular expressions, then so are
+      \(rs\) (string concat), \(r + s\) (string choice),
+      and \(r^\star\) (string repeat).
+  \end{enumerate}
+\end{definition}
+
+\begin{theorem}[Regular Expression Axioms]
+Regular expressions satisfy the following axioms:
+\begin{enumerate}
+  \item[(1)]
+    \(r \emptyset = \emptyset r = \emptyset\)
+
+  \item[(2)]
+    \(r \epsilon = \epsilon r = r\)
+
+  \item[(3)]
+    \(r + \emptyset = \emptyset + r = r\)
+
+  \item[(4)]
+    \(r + r = r\)
+
+  \item[(5)]
+    \(r + s = s + r\)
+
+  \item[(6)]
+    \(r\parens{s + t} = rs + rt\)
+
+  \item[(7)]
+    \(\parens{r + s}t = rt + st\)
+
+  \item[(8)]
+    \(r(st) = (rs)t\)
+
+  \item[(9)]
+    \(\emptyset^\star = \epsilon\)
+
+  \item[(10)]
+    \(\epsilon^\star = \epsilon\)
+
+  \item[(11)]
+    \(\parens{\epsilon + r}^+ = r^\star\)
+
+  \item[(12)]
+    \(\parens{\epsilon + r}^\star = r^\star\)
+
+  \item[(13)]
+    \(r^\star \parens{\epsilon + r} = \parens{\epsilon + r}r^\star = r^\star\)
+
+  \item[(14)]
+    \(r^\star s + s = r^\star s\)
+
+  \item[(15)]
+    \(r\parens{sr}^\star = \parens{rs}^\star r\)
+
+  \item[(16)]
+    \(\parens{r + s}^\star = \parens{r^\star s}^\star r^\star = \parens{s^\star r}^\star s^\star\)
+
+\end{enumerate}
+
+\end{theorem}
+
+Outside of the Kleene star \(\star\) operation, axioms (1 - 8)
+effectively state that regular expressions are an
+idempotent semiring with additive constant \(\emptyset\) and multiplicative
+constant \(\epsilon\)~\cite{infoandcomp-kozen1994kleenealg}.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Representation of Regular Languages}
 There are several ways to represent regular languages,
-many of which can be fonud in literature~\cite{savage1998models}.
+many of which can be found in literature~\cite{savage1998models}.
 We work with whatever is convenient for the problem at hand.
 For a regular language \(L\) over an alphabet \(\Sigma\),
 there are a few notable ones:
+
 
 \begin{enumerate}
   \item[(1)]
@@ -88,8 +183,30 @@ there are a few notable ones:
         is the \(+\) of all the characters
         that permit the transition from \(q_i\) to \(q_j\).
 
+        If we take \(v = (\parens{1, 0, \ldots}\) as an \(n\)-dimensional
+        vector, where each coordinate \(i\) represents state \(q_i\).
+        Suppose that \(u\) is an \(n\)-dimensional vector indicating
+        the final states,
+        where \(u_i = 1_{q_i \in F}\), then:
+        \begin{align*}
+          \transp{v} M_A ^k u
+        \end{align*}
+        Will corresponds to the regular expression of the sub-language
+        of strings of precisely length \(k\).
 
       \item[(b)]
+        Alternatively we may see regular expressions as a
+        set of matrices, each corresponding to a letter of \(\Sigma\).
+        In essence, for each \(a \in \Sigma\), the associated
+        matrix \(M_a\) has form:
+        \(M_{a, i, j} = 1_{\parens{\parens{q_i, \cdot}, q_j} \in \delta}\),
+        and indicates an adjacency transition matrix.
+
+        The matrix described earlier can be recovered by observing that:
+        \begin{align*}
+          M_{A} = \sum_{a \in \Sigma} a M_{a}
+        \end{align*}
+
     \end{enumerate}
 
 \end{enumerate}
