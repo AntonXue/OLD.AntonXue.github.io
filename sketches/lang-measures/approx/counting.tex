@@ -3,5 +3,29 @@ How many unique strings of length \(k\) does an automata have?
 The question is relatively straightforward for a DFA,
 and slightly more complicated for a NFA.
 
+\begin{theorem}
+  There exists a polynomial-time algorithm that counts the number of strings
+  accepted by a DFA.
+\end{theorem}
+\begin{proof}
+  Consider the matrix \(M\) representation of a
+  DFA \(A = \parens{\Sigma, Q, \delta, q_1, F}\),
+  which we claim can be conjured in polynomial time.
+  We define \(M^\prime\)
+  where \(M^\prime _{i, j} = 1_{M_{i, j} \neq \emptyset}\).
+  In other words, \(M^\prime\) is the adjacency
+  matrix corresponding to the directed graph described by \(A\) and \(M\).
+
+  Let \(u\) be the vector where each element is such that
+  \(u_i = 1_{q_i \in F}\), then:
+  \begin{align*}
+    \parens{1, 0, 0, \ldots} \parens{M^\prime}^k u
+  \end{align*}
+  Will count the number of strings of length \(k\).
+  The algorithm runs in time polynomial to \(k\) the length
+  and \(n = \abs{Q}\) the number of states,
+  because matrix multiplication is polynomial in complexity.
+\end{proof}
+
 
 
