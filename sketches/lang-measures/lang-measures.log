@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  5 SEP 2018 12:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  5 SEP 2018 12:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -558,7 +558,7 @@ LaTeX Warning: No \author given.
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}])
 (./measures/measures.tex [2] [3] [4]) (./approx/approx.tex [5]
-(./approx/counting.tex)) [6] (./lang-measures.aux)
+(./approx/counting.tex)) [6] [7] (./lang-measures.aux)
 Package logreq Info: Writing requests to 'lang-measures.run.xml'.
 \openout1 = `lang-measures.run.xml'.
 
@@ -566,7 +566,7 @@ Package logreq Info: Writing requests to 'lang-measures.run.xml'.
 Here is how much of TeX's memory you used:
  10919 strings out of 492648
  178300 string characters out of 6132015
- 549599 words of memory out of 5000000
+ 547599 words of memory out of 5000000
  14667 multiletter control sequences out of 15000+600000
  14823 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -583,10 +583,10 @@ fonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti
 12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb>
-Output written on lang-measures.pdf (6 pages, 141693 bytes).
+Output written on lang-measures.pdf (7 pages, 143623 bytes).
 PDF statistics:
- 71 PDF objects out of 1000 (max. 8388607)
- 50 compressed objects within 1 object stream
+ 76 PDF objects out of 1000 (max. 8388607)
+ 54 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
