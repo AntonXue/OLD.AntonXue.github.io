@@ -81,8 +81,12 @@ there are a few notable ones:
         We construct the matrix as follows:
         \begin{align*}
           M_{A, i, j} =
-            + 
+            + \braces{a \st \parens{\parens{q_i, a}, q_j} \in \delta}
         \end{align*}
+        Here \(a\) is any character of \(\Sigma\).
+        In short, each entry of the matrix \(M_{A, i, j}\)
+        is the \(+\) of all the characters
+        that permit the transition from \(q_i\) to \(q_j\).
 
 
       \item[(b)]
