@@ -17,7 +17,56 @@ the language with a single empty string \(\braces{\varepsilon}\).
 
 Let \(\mcal{L}\) be a family of languages.
 
-Write deterministic finite automatons shorthand as DFA.
+Write deterministic finite automatons shorthand as DFA,
+and non-deterministic finite automataons shorthand as NFA.
 
 Write regular expressions shorthand as regex.
+
+If \(X\) is a set, then \(\powset{X}\) is the powerset of \(X\).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Representation of Regular Languages}
+There are several ways to represent regular languages,
+many of which can be fonud in literature~\cite{savage1998models}.
+We work with whatever is convenient for the problem at hand.
+For a regular language \(L\) over an alphabet \(\Sigma\),
+there are a few notable ones:
+
+\begin{enumerate}
+  \item[(1)]
+    \textbf{Sets}:
+    sometimes if the language is finite or has a simple structure,
+    a complete set presentation may be convenient.
+
+  \item[(2)]
+    \textbf{Regular expressions}:
+    compact representation,
+    also commonly used in practice when trying to do string matching.
+
+  \item[(3)]
+    \textbf{Finite state machines}:
+    Savage~\cite{savage1998models} gives a fairly standard representation.
+
+    \begin{definition}[DFA]
+      A DFA \(M\) is a five-tuple \(M = \parens{\Sigma, Q, \delta, q_0, F}\),
+      where \(\Sigma\) is the alphabet, \(Q\) is the finite set of states,
+      \(\type{\delta}{Q \times \Sigma}{Q}\) is the transition function,
+      \(q_0\) is the initial state, and \(F\) is the set of final states.
+    \end{definition}
+
+    \begin{definition}[NFA]
+      A NFA \(M\) is identically defined except for the
+      transition function, which is now
+      \(\type{\delta}{Q \times \Sigma}{\powset{Q}}\).
+      Each transition non-deterministically picks one state from the set.
+    \end{definition}
+
+  \item[(4)]
+    \textbf{Matrices}:
+    transition matrices can be constructed from both DFAs and NFAs.
+    If we consider
+
+\end{enumerate}
+
 

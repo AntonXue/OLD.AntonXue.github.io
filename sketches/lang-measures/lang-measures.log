@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  1 SEP 2018 21:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  5 SEP 2018 12:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -418,6 +418,13 @@ File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
 File: listings.cfg 2015/06/04 1.6 listings configuration
 ))
 Package: listings 2015/06/04 1.6 (Carsten Heinz)
+
+(/usr/share/texlive/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty
+Package: stmaryrd 1994/03/03 St Mary's Road symbol package
+\symstmry=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `stmry' in version `bold'
+(Font)                  U/stmry/m/n --> U/stmry/b/n on input line 89.
+)
 \c@theorem=\count300
 \c@lemma=\count301
 \c@claim=\count302
@@ -427,16 +434,39 @@ Package: listings 2015/06/04 1.6 (Carsten Heinz)
 \c@example=\count306
 
 
-Package amsthm Warning: Unknown theoremstyle `question' on input line 165.
+Package amsthm Warning: Unknown theoremstyle `question' on input line 166.
 
 \c@question=\count307
-LaTeX Info: Redefining \pinl on input line 187.
+LaTeX Info: Redefining \pinl on input line 188.
 ) (./lang-lib.tex
-(/usr/share/texlive/texmf-dist/tex/latex/stmaryrd/stmaryrd.sty
-Package: stmaryrd 1994/03/03 St Mary's Road symbol package
-\symstmry=\mathgroup6
-LaTeX Font Info:    Overwriting symbol font `stmry' in version `bold'
-(Font)                  U/stmry/m/n --> U/stmry/b/n on input line 89.
+(/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count308
+\c@ALG@rem=\count309
+\c@ALG@nested=\count310
+\ALG@tlm=\skip63
+\ALG@thistlm=\skip64
+\c@ALG@Lnr=\count311
+\c@ALG@blocknr=\count312
+\c@ALG@storecount=\count313
+\c@ALG@tmpcounter=\count314
+\ALG@tmplength=\skip65
+) (/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+
+(/home/celery/texmf/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count315
+\float@exts=\toks29
+\float@box=\box30
+\@float@everytoks=\toks30
+\@floatcapt=\box31
+)
+\@float@every@algorithm=\toks31
+\c@algorithm=\count316
 ))
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
@@ -444,8 +474,8 @@ Package biblatex Info: ... file 'english.lbx' found.
 (/home/celery/texmf/tex/latex/biblatex/lbx/english.lbx
 File: english.lbx 2017/12/19 v3.10 biblatex localization (PK/JW/AB)
 )
-\@quotelevel=\count308
-\@quotereset=\count309
+\@quotelevel=\count317
+\@quotereset=\count318
  (./lang-measures.aux)
 \openout1 = `lang-measures.aux'.
 
@@ -506,23 +536,16 @@ Package biblatex Info: Data encoding 'utf8' specified.
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'lang-measures.bbl' found.
-(./lang-measures.bbl
-
-Package biblatex Warning: BibTeX reported the following issues
-(biblatex)                with 'infoandcomp-kozen1994':
-(biblatex)                - Invalid format of field 'month'.
-
-)
+(./lang-measures.bbl)
 Package biblatex Info: Reference section=0 on input line 27.
 Package biblatex Info: Reference segment=0 on input line 27.
-\c@lstlisting=\count310
+\c@lstlisting=\count319
 LaTeX Font Info:    Try loading font information for U+msa on input line 28.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 28.
-
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for U+stmry on input line 28.
@@ -531,23 +554,23 @@ LaTeX Font Info:    Try loading font information for U+stmry on input line 28.
 
 LaTeX Warning: No \author given.
 
-(./intro/intro.tex) (./measures/measures.tex [1
+(./intro/intro.tex [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]) (./approx/approx.
-tex [4]) [5]
-(./lang-measures.aux)
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}])
+(./measures/measures.tex [2] [3] [4]) (./approx/approx.tex [5]
+(./approx/counting.tex)) [6] (./lang-measures.aux)
 Package logreq Info: Writing requests to 'lang-measures.run.xml'.
 \openout1 = `lang-measures.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 10378 strings out of 492648
- 169865 string characters out of 6132015
- 540219 words of memory out of 5000000
- 14141 multiletter control sequences out of 15000+600000
+ 10919 strings out of 492648
+ 178300 string characters out of 6132015
+ 549599 words of memory out of 5000000
+ 14667 multiletter control sequences out of 15000+600000
  14823 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 35i,15n,37p,820b,742s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 40i,15n,45p,820b,1145s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texl
@@ -560,10 +583,10 @@ fonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti
 12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm1
 0.pfb>
-Output written on lang-measures.pdf (5 pages, 132997 bytes).
+Output written on lang-measures.pdf (6 pages, 141693 bytes).
 PDF statistics:
- 68 PDF objects out of 1000 (max. 8388607)
- 48 compressed objects within 1 object stream
+ 71 PDF objects out of 1000 (max. 8388607)
+ 50 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

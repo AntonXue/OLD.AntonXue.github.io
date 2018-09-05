@@ -14,9 +14,7 @@ Recall that by the definition of a \(\sigma\)-algebra,
 the symmetric set difference \(L_1 \triangle L_2\)
 is in \(\sigma\parens{\mcal{L}}\), and therefore measurable.
 
-
-\subsection{Regular Languages}
-We restrict our attention to regular languages for now,
+We hope restrict our attention to regular languages for now,
 or in other words, the class of languages precisely recognized by
 DFAs, and ask the following:
 
@@ -72,3 +70,24 @@ DFAs, and ask the following:
   Selection of the strings once length is fixed is irrelevant because
   each set corresponding to a length contains only one string.
 \end{example}
+
+Assume a (regular) language \(L\) given as an automata or regular
+expression, whichever may be convenient, and measure \(\lambda_{n}\).
+A few challenges lie ahead:
+
+\begin{question}
+  How can we quickly measure \(\lambda_{\eta}\parens{L}\)?
+\end{question}
+
+\begin{question}
+  How can we quickly generate a word of some length from \(L\)?
+\end{question}
+
+The word ``quickly'' here is key:
+many methods that can be thrown together to answer these questions
+are intrinsically exponential,
+so if we can introduce sub-exponential time techniques
+that would be pretty cool.
+
+\input{approx/counting.tex}
+
