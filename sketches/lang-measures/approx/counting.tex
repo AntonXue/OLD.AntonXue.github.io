@@ -52,7 +52,7 @@ the paper.
   A \(g\parens{n}\)-ras for a non-negative real-valued function
   \(f\) is a probabilistic algorithm which,
   on input \(x\) and \(\varepsilon > 0\) and \(\delta < 1\),
-  complutes \(\widetilde{f}\parens{x}\) where:
+  computes \(\widetilde{f}\parens{x}\) where:
   \begin{align*}
     1 - \delta \leq
     \Pr\brackets{
@@ -60,7 +60,7 @@ the paper.
         \leq \widetilde{f}\parens{x}
         \leq f\parens{x} \parens{1 + \varepsilon}}
   \end{align*}
-  Further, the algorithm runs in exepcted time \(O\parens{g\parens{n}}\)
+  Further, the algorithm runs in expected time \(O\parens{g\parens{n}}\)
   where:
   \begin{align*}
     n = \max\braces{\abs{x}, \varepsilon^{-1}, \log\parens{\delta^-1}}
@@ -92,7 +92,7 @@ In other words, this randomized approximation scheme is pretty tight.
 \end{definition}
 
 \begin{definition}[\(m\)-level NFA]
-  An \(m\)-level NFA is an NFA in which sthe states can be
+  An \(m\)-level NFA is an NFA in which the states can be
   partitioned into \(m + 1\) levels with the following properties:
   \begin{enumerate}
     \item[(1)]
@@ -112,4 +112,86 @@ In other words, this randomized approximation scheme is pretty tight.
       (fully connected automata).
   \end{enumerate}
 \end{definition}
+
+Kannan further poses the following lemma as an exercise to the reader,
+which we also prove:
+
+\begin{lemma}
+  For any NFA, \(M\), and integer \(m\),
+  there exists an NFA \(M^\prime\) such that \(M^\prime\)
+  is an \(m\)-level NFA with no \(\epsilon\)-transitions,
+  a binary alphabet, and such that
+  \(\abs{L\parens{M^\prime}} = \abs{L\parens{M} \cap \Sigma^m}\).
+  Further, the size of \(M^\prime\) is polynomial in size of \(M\) and \(m\).
+\end{lemma}
+\begin{proof}
+  Given an NFA \(M_1\), it is well-known that there exist
+  a polynomial-time and polynomial-space reduction to an equivalent
+  NFA \(M_2\) without \(\epsilon\)-transitions.
+
+  As \(M_2\) is presumed to be defined over some alphabet \(\Sigma\),
+  we now need to reduce this to an equivalent NFA over a binary alphabet
+  \(\Sigma_2\).
+  To do this, recall from standard results in complexity that we need
+  \(\ceil{\log\parens{\abs{\Sigma}}}\) bits to represent every element
+  of \(\Sigma\).
+  Hence, in order to make an \(\epsilon\)-transition-free and
+  binary alphabet NFA,
+  we may augment every transition edge of \(M_2\)
+  by a sequence of transitions of length
+  \(\ceil{\log\parens{\abs{\Sigma}}}\) that now uses the binary
+  alphabet \(\Sigma_2\) instead of \(\Sigma\).
+  Take \(m^\prime = m \ceil{\log\parens{\abs{\Sigma}}}\).
+  This produced \(M_3\), which lacks \(\varepsilon\)-transitions
+  and is over a binary alphabet \(\Sigma_2\).
+
+  To convert the NFA \(M_3\) into a
+  \(m^\prime\)-level NFA,
+  we do the following.
+  First, let \(Q\) be the set of states of \(M_3\).
+  We create \(m^\prime\) copies of \(Q\), and write them as
+  \(Q_0, Q_1, \ldots, Q_{m^\prime - 1}\).
+  These serve to eventually form the first \(m^\prime\)-layers out of the
+  \(m^\prime + 1\) for an \(m^\prime\)-level NFA.
+  For each set of states \(Q_i\), with
+  \(i \in \braces{0, \ldots, m^\prime - 2}\)
+  as follows: if there exists a one-step transition from some \(q_a\) to
+  \(q_b\) on character \(a \in \Sigma_2\) within \(M_3\),
+  then we connect \(q_a \in Q_i\) and \(q_b \in Q_{i + 1}\) using
+  letter \(a\).
+  We add a final layer consisting of just one state \(q_F\),
+  and connect all the final states of \(Q_{m^\prime - 1}\) to
+  \(q_F\) using the technique just described.
+  This creates \(M_4\), which has \(m^\prime + 1\) layers,
+  the last of which has a single final state.
+
+  In order to make \(M_4\) into an \(m^\prime\)-level NFA
+  (which has \(m^\prime + 1\) layers),
+  we need another step of transformation.
+  Take \(q_0 \in Q\) to be the start state of \(M_3\).
+  Then, in the first layer, mark \(q_0\) as the start state.
+  Now take the sub-graph of \(M_4\) that is reachable from \(q_0\)
+  in the first layer,
+  and this is the desired \(m^\prime\)-level automaton \(M_5\).
+
+  Because the start state \(q_0\) is unique, it is clear that
+  the first layer only has a single state.
+  Furthermore, the last layer also has a single state \(q_F\), which
+  we added by construction earlier.
+  In addition, all transition edges by construction flow from
+  layer \(i\) to the next layer \(i + 1\).
+
+  Because we have taken the parts reachable from the initial state \(q_0\),
+  we guarantee reachability.
+  It may be the case that the final state \(q_F\) is not reachable from
+  \(q_0\), in which case this is fine,
+  and the \(m^\prime\)-level NFA cannot be constructed anyways,
+  because it implies that no strings of length \(m\) exists in
+  the language.
+  Further note that \(m^\prime\) is polynomial in complexity to \(m\).
+  Hence, \(M_5\) is the desired \(m^\prime\)-level NFA.
+
+\end{proof}
+
+
 
