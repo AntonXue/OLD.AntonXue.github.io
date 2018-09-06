@@ -11,6 +11,9 @@ and slightly more complicated for a NFA.
   Consider the matrix \(M\) representation of a
   DFA \(A = \parens{\Sigma, Q, \delta, q_1, F}\),
   which we claim can be conjured in polynomial time.
+  Roughly, the sketch is that we can enumerate each element
+  of the transition \(\delta\) and iteratively populate our matrix \(M\).
+
   We define \(M^\prime\)
   where \(M^\prime _{i, j} = 1_{M_{i, j} \neq \emptyset}\).
   In other words, \(M^\prime\) is the adjacency
@@ -27,5 +30,86 @@ and slightly more complicated for a NFA.
   because matrix multiplication is polynomial in complexity.
 \end{proof}
 
+However, counting the number of strings of length \(k\) is known to be
+\(\class{\#P}\)~\cite{acmsiam-kannan1995counting},
+and exponential-time algorithms are known:
+just reduce the NFA to a DFA and run the solution above.
+Indeed, this is not very satisfying, but at least it's something.
 
+\subsection{Approximate Counting}
+If counting is hard, then perhaps approximate counting is easier?
+Indeed, this may be the step towards fast comparison of regular languages.
+To do this,
+we attempt to adapt work by Kannan~\cite{acmsiam-kannan1995counting},
+which we have cited quite a few times now.
+
+Kannan's construction presents a few ``proofs left to the reader'',
+which we complete here.
+However, we first present a few definitions that are used throughout
+the paper.
+
+\begin{definition}[\(g\parens{n}\)-randomized approximation scheme]
+  A \(g\parens{n}\)-ras for a non-negative real-valued function
+  \(f\) is a probabilistic algorithm which,
+  on input \(x\) and \(\varepsilon > 0\) and \(\delta < 1\),
+  complutes \(\widetilde{f}\parens{x}\) where:
+  \begin{align*}
+    1 - \delta \leq
+    \Pr\brackets{
+      f\parens{x} \parens{1 + \varepsilon}^{-1}
+        \leq \widetilde{f}\parens{x}
+        \leq f\parens{x} \parens{1 + \varepsilon}}
+  \end{align*}
+  Further, the algorithm runs in exepcted time \(O\parens{g\parens{n}}\)
+  where:
+  \begin{align*}
+    n = \max\braces{\abs{x}, \varepsilon^{-1}, \log\parens{\delta^-1}}
+  \end{align*}
+\end{definition}
+
+In other words, this randomized approximation scheme is pretty tight.
+
+\begin{definition}[\(g\parens{n}\)-almost uniform generator]
+  Let \(R\) be a polynomial-time computable binary relation.
+  For any \(x\), let
+  \begin{align*}
+    \phi\parens{x} = \braces{y \st \parens{x, y} \in R}
+  \end{align*}
+  A \(g\parens{n}\)-almost uniform generator for the relation
+  \(R\) is a probabilistic algorithm \(A\),
+  which, on input \(x\), \(\varepsilon > 0\),
+  outputs some \(y \in \phi\parens{x}\) such that:
+  \begin{align*}
+    \abs{\phi\parens{x}}^{-1} \parens{1 + \varepsilon}^{-1}
+      \leq \Pr\brackets{A\parens{x, \varepsilon} = y}
+      \leq \abs{\phi\parens{x}}^{-1} \parens{1 + \varepsilon}
+  \end{align*}
+  Also, \(A\) runs in time \(O\parens{g\parens{n}}\)
+  where:
+  \begin{align*}
+    n = \max\braces{\abs{x}, \log\parens{\varepsilon^{-1}}}
+  \end{align*}
+\end{definition}
+
+\begin{definition}[\(m\)-level NFA]
+  An \(m\)-level NFA is an NFA in which sthe states can be
+  partitioned into \(m + 1\) levels with the following properties:
+  \begin{enumerate}
+    \item[(1)]
+      There is exactly one state at level \(0\) and it is the start state.
+
+    \item[(2)]
+      There is exactly one state at level \(m\) and it is the accept state.
+
+    \item[(3)]
+      All transitions are from a node in level \(i\) to a node in
+      level \(i + 1\) for \(i \in \braces{0, \ldots, m - 1}\).
+
+    \item[(4)]
+      For any state, \(p\),
+      the accept state is reachable from \(p\),
+      and \(p\) is reachable from the start state
+      (fully connected automata).
+  \end{enumerate}
+\end{definition}
 

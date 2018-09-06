@@ -17,6 +17,45 @@
 \endgroup
 
 \datalist[entry]{nty/global//global/global}
+  \entry{acmsiam-kannan1995counting}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=KS}{%
+         family={Kannan},
+         familyi={K\bibinitperiod},
+         given={Sampath},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=SZ}{%
+         family={Sweedyk},
+         familyi={S\bibinitperiod},
+         given={Z},
+         giveni={Z},
+      }}%
+      {{hash=MS}{%
+         family={Mahaney},
+         familyi={M\bibinitperiod},
+         given={Steve},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \list{organization}{2}{%
+      {Society for Industrial}%
+      {Applied Mathematics}%
+    }
+    \strng{namehash}{KSSZMS1}
+    \strng{fullhash}{KSSZMS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{K}
+    \field{sortinithash}{K}
+    \field{booktitle}{Proceedings of the sixth annual ACM-SIAM symposium on
+  Discrete algorithms}
+    \field{pages}{551\bibrangedash 557}
+    \field{title}{Counting and random generation of strings in regular
+  languages}
+    \field{year}{1995}
+  \endentry
+
   \entry{infoandcomp-kozen1994kleenealg}{article}{}
     \name{author}{1}{}{%
       {{hash=KD}{%
