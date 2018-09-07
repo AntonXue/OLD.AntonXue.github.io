@@ -15,6 +15,9 @@
   \end{enumerate}
 \end{definition}
 
+\begin{definition}[Commutative Monoid]
+  A monoid \(\parens{S, \circ}\) is commutative if \(\circ\) is commutative.
+\end{definition}
 
 \begin{definition}[Semiring]
   A semiring is a set \(R\) with two binary operations
@@ -72,4 +75,69 @@
   A bimodule is a module that is both a left module and a right module
   with respect to scalar multiplication.
 \end{definition}
+
+If \(M\) is a module over a semiring \(R\),
+we write \(M / R\) for shorthand.
+
+
+\begin{definition}[\(n\)-length Module]
+  An \(n\)-length module \(M / R\)
+  consists of \(n\) elements:
+  \begin{align*}
+    M = \parens{r_1, \ldots, r_n}
+    \qquad
+    \qquad
+    r_1, \ldots, r_n \in R
+  \end{align*}
+  
+\end{definition}
+
+
+\begin{definition}[Linear Transformation]
+  A linear transformation is a homomorphic map
+  \(\type{T}{V}{W}\) between two modules \(V / R\) and \(W / R\)
+  that preserves addition and scalar multiplication.
+  That is,
+  for all \(r \in R\) and \(x, y \in V\):
+  \begin{align*}
+    T\parens{0_R \cdot x}
+      &= 0_W \\
+    T\parens{r\cdot x + y}
+      &= r\cdot T\parens{x} + T\parens{y}
+  \end{align*}
+\end{definition}
+
+We may use matrices to represent linear transformations
+between \(n\)-length modules.
+Let \(M_{n \times n} \parens{R}\)
+be the set of \(n \times n\) dimensional
+matrices with entries from semiring \(R\).
+
+\begin{definition}[Matrix Module (Left) Multiplication]
+If \(A \in M_{n \times n}\parens{R}\),
+and \(M / R\) is some \(n\)-length module.
+Define left matrix-module multiplication as follows:
+\begin{align*}
+  \parens{AM}_{i}
+    = \sum_{k = 1}^{n} A_{i, k} M_k
+\end{align*}
+\end{definition}
+
+Here the result \(AM\) is another \(n\)-length module over semiring \(R\).
+In particular, this action corresponds to left multiplication by the matrix.
+If instead we wish to define right multiplication:
+
+\begin{definition}[Matrix Module (Right) Multiplication]
+If \(A \in M_{n \times n}\parens{R}\),
+and \(M / R\) is some \(n\)-length module.
+Define right matrix-module multiplication as follows:
+\begin{align*}
+  \parens{MA}_{i}
+    = \sum_{k = 1}^{n} M_k A_{k, i}
+\end{align*}
+\end{definition}
+
+Typically we take the module \(M\) to have a column vector representation
+during left multiplication,
+and a row vector representation for right multiplication.
 
