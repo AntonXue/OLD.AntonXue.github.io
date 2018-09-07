@@ -1,0 +1,75 @@
+\subsection{Algebraic Structures}
+
+\begin{definition}[Monoid]
+  A monoid is a set \(S\) with a binary operation
+  \(\type{\circ}{S \times S}{S}\) (multiplication) with the following axioms:
+  \begin{enumerate}
+    \item[(1)]
+      \(\circ\) is associative.
+
+    \item[(2)]
+      There exists an identity element \(e \in S\) such that:
+      \begin{align*}
+        \forall a \in S \st e \circ a = a = a \circ e
+      \end{align*}
+  \end{enumerate}
+\end{definition}
+
+
+\begin{definition}[Semiring]
+  A semiring is a set \(R\) with two binary operations
+  \(\type{+}{R \times R}{R}\) (addition) and
+  \(\type{\cdot}{R \times R}{R}\) (multiplication) with the following axioms:
+  \begin{enumerate}
+    \item[(1)]
+      \(\parens{R, +}\) is a commutative monoid with identity \(0\).
+
+    \item[(2)]
+      \(\parens{R, \cdot}\) is a monoid with identity \(1\).
+
+    \item[(3)]
+      Multiplication left and right distributes over addition.
+
+    \item[(4)]
+      Multiplication by \(0\) annihilates \(R\).
+  \end{enumerate}
+\end{definition}
+
+
+\begin{definition}[Left Module Over a Semiring]
+  A left module \(M\) over a semiring \(R\)
+  is a set with two binary operations
+  \(\type{+}{M \times M}{M}\) (addition)
+  and \(\type{\cdot}{R \times M}{M}\) (scalar multiplication)
+  with the following axioms:
+  \begin{enumerate}
+    \item[(1)]
+      \(\parens{M, +}\) is an abelian group.
+
+    \item[(2)]
+      For all \(s, r \in R\) and \(x ,y \in M\):
+      \begin{align*}
+        r \cdot \parens{x + y}
+          &= \parens{r \cdot x} + \parens{r \cdot y} \\
+        \parens{r + s} \cdot x
+          &= \parens{r \cdot x} + \parens{s \cdot x} \\
+        \parens{r \cdot s} \cdot x
+          &= r \cdot \parens{s \cdot x} \\
+        1_{R} \cdot x
+          &= x
+      \end{align*}
+  \end{enumerate}
+\end{definition}
+
+
+\begin{definition}[Right Module Over a Semiring]
+  A right module would be defined similarly, except
+  all instances of scalar multiplication happen on the right side.
+\end{definition}
+
+
+\begin{definition}[Bimodule Over a Semiring]
+  A bimodule is a module that is both a left module and a right module
+  with respect to scalar multiplication.
+\end{definition}
+
