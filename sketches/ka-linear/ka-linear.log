@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  7 SEP 2018 03:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  7 SEP 2018 09:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -558,7 +558,7 @@ LaTeX Warning: No \author given.
 (./intro/intro.tex (./intro/algebra.tex [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}])) (./kleene/kleene.tex [2]
-)
+ (./kleene/automata.tex))
 
 LaTeX Warning: Empty bibliography on input line 35.
 
@@ -568,8 +568,8 @@ Package logreq Info: Writing requests to 'ka-linear.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 10718 strings out of 492648
- 174292 string characters out of 6132015
+ 10721 strings out of 492648
+ 174340 string characters out of 6132015
  548600 words of memory out of 5000000
  14473 multiletter control sequences out of 15000+600000
  13627 words of font info for 54 fonts, out of 8000000 for 9000
@@ -584,7 +584,7 @@ mf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist
 type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmsy8.pfb>
-Output written on ka-linear.pdf (3 pages, 97209 bytes).
+Output written on ka-linear.pdf (3 pages, 97985 bytes).
 PDF statistics:
  50 PDF objects out of 1000 (max. 8388607)
  35 compressed objects within 1 object stream
