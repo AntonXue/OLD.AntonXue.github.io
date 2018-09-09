@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  7 SEP 2018 09:27
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  9 SEP 2018 15:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -432,14 +432,10 @@ LaTeX Font Info:    Overwriting symbol font `stmry' in version `bold'
 \c@remark=\count304
 \c@definition=\count305
 \c@example=\count306
-
-
-Package amsthm Warning: Unknown theoremstyle `question' on input line 166.
-
 \c@question=\count307
 LaTeX Info: Redefining \pinl on input line 188.
-) (./kal-lib.tex
-(/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+) (./kal-lib.tex (/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algorith
+micx.sty
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
@@ -558,23 +554,20 @@ LaTeX Warning: No \author given.
 (./intro/intro.tex (./intro/algebra.tex [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}])) (./kleene/kleene.tex [2]
- (./kleene/automata.tex))
-
-LaTeX Warning: Empty bibliography on input line 35.
-
-[3] (./ka-linear.aux)
+ (./kleene/automata.tex)) [3]
+(./ka-linear.aux)
 Package logreq Info: Writing requests to 'ka-linear.run.xml'.
 \openout1 = `ka-linear.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 10721 strings out of 492648
- 174340 string characters out of 6132015
+ 10912 strings out of 492648
+ 178163 string characters out of 6132015
  548600 words of memory out of 5000000
- 14473 multiletter control sequences out of 15000+600000
- 13627 words of font info for 54 fonts, out of 8000000 for 9000
+ 14663 multiletter control sequences out of 15000+600000
+ 13974 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 35i,9n,37p,816b,742s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 40i,9n,45p,816b,1082s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texl
@@ -583,11 +576,12 @@ mf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmsy8.pfb>
-Output written on ka-linear.pdf (3 pages, 97985 bytes).
+msfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmti12.pfb>
+Output written on ka-linear.pdf (3 pages, 114743 bytes).
 PDF statistics:
- 50 PDF objects out of 1000 (max. 8388607)
- 35 compressed objects within 1 object stream
+ 54 PDF objects out of 1000 (max. 8388607)
+ 38 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
