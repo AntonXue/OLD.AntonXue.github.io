@@ -1,0 +1,120 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=6em]{geometry} % 1 cm = 2.84528 em
+\usepackage[backend=bibtex]{biblatex}
+\bibliography{sources}
+% \nocite{*}
+
+\usepackage{lipsum}
+
+% Paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% Includes
+\input{antonxue-lib.tex}
+% \input{aut-lib.tex}
+
+
+% Author
+\title{Automata and Some Generalizations}
+% \author{Anton Xue}
+% \date{\today}
+\date{}
+
+% Document
+\begin{document}
+\maketitle
+
+
+\subsection{Deterministic Finite Automata}
+A deterministic finite automata is often presented as a quintuple:
+\begin{align*}
+  \mcal{A}
+    = \parens{\Sigma, Q, \delta, s, F}
+\end{align*}
+Where \(\Sigma\) is a finite alphabet,
+\(Q\) is a finite set of states,
+\(\type{\delta}{\Sigma \times Q}{Q}\)
+is the transition function,
+\(s \in Q\) is a special initial state,
+and \(F \subseteq Q\) is the set of final states.
+
+One particular view may see \(\delta\) as a matrix \(M\),
+where the entry \(M_{i, j} \subseteq \Sigma\)
+is the letters of \(\Sigma\)
+that takes state \(q_i \in Q\) to \(q_j \in Q\).
+
+
+\subsection{Non-deterministic Finite Automata}
+A non-deterministic finite automata may also be presented as a quintuple:
+\begin{align*}
+  \mcal{A} = \parens{\Sigma, Q, \Delta, s, F}
+\end{align*}
+As with before, \(\Sigma\) is a finite alphabet,
+\(Q\) is a finite set of states, \(s \in Q\) is a special start
+state, and \(F \subseteq Q\) is the set of final states.
+What is different here from deterministic finite automata,
+is that the transition function
+\(\type{\Delta}{\Sigma \times Q}{\powset{Q}}\) maps into a set of states
+rather than a single state.
+This represents the ``non-deterministic'' nature of a transition,
+where a single letter read may induce multiple possible states.
+
+As with before, \(\Delta\) may be seen as a matrix \(M\).
+The presentation is the same as that of a deterministic finite
+automata's, where \(M_{i, j} \subseteq \Sigma\) is the letters of \(\Sigma\)
+that take \(q_i \in Q\) to \(q_j \in Q\).
+
+
+\subsection{Semiring Automata}
+The semiring automata is a formalization of a
+non-deterministic finite automata using algebraic structures.
+Take the semiring automata to be a quintuple:
+\begin{align*}
+  \mcal{A} = \parens{\Sigma, Q, \Delta, s, F}
+\end{align*}
+Like before, \(\Sigma\) is a finite alphabet that generates
+the free semiring \(R\),
+\(Q\) is a countable set of states,
+\(\type{\Delta}{R \times Q}{\powset{Q}}\) is the transition function,
+\(s \in Q\) is the special start state,
+and \(F \subseteq Q\) is the set of final states.
+
+Similar to before,
+if \(Q\) is finite,
+the matrix representation \(M\) of the transition
+function \(\Delta\) has entry \(M_{i, j} \in R\) as the
+elements that map state \(q_i \in Q\) to \(q_j \in Q\).
+Note that we now permit each entry of the transition matrix to be
+an arbitrary element of \(R\) rather than a set of single letters of \(\Sigma\).
+
+
+\subsection{Division Semiring Automata}
+The division semiring automata introduces the notion of ``negative'' words
+through multiplicative inverses.
+Similar to the semiring automata,
+we take the division semiring automata as the quintuple:
+\begin{align*}
+  \mcal{A} = \parens{\Sigma, Q, \Delta, s, F}
+\end{align*}
+Here, \(\Sigma\) is a finite alphabet that generates the
+free division semiring \(R\),
+\(Q\) is a countable set of states,
+\(\type{\Delta}{R \times Q}{\powset{Q}}\) is the transition function,
+\(s \in Q\) is the special start state,
+and \(F \subseteq Q\) is the set of final states.
+
+If \(Q\) is finite,
+let \(M\) be the matrix representation of the transition function \(\Delta\),
+where \(M_{i, j} \in R\) maps state \(q_i \in Q\) to \(q_j \in Q\).
+
+
+
+
+
+\printbibliography
+
+\end{document}
+
