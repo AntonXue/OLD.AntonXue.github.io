@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  12 SEP 2018 13:56
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  12 SEP 2018 14:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -553,14 +553,7 @@ LaTeX Warning: No \author given.
 (./operator/m-semi.tex [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-[2]
-Overfull \hbox (1.96219pt too wide) in paragraph at lines 91--95
-[]\OT1/cmr/bx/n/12 Definition 6 \OT1/cmr/m/n/12 (Lin-ear Op-er-a-tor Norm)\OT1/
-cmr/bx/n/12 . []\OT1/cmr/m/it/12 Take $\OML/cmm/m/it/12 R[]$ \OT1/cmr/m/it/12 e
-quipped with norm $[][]$ and $\OML/cmm/m/it/12 R[]$ \OT1/cmr/m/it/12 equipped
- []
-
-)) (./automata/automata.tex) [3] (./operator-automata.aux)
+[2])) (./automata/automata.tex) [3] (./operator-automata.aux)
 Package logreq Info: Writing requests to 'operator-automata.run.xml'.
 \openout1 = `operator-automata.run.xml'.
 
@@ -585,7 +578,7 @@ sfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmt
 i12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm
 10.pfb>
-Output written on operator-automata.pdf (3 pages, 122794 bytes).
+Output written on operator-automata.pdf (3 pages, 122876 bytes).
 PDF statistics:
  62 PDF objects out of 1000 (max. 8388607)
  44 compressed objects within 1 object stream

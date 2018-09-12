@@ -88,15 +88,16 @@ With the notion of norms, we again extend such notions to
 linear operators between some \(R_M ^n\) and \(R_M ^m\).
 
 \begin{definition}[Linear Operator Norm]
-  Take \(R_M ^n\) equipped with norm \(\norm{\cdot}_{p_n, q_n}\)
-  and \(R_M ^m\) equipped with norm \(\norm{\cdot}_{p_m, q_m}\).
+  Take \(R_M ^n\) equipped with norm \(\norm{\cdot}_{R_M ^n, p_n, q_n}\)
+  and \(R_M ^m\) equipped with norm \(\norm{\cdot}_{R_M ^m, p_m, q_m}\).
   Define the linear operator norm \(\norm{\cdot}_L\)
   for operators in \(\mcal{L}\parens{R_M ^n, R_M ^m}\) as:
   \begin{align*}
     \forall T \in \mcal{L}\parens{R_M ^n, R_M ^m} \st
       \norm{T}_L =
         \inf \braces{c \in \Rz \st
-                \norm{Tx}_{p_m, q_m} \leq c \cdot \norm{x}_{p_n, q_n},
+                \norm{Tx}_{R_M ^m, p_m, q_m}
+                  \leq c \cdot \norm{x}_{R_M ^n, p_n, q_n},
                 \forall x \in R_M ^n}
   \end{align*}
 \end{definition}
