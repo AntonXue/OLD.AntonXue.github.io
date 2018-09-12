@@ -1,0 +1,43 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=6em]{geometry} % 1 cm = 2.84528 em
+\usepackage[backend=bibtex]{biblatex}
+\bibliography{sources}
+% \nocite{*}
+
+\usepackage{lipsum}
+
+% Paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% Includes
+\input{antonxue-lib.tex}
+\input{op-lib.tex}
+
+
+% Author
+\title{Operator Automata Theory}
+% \author{Anton Xue}
+% \date{\today}
+\date{}
+
+% Document
+\begin{document}
+\maketitle
+
+\input{intro/intro.tex}
+
+\input{prelims/prelims.tex}
+
+\input{operator/operator.tex}
+
+\input{automata/automata.tex}
+
+
+
+\printbibliography
+
+\end{document}
+
