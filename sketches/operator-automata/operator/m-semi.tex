@@ -7,7 +7,8 @@ Let \(\Sigma\) be a finite set and
 \end{align*}
 
 \begin{definition}[Normed Monoid]
-  A normed monoid is a monoid \(M\) equipped with norm \(\norm{\cdot}\).
+  A normed monoid is a monoid \(M\) equipped with a norm
+  \(\type{\norm{\cdot}}{M}{\Rz}\).
 \end{definition}
 
 Because monoids lack addition,
@@ -34,13 +35,12 @@ we may extend this to normed \(M\)-semirings.
 In particular, we pay special attention to \(p\)-norms.
 
 \begin{definition}[\(M\)-Semiring \(p\)-Norm]
-  Let \(M\) be a finitely generated and normed semiring.
+  Let \(M\) be a finitely generated and normed monoid.
   For \(1 \leq p \leq \infty\),
   a \(p\)-normed \(M\)-semiring is \(R\)
-  is equipped with a norm \(\norm{\cdot}_p\), defined as:
+  is equipped with a norm \(\type{\norm{\cdot}_p}{R}{\Rz}\):
   \begin{align*}
-    \forall x \in R \st
-      \norm{x}_{p} = \parens{\sum_{a \in x} \norm{a} ^p}^{1/p}
+    \norm{x}_{p} = \parens{\sum_{a \in x} \norm{a} ^p}^{1/p}
   \end{align*}
 \end{definition}
 
@@ -72,12 +72,10 @@ Again, we extend norms to \(\parens{M, n}\)-semimodules:
   Let \(R ^n\) be a \(\parens{M, n}\)-semimodule
   and take \(1 \leq p, q \leq \infty\).
   A \(\parens{p, q}\)-normed \(\parens{M, n}\)-semimodule
-  is a semimodule with norm \(\norm{\cdot}_{p, q}\),
-  defined as:
+  is a semimodule with norm \(\type{\norm{\cdot}_{p, q}}{R^n}{\Rz}\):
   \begin{align*}
-    \forall x \in R^n \st
-      \norm{x}_{p, q}
-        = \parens{\sum_{i = 1}^{n} \norm{x_i}_{p}^q}^{1 / q}
+    \norm{x}_{p, q}
+      = \parens{\sum_{i = 1}^{n} \norm{x_i}_{p}^q}^{1 / q}
   \end{align*}
 \end{definition}
 
@@ -93,14 +91,14 @@ linear operators mapping from \(R^n\) to \(R^m\).
   Let \(\mcal{L}\) be the space of linear operators mapping
   a \(\parens{M, n}\)-semimodule \(R^n\) with norm \(\norm{\cdot}_{R^n}\)
   to a \(\parens{M, m}\)-semimodule \(R^m\) with norm \(\norm{\cdot}_{R^m}\).
-  Then define the operator norm \(\norm{\cdot}_{\mcal{L}}\) as:
+  Then define the operator norm
+  \(\type{\norm{\cdot}_{\mcal{L}}}{\mcal{L}}{\Rz}\) as:
   \begin{align*}
-    \forall T \in \mcal{L} \st
-      \norm{T}_{\mcal{L}} =
-        \inf \braces{c \in \Rz \st
-                \norm{Tx}_{R^m}
-                  \leq c \norm{x}_{R^n},
-                \forall x \in R^n}
+    \norm{T}_{\mcal{L}} =
+      \inf \braces{c \in \Rz \st
+              \norm{Tx}_{R^m}
+                \leq c \norm{x}_{R^n},
+              \forall x \in R^n}
   \end{align*}
 \end{definition}
 
