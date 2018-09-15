@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  15 SEP 2018 01:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  15 SEP 2018 13:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -479,15 +479,15 @@ LaTeX Font Info:    ... okay on input line 27.
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(70.49927pt, 473.29646pt, 70.49927pt)
-* v-part:(T,H,B)=(70.49927pt, 653.97145pt, 70.49927pt)
+* h-part:(L,W,R)=(58.74939pt, 496.79622pt, 58.74939pt)
+* v-part:(T,H,B)=(58.74939pt, 677.4712pt, 58.74939pt)
 * \paperwidth=614.295pt
 * \paperheight=794.96999pt
-* \textwidth=473.29646pt
-* \textheight=653.97145pt
-* \oddsidemargin=-1.77072pt
-* \evensidemargin=-1.77072pt
-* \topmargin=-38.77072pt
+* \textwidth=496.79622pt
+* \textheight=677.4712pt
+* \oddsidemargin=-13.5206pt
+* \evensidemargin=-13.5206pt
+* \topmargin=-50.5206pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=12.0pt
@@ -562,7 +562,7 @@ Package logreq Info: Writing requests to 'operator-automata.run.xml'.
 Here is how much of TeX's memory you used:
  11072 strings out of 492648
  180307 string characters out of 6132015
- 543177 words of memory out of 5000000
+ 545176 words of memory out of 5000000
  14811 multiletter control sequences out of 15000+600000
  14595 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -579,7 +579,7 @@ sfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmt
 i12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm
 10.pfb>
-Output written on operator-automata.pdf (3 pages, 123807 bytes).
+Output written on operator-automata.pdf (3 pages, 123759 bytes).
 PDF statistics:
  62 PDF objects out of 1000 (max. 8388607)
  44 compressed objects within 1 object stream
