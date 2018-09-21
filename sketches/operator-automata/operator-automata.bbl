@@ -17,29 +17,6 @@
 \endgroup
 
 \datalist[entry]{nty/global//global/global}
-  \entry{kudlek2000lemmata}{article}{}
-    \name{author}{1}{}{%
-      {{hash=KM}{%
-         family={Kudlek},
-         familyi={K\bibinitperiod},
-         given={Manfred},
-         giveni={M\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {京都大学数理解析研究所}%
-    }
-    \strng{namehash}{KM1}
-    \strng{fullhash}{KM1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{sortinit}{K}
-    \field{sortinithash}{K}
-    \field{title}{Iteration Lemmata for Normed Semirings (Algebraic Systems,
-  Formal Languages and Computations)}
-    \field{year}{2000}
-  \endentry
-
   \entry{savage1998models}{book}{}
     \name{author}{1}{}{%
       {{hash=SJE}{%
