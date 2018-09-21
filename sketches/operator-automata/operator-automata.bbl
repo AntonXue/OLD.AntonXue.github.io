@@ -39,5 +39,28 @@
   Formal Languages and Computations)}
     \field{year}{2000}
   \endentry
+
+  \entry{savage1998models}{book}{}
+    \name{author}{1}{}{%
+      {{hash=SJE}{%
+         family={Savage},
+         familyi={S\bibinitperiod},
+         given={John\bibnamedelima E},
+         giveni={J\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Addison-Wesley Reading, MA}%
+    }
+    \strng{namehash}{SJE1}
+    \strng{fullhash}{SJE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{sortinit}{S}
+    \field{sortinithash}{S}
+    \field{title}{Models of computation}
+    \field{volume}{136}
+    \field{year}{1998}
+  \endentry
 \enddatalist
 \endinput
