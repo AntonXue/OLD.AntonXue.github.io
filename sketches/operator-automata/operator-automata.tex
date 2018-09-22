@@ -46,95 +46,95 @@ In this sketch we develop the basic theory and preliminary results.
 
 \begin{definition}[Monoid]
   A monoid \(\parens{M, \cdot, \one}\) consists of a set \(M\) for which:
-  \begin{itemize}
-    \item
+  \begin{enumerate}
+    \item[(a)]
       Monoid multiplication
       \(\type{\cdot}{M \times M}{M}\) is associative.
 
-    \item
+    \item[(b)]
       The element \(\one \in M\) is the unique identity of multiplication.
-  \end{itemize}
+  \end{enumerate}
 \end{definition}
 
 \begin{definition}[Semiring]
   A semiring \(\parens{R, +, \cdot, \zero, \one}\) consists of a set \(R\)
   for which:
-  \begin{itemize}
-    \item
+  \begin{enumerate}
+    \item[(a)]
       Semiring multiplication \(\type{\cdot}{R \times R}{R}\)
       distributes over semiring addition \(\type{+}{R \times R}{R}\).
 
-    \item
+    \item[(b)]
       \(\parens{R, +, \zero}\) is a commutative monoid.
 
-    \item
+    \item[(c)]
       \(\parens{R, \cdot, \one}\) is a monoid.
 
-    \item
+    \item[(d)]
       Multiplication by zero \(\zero\) annihilates \(R\).
-  \end{itemize}
+  \end{enumerate}
 \end{definition}
 
 \begin{definition}[Semimodule]
   For a semiring \(R\), a \(R\)-semimodule
   \(\parens{M, +, \times, \zero}\)
   is such that:
-  \begin{itemize}
-    \item
+  \begin{enumerate}
+    \item[(a)]
       \(\parens{M, +, \zero}\) is a commutative group.
 
-    \item
+    \item[(b)]
       Scalar multiplication
       \(\type{\cdot}{R \times M}{M}\) is a semiring action on \(M\).
 
-  \end{itemize}
+  \end{enumerate}
 \end{definition}
 
 \begin{definition}[Group]
   A group \(\parens{G, \cdot, \one}\) consists of a set \(G\) such that:
-  \begin{itemize}
-    \item
+  \begin{enumerate}
+    \item[(a)]
       Group multiplication \(\type{\cdot}{G \times G}{G}\) is associative.
 
-    \item
+    \item[(b)]
       \(\one\) is the identity under multiplication.
 
-    \item
+    \item[(c)]
       If \(a \in G\), then it has an inverse \(a^{-1} \in G\).
-  \end{itemize}
+  \end{enumerate}
 \end{definition}
 
 \begin{definition}[Field]
   A field \(\parens{K, +, \cdot, \zero, \one}\) is a set \(K\) such that:
-  \begin{itemize}
-    \item
+  \begin{enumerate}
+    \item[(a)]
       Field multiplication \(\type{\cdot}{K \times K}{K}\)
       distributes over field addition \(\type{+}{K \times K}{K}\).
 
-    \item
+    \item[(b)]
       \(\parens{K, +, \zero}\) is a commutative group.
 
-    \item
+    \item[(c)]
       \(\parens{K, \cdot, \one}\) is a commutative group.
 
-    \item
+    \item[(d)]
       Multiplication by zero \(\zero\) annihilates \(K\).
-  \end{itemize}
+  \end{enumerate}
 \end{definition}
 
 \begin{definition}[Linear Space]
   For a field \(K\),
   a \(K\)-linear space \(\parens{V, +, \cdot, \zero}\) over a field \(K\)
   is a set such that:
-  \begin{itemize}
-    \item
+  \begin{enumerate}
+    \item[(a)]
       \(\parens{V, +, \zero}\) is a commutative group.
 
-    \item
+    \item[(b)]
       Scalar multiplication
       \(\type{\cdot}{\K \times V}{V}\) is a field action on \(V\).
 
-  \end{itemize}
+  \end{enumerate}
 \end{definition}
 
 
@@ -163,20 +163,37 @@ In this sketch we develop the basic theory and preliminary results.
 \end{definition}
 
 
-\begin{definition}[Norm]
+\begin{definition}[Metric Space]
+  A metric space \(\parens{M, d}\) is a space \(M\) equipped with a
+  metric function \(\type{d}{M \times M}{\Rz}\) such that:
+  \begin{enumerate}
+    \item[(a)]
+      \(d\parens{x, y} = 0\) if and only if \(x = y\).
+
+    \item[(b)]
+      \(d\parens{x, y} = d\parens{y, x}\).
+
+    \item[(c)]
+      For all \(x, y, z \in M\),
+      \(d\parens{x, z} \leq d\parens{x, y} + d\parens{x, z}\).
+  \end{enumerate}
+\end{definition}
+
+
+\begin{definition}[Normed Space]
   A normed space \(\parens{V, \norm{\cdot}}\) is a \(K\)-linear space \(V\)
-  with a norm function \(\type{\norm{\cdot}}{V}{\Rz}\) such that:
-  \begin{itemize}
-    \item
+  equipped with a norm function \(\type{\norm{\cdot}}{V}{\Rz}\) such that:
+  \begin{enumerate}
+    \item[(a)]
       For all \(x, y \in V\), \(\norm{x + y} \leq \norm{x} + \norm{y}\).
 
-    \item
+    \item[(b)]
       For all \(a \in K\) and \(x \in V\),
-      \(\norm{ax} = \abs{a} \cdot \norm{v}\).
+      \(\norm{ax} = \abs{a} \cdot \norm{x}\).
 
-    \item
+    \item[(c)]
       For \(\zero \in V\), \(\norm{\zero} = 0\).
-  \end{itemize}
+  \end{enumerate}
 \end{definition}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -217,15 +234,13 @@ The objects of the space is then sets of strings over \(\Sigma\).
   The string space of \(\Sigma\) is a semiring
   \(\parens{2^{\Sigma^\star}, \cup, \cdot, \zero, \one}\)
   such that:
-  \begin{itemize}
-    \item
-      For any \(A \in 2^{\Sigma^\star}\), \(\abs{A} < \infty\).
-    \item
+  \begin{enumerate}
+    \item[(a)]
       The semiring addition is the set union
       \(\type{\cup}{2^{\Sigma^\star} \times
         2^{\Sigma^\star}}{2^{\Sigma^\star}}\).
 
-    \item
+    \item[(b)]
       The semiring multiplication is the string concatenation
       \(\type{\cdot}{2^{\Sigma^\star} \times
         2^{\Sigma^\star}}{2^{\Sigma^\star}}\)
@@ -234,7 +249,7 @@ The objects of the space is then sets of strings over \(\Sigma\).
         A \cdot B
           = \braces{a \cdot b \st a \in A, b \in B}
       \end{align*}
-  \end{itemize}
+  \end{enumerate}
 \end{definition}
 
 Here the string space is the power set of all strings generated
