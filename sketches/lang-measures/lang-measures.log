@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  24 SEP 2018 10:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  25 SEP 2018 00:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -558,19 +558,17 @@ LaTeX Font Info:    Try loading font information for U+stmry on input line 28.
 
 LaTeX Warning: No \author given.
 
-(./intro/intro.tex [1
+[1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-[2]) (./measures/measures.tex [3] [4] [5]) (./approx/approx.tex [6]
-(./approx/counting.tex [7] [8] [9]) (./approx/algorithm.tex)) [10] [11]
-(./lang-measures.aux)
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4] [5] [6]
+[7] [8] [9] [10] [11] [12] (./lang-measures.aux)
 Package logreq Info: Writing requests to 'lang-measures.run.xml'.
 \openout1 = `lang-measures.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 10936 strings out of 492648
- 178723 string characters out of 6132015
+ 10920 strings out of 492648
+ 178486 string characters out of 6132015
  549598 words of memory out of 5000000
  14678 multiletter control sequences out of 15000+600000
  16145 words of font info for 63 fonts, out of 8000000 for 9000
@@ -590,10 +588,10 @@ m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
 /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/s
 hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on lang-measures.pdf (11 pages, 195159 bytes).
+Output written on lang-measures.pdf (12 pages, 198443 bytes).
 PDF statistics:
- 100 PDF objects out of 1000 (max. 8388607)
- 71 compressed objects within 1 object stream
+ 103 PDF objects out of 1000 (max. 8388607)
+ 73 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
