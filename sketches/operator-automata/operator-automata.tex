@@ -478,9 +478,10 @@ measures are able to define a metric.
   Let
   \(\parens{\Sigma^\star, \sigma\parens{\Sigma^\star}, \lambda}\)
   be a string measure space.
-  The string space metric function
+  The string metric space \(\parens{\powset{\Sigma^\star}, \zeta}\) is
+  a metric space with a metric function
   \(\type{\zeta}{\powset{\Sigma^\star} \times \powset{\Sigma^\star}}{\Rz}\)
-  is defined as:
+  defined as:
   \begin{align*}
     \zeta \parens{A, B}
       = \lambda\parens{A \triangle B}
@@ -495,12 +496,39 @@ measures are able to define a metric.
   \red{descriptive text}
 \end{proof}
 
+Recall that although we write \(\powset{\Sigma^\star}\) here,
+they are synonymous with \(R\).
 Having defined a metric on string spaces,
-we are interested in extending the definition to more
-general \(n\)-string spaces.
-General product metrics can be defined with respect to the
-\(n\)-dimensional Euclidean norm,
-\red{but we possibly want something more custom}.
+we are interested in examining how we may compare two NFAs.
+It is highly possible that two NFAs are isomorphic up to permutation,
+which we address here:
+\begin{definition}[State Permutation]
+  For some NFA \(A = \parens{\Sigma, Q, \delta, S, F}\),
+  a state permutation is a bijection \(\type{\pi}{Q}{Q}\)
+  that remaps the states of \(A\).
+  Write \(\pi_{Q}\parens{A}\) to denote the permuted states of \(A\),
+  and the set of state permutations as \(\Pi_Q\).
+\end{definition}
+
+With state permutations,
+we consider the case when two NFAs are the same size:
+\begin{definition}[NFA Metric]
+  Let \(A = \parens{\Sigma, Q_1, \delta_1, S_1, F_1}\)
+  and \(B = \parens{\Sigma, Q_2, \delta_2, S_2, F_2}\)
+  be NFAs with \(n = \abs{Q_1} = \abs{Q_2}\).
+  and \(\parens{\powset{\Sigma^\star}, \zeta}\) a string metric space.
+  Write \(A_i\) and \(B_i\) to denote the union of all entries
+  of the \(i\)th column of the matrix representation of \(A\) and \(B\).
+  Then define the NFA metric
+  \begin{align*}
+    d \parens{A, B}
+      = \inf_{\pi_{Q_2} \in \Pi_{Q_2}} \sup_{i}
+          \zeta\parens{A_{i}, \pi\parens{B}_{i}}
+  \end{align*}
+\end{definition}
+
+
+
 
 
 \printbibliography
