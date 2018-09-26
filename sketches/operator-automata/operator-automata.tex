@@ -499,37 +499,71 @@ measures are able to define a metric.
 Recall that although we write \(\powset{\Sigma^\star}\) here,
 they are synonymous with \(R\).
 Having defined a metric on string spaces,
-we are interested in examining how we may compare two NFAs.
-It is highly possible that two NFAs are isomorphic up to permutation,
-which we address here:
-\begin{definition}[State Permutation]
-  For some NFA \(A = \parens{\Sigma, Q, \delta, S, F}\),
-  a state permutation is a bijection \(\type{\pi}{Q}{Q}\)
-  that remaps the states of \(A\).
-  Write \(\pi_{Q}\parens{A}\) to denote the permuted states of \(A\),
-  and the set of state permutations as \(\Pi_Q\).
-\end{definition}
+we are interested in examining how we may compare two linear operators
+between string spaces.
+In other words, for two operators
+\(\type{A_1, A_2}{R^n}{R^m}\), it is possible that
+the two are isomorphic up to some permutation.
+Note that we want to consider the special case of \(n = m\) first,
+for which theories of permutation matrix related to
+graph isomorphism are well-developed.
+After all, we are focused on NFAs here,
+which have nice an straightforward graph representations.
 
-With state permutations,
-we consider the case when two NFAs are the same size:
-\begin{definition}[NFA Metric]
-  Let \(A = \parens{\Sigma, Q_1, \delta_1, S_1, F_1}\)
-  and \(B = \parens{\Sigma, Q_2, \delta_2, S_2, F_2}\)
-  be NFAs with \(n = \abs{Q_1} = \abs{Q_2}\).
-  and \(\parens{\powset{\Sigma^\star}, \zeta}\) a string metric space.
-  Write \(A_i\) and \(B_i\) to denote the union of all entries
-  of the \(i\)th column of the matrix representation of \(A\) and \(B\).
-  Then define the NFA metric
+\begin{definition}[Square Operator Permutation]
+  Let \(P_n \subseteq M_{n \times n}\parens{R}\)
+  denote the family of \(n\)-dimensional permutation matrices.
+  Two linear operators
+  \(\type{A_1, A_2}{R^n}{R^n}\) are isomorphic if
+  there is a permutation matrix
+  \(P \in P_n\) such that:
   \begin{align*}
-    d \parens{A, B}
-      = \inf_{\pi_{Q_2} \in \Pi_{Q_2}} \sup_{i}
-          \zeta\parens{A_{i}, \pi\parens{B}_{i}}
+    A_1 = P A_2 \transp{P}
   \end{align*}
 \end{definition}
 
+Permutation matrices give us the ability to talk about
+isomorphisms up to permutation.
+However they lack the ability to about how similar two operators might be.
+To do this, for two operators of the same dimensions,
+we may be interested in seeing how far the image of the operators
+in each dimension differ.
+Without permutation matrices
+for two linear operators \(A, B\), we may try something like this:
+\begin{align*}
+  \sup_{1 \leq j \leq n}
+    \zeta\parens{\bigcup_{i = 1}^{n} A_{i, j},
+                 \bigcup_{i = 1}^n B_{i, j}}
+\end{align*}
+In other words, we union up each of the columns of two linear
+operators \(A\) and \(B\),
+and take value of the two column indices that yield the maximal distance
+with respect to the \(\zeta\) string space metric function.
+With permutation matrices, we may try something like this:
+\begin{align*}
+  \inf_{P \in P_n} \sup_{1 \leq j \leq n}
+    \zeta\parens{\bigcup_{i = 1}^{n} A_{i, j}
+                 \bigcup_{i = 1}^{n} \parens{P B \transp{P}}_{i, j}}
+\end{align*}
+
+This is fairly straightforward, and more or less just amounts to saying
+to take the best permutation of one of the operators with respect
+to the other, and then take the metric distance with respect to
+\(\zeta\).
+However, there are still several concerns here.
+First, we need a way to generalize this to cases where
+\(A\) and \(B\) are not the same dimension.
+Second, we need to make sure that this still indeed defines a metric.
+
+
+\subsection{Examples}
 
 
 
+
+
+
+\pagebreak
 
 \printbibliography
 
