@@ -444,7 +444,63 @@ every entry of the transition matrix will be a set of singleton strings.
 \end{example}
 
 
+\section{Automata Metrics}
+Having established a method for embedding NFA in linear spaces,
+our attention now turns to comparing them.
+In short, we are interested in finding how similar the strings
+recognized by two NFAs are.
 
+\subsection{Measures and Metrics}
+We leverage previous work in defining a measure,
+and only provide some definitions here.
+We borrow heavily from previous work in ~\cite{xue2018langmeasures}.
+
+\begin{definition}[String Space Measure]
+  Let
+  \(\parens{\Sigma^\star, \sigma\parens{\Sigma^\star}}\)
+  be a measurable space defined on the strings \(\Sigma^\star\).
+  If \(\type{\lambda}{\sigma\parens{\Sigma^\star}}{\Rz}\) is a measure,
+  then we call it a string space measure,
+  and the measure space
+  \(\parens{\Sigma^\star, \sigma\parens{\Sigma^\star}, \lambda}\)
+  a string measure space.
+\end{definition}
+
+The elements of a string measure space consists of strings finite,
+while the \(\sigma\)-algebra generated consists of sets of finite strings.
+A measure \(\type{\lambda}{\sigma\parens{\Sigma^\star}}{\Rz}\) is also
+equipped, and may be defined.
+
+We have also shown previously~\cite{xue2018langmeasures} that
+measures are able to define a metric.
+
+\begin{definition}[String Space Metric]
+  Let
+  \(\parens{\Sigma^\star, \sigma\parens{\Sigma^\star}, \lambda}\)
+  be a string measure space.
+  The string space metric function
+  \(\type{\zeta}{\powset{\Sigma^\star} \times \powset{\Sigma^\star}}{\Rz}\)
+  is defined as:
+  \begin{align*}
+    \zeta \parens{A, B}
+      = \lambda\parens{A \triangle B}
+  \end{align*}
+\end{definition}
+\begin{theorem}
+  The string space metric function
+  \(\type{\zeta}{\powset{\Sigma^\star} \times \powset{\Sigma^\star}}{\Rz}\)
+  is a metric function.
+\end{theorem}
+\begin{proof}
+  \red{descriptive text}
+\end{proof}
+
+Having defined a metric on string spaces,
+we are interested in extending the definition to more
+general \(n\)-string spaces.
+General product metrics can be defined with respect to the
+\(n\)-dimensional Euclidean norm,
+\red{but we possibly want something more custom}.
 
 
 \printbibliography
