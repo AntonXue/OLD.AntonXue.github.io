@@ -510,7 +510,7 @@ graph isomorphism are well-developed.
 After all, we are focused on NFAs here,
 which have nice an straightforward graph representations.
 
-\begin{definition}[Square Operator Permutation]
+\begin{theorem}[Square Operator Permutation]
   Let \(P_n \subseteq M_{n \times n}\parens{R}\)
   denote the family of \(n\)-dimensional permutation matrices.
   Two linear operators
@@ -520,7 +520,10 @@ which have nice an straightforward graph representations.
   \begin{align*}
     A_1 = P A_2 \transp{P}
   \end{align*}
-\end{definition}
+\end{theorem}
+\begin{proof}
+  \red{descriptive text}
+\end{proof}
 
 Permutation matrices give us the ability to talk about
 isomorphisms up to permutation.
@@ -539,21 +542,78 @@ In other words, we union up each of the columns of two linear
 operators \(A\) and \(B\),
 and take value of the two column indices that yield the maximal distance
 with respect to the \(\zeta\) string space metric function.
+Note that taking the sup (or similar operations) on finite product
+metric spaces still yields a metric.
 With permutation matrices, we may try something like this:
 \begin{align*}
   \inf_{P \in P_n} \sup_{1 \leq j \leq n}
     \zeta\parens{\bigcup_{i = 1}^{n} A_{i, j}
                  \bigcup_{i = 1}^{n} \parens{P B \transp{P}}_{i, j}}
 \end{align*}
-
 This is fairly straightforward, and more or less just amounts to saying
 to take the best permutation of one of the operators with respect
 to the other, and then take the metric distance with respect to
 \(\zeta\).
 However, there are still several concerns here.
-First, we need a way to generalize this to cases where
+First, we need to generalize this to cases where
 \(A\) and \(B\) are not the same dimension.
-Second, we need to make sure that this still indeed defines a metric.
+In addition, we are not completely sure if taking the infimum of
+\(P \in P_n\) retains a metric structure,
+which means that such an operation may need to be defined with respect
+to a fixed permutation matrix.
+
+We first consider how square operators of different dimensions may be compared.
+
+\begin{definition}[Linear Operator Dimension]
+  Let \(\type{A}{R^n}{R^n}\) be a square linear string space operator.
+  For \(m > n\),
+  the dimension extension of \(A\)
+  is a square linear operator \(\type{\overline{A}}{R^m}{R^m}\)
+  whose matrix representation has form:
+  \begin{align*}
+    \overline{A} = \begin{bmatrix} A & \zero \\ \zero & \zero \end{bmatrix}
+  \end{align*}
+\end{definition}
+
+Although the newly appended dimensions of operator action
+effectively have trivial action, this still acts as an embedding into
+a higher dimension.
+With this, we then attempt to define a metric between
+two square linear operators of different dimensions:
+\begin{definition}[Non-Uniform Dimension Square Linear Operator Metric]
+  For two square linear operators
+  \(\type{A}{R^n}{R^n}\) and \(\type{B}{R^m}{R^m}\) where \(m > n\),
+  fix the permutation matrix \(P \in P_m\),
+  define the operator metric
+  \(\type{Z_{p, n, m}}
+      {\parens{R^n \to R^n} \times \parens{R^m \to R^m}}{\Rz}\) as:
+  \begin{align*}
+    Z_{p, n, m}\parens{A, B} =
+      \sup_{1 \leq j \leq m}
+        \zeta\parens{\bigcup_{i = 1}^{m} \overline{A}_{i, j},
+                     \bigcup_{i = 1}^{m} \parens{PB\transp{T}}_{i, j}}
+  \end{align*}
+\end{definition}
+In short, when given two square linear operators
+\(A\) and \(B\) where \(A\)
+is a smaller dimension than \(B\), the goal of the metric function \(Z\)
+is to first stretch \(A\) into \(\overline{A}\)
+to match the dimension of \(B\),
+and then apply the supremum coordinate-wise metric
+on \(\overline{A}\) and \(B\).
+
+\begin{theorem}
+  The function
+  \(\type{Z_{p, n, m}}
+      {\parens{R^n \to R^n} \times \parens{R^m \to R^m}}{\Rz}\) 
+  defined above is a metric.
+\end{theorem}
+\begin{proof}
+  Once the permutation matrix \(P \in P_m\) is fixed, this reduces to
+  applying the supremum over a finite product of metric spaces.
+\end{proof}
+
+The challenge, of course, is finding the correct permutation matrix \(P\).
 
 
 \subsection{Examples}
