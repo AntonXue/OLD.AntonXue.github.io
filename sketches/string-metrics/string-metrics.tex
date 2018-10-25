@@ -1,0 +1,208 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=5em]{geometry} % 1 cm = 2.84528 em
+\usepackage[backend=bibtex]{biblatex}
+\bibliography{sources}
+% \nocite{*}
+
+\usepackage{lipsum}
+
+% Paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% Includes
+\input{antonxue-lib.tex}
+\input{str-lib.tex}
+
+
+% Author
+\title{String Set Metrics}
+% \author{Anton Xue}
+% \date{\today}
+\date{}
+
+% Document
+\begin{document}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+In this sketch we are interested in studying metric spaces between
+sets of strings.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Preliminaries}
+
+\begin{definition}[Metric Space]
+  A metric space \(\parens{M, d}\) is a set \(M\) along with a distance
+  function \(\type{d}{M \times M}{\Rz}\) such that
+  for any \(x, y, z \in M\):
+  \begin{enumerate}
+    \item[(1)]
+      \(d \parens{x, y} \geq 0\)
+
+    \item[(2)]
+      \(d\parens{x, y} = 0 \iff x = y\)
+
+    \item[(3)]
+      \(d\parens{x, y} = d\parens{y, x}\)
+
+    \item[(4)]
+      \(d\parens{x, z} \leq d\parens{x, y} + d\parens{y, z}\)
+  \end{enumerate}
+\end{definition}
+
+\begin{definition}[Alphabet]
+  An alphabet \(\Sigma\) is a finite set of unique symbols.
+\end{definition}
+
+\begin{definition}[String]
+  Given an alphabet \(\Sigma\),
+  a string \(\sigma\) is a finite sequence of symbols from \(\Sigma\).
+\end{definition}
+
+\begin{definition}[Alphabet Strings]
+  Let \(\Sigma^\star\) denote the set of all possible strings from \(\Sigma\).
+\end{definition}
+
+\begin{definition}[String Metric]
+  A function \(\type{\delta}{\Sigma^\star \times \Sigma^\star}{\Rz}\)
+  that satisfies metric space axioms.
+\end{definition}
+
+
+\section{String Set Metric Spaces}
+
+\subsection{Merging Sets}
+We first consider the following problem.
+Given a single string \(\sigma\), and a set of string \(A\),
+how might we calculate a distance from \(\sigma\) to \(A\)?
+Let \(\delta\) be a string metric, then one idea is as follows:
+\begin{align*}
+  d\parens{\sigma, A} = \inf \braces{\delta \parens{\sigma, a} \st a \in A}
+\end{align*}
+The idea here is that we take the string in \(A\) that most closely
+resembles \(\sigma\) with respect to the string metric \(\delta\),
+and consider that the distance between \(\sigma\) and \(A\).
+
+We can take this idea further.
+Suppose we have two sets of strings \(A\) and \(B\).
+Let us define the merge cost of \(A\) into \(B\) as follows
+with the
+\(\type{\gg}{\powset{\Sigma^\star} \times \powset{\Sigma^\star}}{\Rz}\)
+function:
+\begin{align*}
+  A \gg B = \sum_{a \in A} \inf \braces{\delta\parens{a, b} \st b \in B}
+\end{align*}
+Again, for each \(a \in A\), we find their individual merge cost into \(B\).
+Of course one additional possibility is weighting strings by length
+instead of just purely summing them.
+But most importantly, it sure feels great to make up notation!
+
+\subsection{Bi-Directional Merging}
+Let's try the following:
+\begin{definition}[Bidirectional Merge Cost]
+  For set of strings \(A, B \subseteq \powset{\Sigma^\star}\),
+  define the bi-directional merge cost
+  \(\type{M}{\powset{\Sigma^\star} \times \powset{\Sigma^\star}}{\Rz}\)
+  as follows:
+  \begin{align*}
+    M\parens{A, B} = \parens{A \gg B} + \parens{B \gg A}
+  \end{align*}
+\end{definition}
+For now we are only concerned about when \(A\) and \(B\) are both finite sets.
+Later we can try to use probability distribution style weighting
+to account for when \(A\) and \(B\) are infinite.
+Nevertheless:
+
+\begin{theorem}
+  The bi-directional merge cost \(M\) is a metric.
+\end{theorem}
+\begin{proof}
+  We prove only the triangle inequality.
+  Consider some \(A, B, C \subseteq \powset{\Sigma^\star}\) and:
+  \begin{align*}
+    M\parens{A, C}
+      &= \underbrace{
+          \sum_{a \in A} \inf \braces{\delta\parens{a, c} \st c \in c}
+        }_{S_{A, C}} +
+        \underbrace{
+          \sum_{c \in C} \inf \braces{\delta\parens{c, a} \st a \in A}
+        }_{S_{C, A}} \\
+    M\parens{A, B}
+      &=
+        \underbrace{
+          \sum_{a \in A} \inf \braces{\delta\parens{a, b} \st b \in B}
+        }_{S_{A, B}} +
+        \underbrace{
+          \sum_{b \in B} \inf \braces{\delta\parens{b, a} \st a \in A}
+        }_{S_{B, A}} \\
+    M\parens{B, C}
+      &=
+        \underbrace{
+          \sum_{b \in B} \inf \braces{\delta\parens{b, c} \st c \in C}
+        }_{S_{B, C}} +
+        \underbrace{
+          \sum_{c \in C} \inf \braces{\delta\parens{c, b} \st b \in B}
+        }_{S_{C, B}}
+  \end{align*}
+  Consider some pair \(\parens{a, c}\) used in the sum \(S_{A, C}\).
+  Observe that there then exists some \(b_1\) and \(b_2\) such that
+  \(\parens{a, b_1}\) appears in the sum \(S_{A, B}\) and
+  \(\parens{c, b_2}\) appears in the sum \(S_{C, B}\).
+  Since \(\delta\) is a string metric, this naturally means that:
+  \begin{align*}
+    \delta\parens{a, c} \leq
+      \delta\parens{a, b_1} + \delta\parens{b_1, b_2} + \delta\parens{b_2, c}
+  \end{align*}
+  Furthermore, we can uniquely identify
+  the pairs \(\parens{a, b_1}\) and \(\parens{c, b_2}\) with
+  \(\parens{a, c}\),
+  since both \(a\) and \(c\) are iterated on in \(S_{A, B}\) and \(S_{C, B}\)
+  respectively.
+  Therefore, every such pair in \(S_{A, C}\) can be uniquely identified
+  with two such sets in \(S_{A, B}\) and \(S_{B, C}\).
+  The consequence is then:
+  \begin{align*}
+    \underbrace{
+      \sum_{a \in A} \inf\braces{\delta\parens{a, c} \st c \in C}
+    }_{S_{A, C}}
+      \leq
+      \underbrace{
+        \sum_{a \in A} \inf\braces{\delta\parens{a, b} \st b \in B}
+      }_{S_{A, B}} +
+      \underbrace{
+        \sum_{c \in A} \inf\braces{\delta\parens{c, b} \st b \in B}
+      }_{S_{C, B}}
+  \end{align*}
+  We mirror the argument for \(S_{C, A}\),
+  to get another inequality:
+  \begin{align*}
+    \underbrace{
+      \sum_{c \in C} \inf\braces{\delta\parens{c, a} \st a \in A}
+    }_{S_{C, A}}
+      \leq
+      \underbrace{
+        \sum_{c \in C} \inf\braces{\delta\parens{c, b} \st b \in B}
+      }_{S_{C, B}} +
+      \underbrace{
+        \sum_{a \in A} \inf\braces{\delta\parens{a, b} \st a \in A}
+      }_{S_{A, B}}
+  \end{align*}
+  Collectively this results in the triangle inequality:
+  \begin{align*}
+    M\parens{A, C} \leq M\parens{A, B} + M\parens{B, C}
+  \end{align*}
+  
+\end{proof}
+
+
+
+\pagebreak
+
+\printbibliography
+
+\end{document}
+
