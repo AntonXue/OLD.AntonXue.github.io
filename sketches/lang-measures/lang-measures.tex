@@ -18,7 +18,7 @@
 
 
 % Author
-\title{Measures on Languages}
+\title{Slicing-Based Measures on Formal Languages}
 % \author{Anton Xue}
 % \date{\today}
 \date{}
@@ -28,777 +28,188 @@
 \maketitle
 
 \section{Introduction}
+In this sketch we study
+measure spaces on formal languages and a few consequences.
 
-\subsection{Notation}
+\section{Preliminaries}
 
-Let \(\Sigma\) denote a non-empty, countable alphabet.
-Unless otherwise specified, assume \(\abs{\Sigma} < \infty\).
-Write \(\epsilon\) to mean the empty string.
-
-Let \(\Sigma^\star\) be the set of all finite strings from \(\Sigma\).
-Write strings as \(w\) or \(s\), whichever happens to be more convenient.
-
-Let \(L\) denote a language, implicitly over \(\Sigma\).
-In other words, \(L \subseteq \Sigma^\star\).
-
-We treat the empty language \(\emptyset\) as distinct from
-the language with a single empty string \(\braces{\epsilon}\).
-
-Let \(\mcal{L}\) be a family of languages.
-
-Write deterministic finite automatons shorthand as DFA,
-and non-deterministic finite automatons shorthand as NFA.
-
-Write regular expressions shorthand as regex.
-
-If \(X\) is a set, then \(\powset{X}\) is the powerset of \(X\).
-
-Unless otherwise noted, vectors are implicitly in column format.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Regular Expressions}
-A regular expression over an alphabet \(\Sigma\) describes regular
-languages over \(\Sigma\).
-Regular expressions are inductively generated,
-and we borrow heavily from Savage~\cite{savage1998models}.
-
-\begin{definition}[Regular Expression]
-  A regular expression over the finite alphabet \(\Sigma\)
-  is defined inductively:
-  \begin{enumerate}
-    \item[(1)]
-      The empty language \(\emptyset\) is a regular expression.
-
-    \item[(2)]
-      The empty string \(\epsilon\) is a regular expression denoting
-      \(\braces{\epsilon}\).
-
-    \item[(3)]
-      For each \(a \in \Sigma\),
-      the standalone \(a\) is a regular expression
-      denoting the singleton set \(\braces{a}\).
-
-    \item[(4)]
-      If \(r\) and \(s\) are regular expressions, then so are
-      \(rs\) (string concat), \(r + s\) (string choice),
-      and \(r^\star\) (string repeat).
-  \end{enumerate}
-\end{definition}
-
-\begin{theorem}[Regular Expression Axioms]
-Regular expressions satisfy the following axioms:
+\subsection{Measure Theory}
+Let \(X\) be a set.
+A \(\sigma\)-algebra \(\Sigma \subseteq \powset{X}\) is a set that
+satisfies the following:
 \begin{enumerate}
-  \item[(1)]
-    \(r \emptyset = \emptyset r = \emptyset\)
+  \item[(a)]
+    \(\emptyset \in \Sigma\) and \(X \in \Sigma\).
 
-  \item[(2)]
-    \(r \epsilon = \epsilon r = r\)
+  \item[(b)]
+    If \(A \in \Sigma\), then \(X \setminus A \in \Sigma\).
 
-  \item[(3)]
-    \(r + \emptyset = \emptyset + r = r\)
-
-  \item[(4)]
-    \(r + r = r\)
-
-  \item[(5)]
-    \(r + s = s + r\)
-
-  \item[(6)]
-    \(r\parens{s + t} = rs + rt\)
-
-  \item[(7)]
-    \(\parens{r + s}t = rt + st\)
-
-  \item[(8)]
-    \(r(st) = (rs)t\)
-
-  \item[(9)]
-    \(\emptyset^\star = \epsilon\)
-
-  \item[(10)]
-    \(\epsilon^\star = \epsilon\)
-
-  \item[(11)]
-    \(\parens{\epsilon + r}^+ = r^\star\)
-
-  \item[(12)]
-    \(\parens{\epsilon + r}^\star = r^\star\)
-
-  \item[(13)]
-    \(r^\star \parens{\epsilon + r} = \parens{\epsilon + r}r^\star = r^\star\)
-
-  \item[(14)]
-    \(r^\star s + s = r^\star s\)
-
-  \item[(15)]
-    \(r\parens{sr}^\star = \parens{rs}^\star r\)
-
-  \item[(16)]
-    \(\parens{r + s}^\star = \parens{r^\star s}^\star r^\star = \parens{s^\star r}^\star s^\star\)
-
-\end{enumerate}
-
-\end{theorem}
-
-Outside of the Kleene star \(\star\) operation, axioms (1 - 8)
-effectively state that regular expressions are an
-idempotent semiring with additive constant \(\emptyset\) and multiplicative
-constant \(\epsilon\)~\cite{infoandcomp-kozen1994kleenealg}.
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Representation of Regular Languages}
-There are several ways to represent regular languages,
-many of which can be found in literature~\cite{savage1998models}.
-We work with whatever is convenient for the problem at hand.
-For a regular language \(L\) over an alphabet \(\Sigma\),
-there are a few notable ones:
-
-
-\begin{enumerate}
-  \item[(1)]
-    \textbf{Sets}:
-    sometimes if the language is finite or has a simple structure,
-    a complete set presentation may be convenient.
-
-  \item[(2)]
-    \textbf{Regular expressions}:
-    compact representation,
-    also commonly used in practice when trying to do string matching.
-
-  \item[(3)]
-    \textbf{Finite state machines}:
-    Savage~\cite{savage1998models} gives a fairly standard representation.
-
-    \begin{definition}[DFA]
-      A DFA \(A\) is a five-tuple \(A = \parens{\Sigma, Q, \delta, q_0, F}\),
-      where \(\Sigma\) is the alphabet, \(Q\) is the finite set of states,
-      \(\type{\delta}{Q \times \Sigma}{Q}\) is the transition function,
-      \(q_0\) is the initial state, and \(F\) is the set of final states.
-    \end{definition}
-
-    For convenience, we might also write \(q_0\) as \(q_1\),
-    especially when talking about matrix indices.
-    We'll try to remember to make note of when this rewriting is done.
-
-    \begin{definition}[NFA]
-      A NFA \(A\) is identically defined except for the
-      transition function, which is now
-      \(\type{\delta}{Q \times \Sigma}{\powset{Q}}\).
-      Each transition non-deterministically picks one state from the set.
-    \end{definition}
-
-  \item[(4)]
-    \textbf{Matrices}:
-    transition matrices can be constructed from both DFAs and NFAs.
-    First, take \(Q = \braces{q_1, q_2, \ldots, q_n}\).
-    There are two primary possibilities:
-
-    \begin{enumerate}
-      \item[(a)]
-        A matrix \(M_A\) corresponding to an automata \(A\),
-        with \(q_1\) the initial state.
-        Write \(+\braces{\ldots}\) do denote
-        the summation regular expression over a set.
-        We construct the matrix as follows:
-        \begin{align*}
-          M_{A, i, j} =
-            + \braces{a \st \parens{\parens{q_i, a}, q_j} \in \delta}
-        \end{align*}
-        Here \(a\) is any character of \(\Sigma\).
-        In short, each entry of the matrix \(M_{A, i, j}\)
-        is the \(+\) of all the characters
-        that permit the transition from \(q_i\) to \(q_j\).
-
-        If we take \(v = (\parens{1, 0, \ldots}\) as an \(n\)-dimensional
-        vector, where each coordinate \(i\) represents state \(q_i\).
-        Suppose that \(u\) is an \(n\)-dimensional vector indicating
-        the final states,
-        where \(u_i = 1_{q_i \in F}\), then:
-        \begin{align*}
-          \transp{v} M_A ^k u
-        \end{align*}
-        Will corresponds to the regular expression of the sub-language
-        of strings of precisely length \(k\).
-
-      \item[(b)]
-        Alternatively we may see regular expressions as a
-        set of matrices, each corresponding to a letter of \(\Sigma\).
-        In essence, for each \(a \in \Sigma\), the associated
-        matrix \(M_a\) has form:
-        \(M_{a, i, j} = 1_{\parens{\parens{q_i, \cdot}, q_j} \in \delta}\),
-        and indicates an adjacency transition matrix.
-
-        The matrix described earlier can be recovered by observing that:
-        \begin{align*}
-          M_{A} = \sum_{a \in \Sigma} a M_{a}
-        \end{align*}
-
-    \end{enumerate}
-
-\end{enumerate}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Measures on Languages}
-Given a family of languages \(\mcal{L}\),
-let \(\sigma\parens{\mcal{L}}\) be the \(\sigma\)-algebra generated on
-\(\mcal{L}\) satisfying the following:
-
-\begin{enumerate}
-  \item[(1)]
+  \item[(c)]
+    If \(\parens{A_n} \subseteq \Sigma\) is a countable collection of sets,
+    then:
     \begin{align*}
-      \emptyset, \Sigma^\star \in \sigma\parens{\mcal{L}}
-    \end{align*}
-
-  \item[(2)]
-    \begin{align*}
-      L \in \sigma\parens{\mcal{L}}
-        \implies
-          L^c = \Sigma^\star \setminus L \in \sigma\parens{\mcal{L}}
-    \end{align*}
-
-  \item[(3)]
-    \begin{align*}
-      L_0, L_1, \ldots \in \sigma\parens{\mcal{L}}
-        \implies
-          \bigcup_{k = 0}^{\infty} L_k \in \sigma\parens{\mcal{L}}
+      \bigcup_{n = 1}^{\infty} A_n \in \Sigma
     \end{align*}
 
 \end{enumerate}
+The pairing \(\parens{X, \Sigma}\) is called a measureable space.
 
-Then \(\parens{\mcal{L}, \sigma\parens{\mcal{L}}}\) is a measurable space.
-
-\begin{remark}
-If \(\mcal{L}\) happened to be a family of regular languages,
-there is no guarantee that \(\sigma\parens{\mcal{L}}\)
-will still be a family of regular languages.
-A counter example is the following:
-\begin{align*}
-  L_0 = \braces{\varepsilon}
-  \qquad
-  L_1 = \braces{ab}
-  \qquad
-  L_2 = \braces{aabb}
-  \qquad
-  \ldots
-  \qquad
-  L_k = \braces{a^k b^k}
-  \qquad
-  \ldots
-\end{align*}
-But taking the countable union yields:
-\begin{align*}
-  \bigcup_{k = 0}^{\infty} L_k = \braces{a^k b^k \st k \in \Zz}
-\end{align*}
-Which is not regular.
-\end{remark}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Measure 1: From Non-negative Integers}
-We first consider the non-negative integers \(\Zz\).
-Let \(\eta\) be a \(\sigma\)-finite measure on \(\Zz\).
-The \(\sigma\)-finite conditions ensures that no strange singularities
-occur for any integers under consideration.
-We may later restrict \(\eta\) to be finite if necessary,
-if we want nicer conditions.
-
-Observe that, by abuse of notation:
-\begin{align*}
-  \Sigma^\star =
-    \bigcup_{k = 0}^{\infty} \Sigma^k
-\end{align*}
-In English: \(\Sigma^\star\) is the union of the set (language) of finite
-strings of length \(k\), denoted \(\Sigma^k\).
-
-Because we assumed \(\abs{\Sigma} < \infty\), this also means that:
-\(\abs{\Sigma^k} = \abs{\Sigma}^k\).
-
-Consider now some language \(L \in \sigma\parens{\mcal{L}}\).
-Also decompose \(L\) into disjoint sub-languages by length as follows,
-with convenient subscripting:
-\begin{align*}
-  L = \bigcup_{k = 0}^{\infty} L_k
-\end{align*}
-Of course, \(L_k \subseteq \Sigma^k\).
-
-Because we are able to precisely calculate \(\abs{\Sigma^k}\),
-one ``natural'' way of defining a measure \(\lambda_{\eta}\) on
-the measurable space \(\parens{\mcal{L}, \sigma\parens{\mcal{L}}}\)
-is as follows:
-\begin{align*}
-  \lambda_{\eta} \parens{L}
-    = \sum_{k = 0}^{\infty} \lambda_{\eta} \parens{L_k}
-    = \sum_{k = 0}^{\infty} \frac{\abs{L_k}}{\abs{\Sigma^k}} \eta\parens{k}
-\end{align*}
-
-We claim that
-\(\parens{\mcal{L}, \sigma\parens{\mcal{L}}, \lambda_{\eta}}\)
-forms a measure space.
-
-\begin{theorem}
-  \(\lambda_{\eta}\) is a measure.
-\end{theorem}
-\begin{proof}
-  We check (1) measure under empty set is zero and (2) countable additivity,
-  which will satisfy the requirements of a measure.
-  \begin{enumerate}
-    \item[(1)]
-      Observe that \(\lambda_{\eta} \parens{\emptyset} = 0\) because the sum
-      will be trivial.
-
-    \item[(2)]
-      Let \(L_0, L_1, L_2, \ldots\) be a countable collection of pairwise
-      disjoint languages.
-      We decompose each of these languages into a countably indexed set,
-      where \(L_{j, k}\) is the \(j\)th language's sub-language
-      that only contains strings of length \(k\).
-      In other words:
-      \begin{align*}
-        L_j = \bigcup_{k = 0}^{\infty} L_{j, k}
-      \end{align*}
-      Observe that by (de)-construction, for any fixed \(j\) and for all
-      \(k_1 \neq k_2\), we have \(L_{j, k_1}\) and \(L_{j, k_2}\) are
-      pairwise disjoint.
-
-      However, we have a stronger condition because each \(L_j\) is
-      assumed to be pairwise disjoint.
-      Thus, for all \(j_1 \neq j_2\) and \(k_1 \neq k_2\),
-      \(L_{j_1, k_1}\) and \(L_{j_2, k_2}\) are disjoint.
-      Then:
-      \begin{align*}
-        \lambda_{\eta} \parens{\bigcup_{j = 0}^{\infty} L_j}
-          &= \lambda_{\eta} \parens{\bigcup_{j = 0}^{\infty}
-                            \bigcup_{k = 0}^{\infty} L_{j, k}} \\
-          &= \sum_{j = 0}^{\infty}
-              \lambda_{\eta} \parens{\bigcup_{k = 0}^{\infty} L_{j, k}} \\
-          &= \sum_{j = 0}^{\infty}
-              \sum_{k = 0}^{\infty}
-              \frac{\abs{L_{j, k}}}{\abs{\Sigma^k}}
-                \eta\parens{k} \\
-          &= \sum_{j = 0}^{\infty} \lambda_{\eta} \parens{L_j}
-      \end{align*}
-  \end{enumerate}
-  This shows that \(\lambda_{\eta} \) is indeed a measure.
-\end{proof}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Measure 2: Extending the Above}
-We may generalize \(\lambda_{\eta}\) as defined before slightly.
-Recall the definition, where
-\(L_0, L_1, L_2, \ldots\) again defines a partition of \(L\) by size:
-\begin{align*}
-  \lambda_{\eta}\parens{L}
-    = \sum_{k = 0}^{\infty} \frac{\abs{L_k}}{\abs{\Sigma^k}} \eta\parens{k}
-\end{align*}
-Instead of dividing out by \(\abs{\Sigma^k}\) at each iteration of the sum,
-we may take a countable series of measures
-\(\nu = \braces{\nu_0, \nu_1, \nu_2, \ldots}\),
-where each \(\nu_k\) has support on precisely \(\Sigma^k\).
-Then, define \(\lambda_{\eta, \nu}\) as follows,
-taking again \(L_0, L_1, L_2, \ldots\) the size partition of \(L\):
-\begin{align*}
-  \lambda_{\eta, \nu}
-    = \sum_{k = 0}^{\infty} \nu_k \parens{L_k} \eta\parens{k}
-\end{align*}
-Often it's probably convenient to just assume each \(\nu_k \in N\)
-to be the uniform distribution probability measure,
-which gets us \(\lambda_{\eta}\) as defined above.
-
-\begin{theorem}
-  \(\lambda_{\eta, \nu}\) is a measure.
-\end{theorem}
-\begin{proof}
-  We take a similar approach as before, and show
-  (1) measure under empty set is zero and
-  (2) countable additivity,
-  which will show that \(\lambda_{\eta, \nu}\) is indeed a measure.
-
-  \begin{enumerate}
-    \item[(1)]
-      Again, observe that \(\lambda_{\eta, \nu} \parens{\emptyset} = 0\)
-      since the sum will be trivial.
-
-    \item[(2)]
-      Take \(L_0, L_1, L_2, \ldots\) to be a countable collection of
-      pairwise disjoint languages.
-      Implicitly define a countably indexed set,
-      where we take each \(L_{j, k}\) as the \(j\)th language's
-      sub-language with only strings of length \(k\).
-
-      As with before, for \(j_1 \neq j_2\) and \(k_1 \neq k_2\),
-      every \(L_{j_1, k_1}\) and \(L_{j_2, k_2}\) are pairwise disjoint.
-      Then, doing the calculation:
-      \begin{align*}
-        \lambda_{\eta, \nu} \parens{\bigcup_{j = 0}^{\infty} L_j}
-          &= \lambda_{\eta, \nu} \parens{\bigcup_{j = 0}^{\infty}
-                            \bigcup_{k = 0}^{\infty} L_{j, k}} \\
-          &= \sum_{j = 0}^{\infty}
-              \lambda_{\eta, \nu} \parens{\bigcup_{k = 0}^{\infty} L_{j, k}} \\
-          &= \sum_{j = 0}^{\infty}
-              \sum_{k = 0}^{\infty}
-                \nu_k \parens{L_k} \eta\parens{k} \\
-          &= \sum_{j = 0}^{\infty} \lambda_{\eta, \nu} \parens{L_j}
-        \end{align*}
-      \(\lambda_{\eta, \nu}\) is therefore a measure.
-  \end{enumerate}
-\end{proof}
-
-
-\section{Approximating Languages}
-Given a measure space
-\(\parens{\mcal{L}, \sigma\parens{L}, \lambda}\),
-we may consider how similar two languages are.
-For two languages \(L_1, L_2 \in \sigma\parens{\mcal{L}}\),
-a ``natural'' difference is to consider their
-symmetric set difference:
-\begin{align*}
-  d\parens{L_1, L_2}
-    = \lambda\parens{L_1 \triangle L_2}
-    = \lambda\parens{\parens{L_1 \setminus L_2} \cup \parens{L_2 \setminus L_1}}
-\end{align*}
-Recall that by the definition of a \(\sigma\)-algebra,
-the symmetric set difference \(L_1 \triangle L_2\)
-is in \(\sigma\parens{\mcal{L}}\), and therefore measurable.
-
-We hope restrict our attention to regular languages for now,
-or in other words, the class of languages precisely recognized by
-DFAs, and ask the following:
-
-\begin{question}
-  Given a regular language \(L\) recognized by a minimal DFA \(A\)
-  and some \(\varepsilon > 0\),
-  does there exist a regular language \(L^\prime\) recognized by \(A^\prime\)
-  such that \(A^\prime\) has less states than \(A\),
-  and \(d\parens{L, L^\prime} < \varepsilon\)?
-\end{question}
-
-
-\begin{example}
-  Consider \(\Sigma = \braces{a}\),
-  where \(L_1 = aa^\star\) and \(L_2 = aaa^\star\),
-  and assume a geometric probability measure for \(\eta\)
-  with success of probability \(0 < p \leq 1\),
-  through which \(\lambda\) is defined.
-
-  Recall that for the geometric distribution where \(n \in \Zp\):
-  \begin{align*}
-    \eta\parens{n} = \parens{1 - p}^{n - 1} p
-  \end{align*}
-  Observe that for \(L_1\) and \(L_2\), we have:
-  \begin{align*}
-    L_1 &=
-      \underbrace{\braces{}}_{\text{length \(0\)}} \cup
-      \underbrace{\braces{a}}_{\text{length \(1\)}} \cup
-      \underbrace{\braces{aa}}_{\text{length \(2\)}} \cup
-      \underbrace{\braces{aaa}}_{\text{length \(3\)}} \cup
-      \ldots \\
-    L_2 &= 
-      \underbrace{\braces{}}_{\text{length \(0\)}} \cup
-      \underbrace{\braces{}}_{\text{length \(1\)}} \cup
-      \underbrace{\braces{aa}}_{\text{length \(2\)}} \cup
-      \underbrace{\braces{aaa}}_{\text{length \(3\)}} \cup
-      \ldots
-  \end{align*}
-  In other words, the only set on which the two languages differ is
-  strings of length \(1\), which \(L_1\) has, but \(L_2\) does not.
-  For the difference, this then means that:
-  \begin{align*}
-    d\parens{L_1, L_2}
-      = \lambda\parens{L_1 \triangle L_2}
-      = \lambda\parens{\braces{a}}
-      = \frac{\abs{\braces{a}}}{\abs{\Sigma^k}} \eta \parens{1}
-      = \frac{1}{1} p = p
-  \end{align*}
-  In other words, with probability \(p\),
-  we can distinguish random strings generated from \(L_1\) and \(L_2\),
-  where the probability distribution is geometric,
-  and over the length of the strings.
-  Selection of the strings once length is fixed is irrelevant because
-  each set corresponding to a length contains only one string.
-\end{example}
-
-Assume a (regular) language \(L\) given as an automata or regular
-expression, whichever may be convenient, and measure \(\lambda_{n}\).
-A few challenges lie ahead:
-
-\begin{question}
-  How can we quickly measure \(\lambda_{\eta}\parens{L}\)?
-\end{question}
-
-\begin{question}
-  How can we quickly generate a word of some length from \(L\)?
-\end{question}
-
-The word ``quickly'' here is key:
-many methods that can be thrown together to answer these questions
-are intrinsically exponential,
-so if we can introduce sub-exponential time techniques
-that would be pretty cool.
-
-
-%%%%%%%%%%%%%%%%%%%%%%55
-\subsection{Counting}
-How many unique strings of length \(k\) does an automata have?
-The question is relatively straightforward for a DFA,
-and slightly more complicated for a NFA.
-
-\begin{theorem}
-  There exists a polynomial-time algorithm that counts the number of strings
-  accepted by a DFA.
-\end{theorem}
-\begin{proof}
-  Consider the matrix \(M\) representation of a
-  DFA \(A = \parens{\Sigma, Q, \delta, q_1, F}\),
-  which we claim can be conjured in polynomial time.
-  Roughly, the sketch is that we can enumerate each element
-  of the transition \(\delta\) and iteratively populate our matrix \(M\).
-
-  We define \(M^\prime\)
-  where \(M^\prime _{i, j} = 1_{M_{i, j} \neq \emptyset}\).
-  In other words, \(M^\prime\) is the adjacency
-  matrix corresponding to the directed graph described by \(A\) and \(M\).
-
-  Let \(u\) be the vector where each element is such that
-  \(u_i = 1_{q_i \in F}\), then:
-  \begin{align*}
-    \parens{1, 0, 0, \ldots} \parens{M^\prime}^k u
-  \end{align*}
-  Will count the number of strings of length \(k\).
-  The algorithm runs in time polynomial to \(k\) the length
-  and \(n = \abs{Q}\) the number of states,
-  because matrix multiplication is polynomial in complexity.
-\end{proof}
-
-However, counting the number of strings of length \(k\) is known to be
-\(\class{\#P}\)~\cite{acmsiam-kannan1995counting},
-and exponential-time algorithms are known:
-just reduce the NFA to a DFA and run the solution above.
-Indeed, this is not very satisfying, but at least it's something.
-
-\subsection{Approximate Counting}
-If counting is hard, then perhaps approximate counting is easier?
-Indeed, this may be the step towards fast comparison of regular languages.
-To do this,
-we attempt to adapt work by Kannan~\cite{acmsiam-kannan1995counting},
-which we have cited quite a few times now.
-
-Kannan's construction presents a few ``proofs left to the reader'',
-which we complete here.
-However, we first present a few definitions that are used throughout
-the paper.
-
-\begin{definition}[\(g\parens{n}\)-randomized approximation scheme]
-  A \(g\parens{n}\)-ras for a non-negative real-valued function
-  \(f\) is a probabilistic algorithm which,
-  on input \(x\) and \(\varepsilon > 0\) and \(\delta < 1\),
-  computes \(\widetilde{f}\parens{x}\) where:
-  \begin{align*}
-    1 - \delta \leq
-    \Pr\brackets{
-      f\parens{x} \parens{1 + \varepsilon}^{-1}
-        \leq \widetilde{f}\parens{x}
-        \leq f\parens{x} \parens{1 + \varepsilon}}
-  \end{align*}
-  Further, the algorithm runs in expected time \(O\parens{g\parens{n}}\)
-  where:
-  \begin{align*}
-    n = \max\braces{\abs{x}, \varepsilon^{-1}, \log\parens{\delta^-1}}
-  \end{align*}
-\end{definition}
-
-In other words, this randomized approximation scheme is pretty tight.
-
-\begin{definition}[\(g\parens{n}\)-almost uniform generator]
-  Let \(R\) be a polynomial-time computable binary relation.
-  For any \(x\), let
-  \begin{align*}
-    \phi\parens{x} = \braces{y \st \parens{x, y} \in R}
-  \end{align*}
-  A \(g\parens{n}\)-almost uniform generator for the relation
-  \(R\) is a probabilistic algorithm \(A\),
-  which, on input \(x\), \(\varepsilon > 0\),
-  outputs some \(y \in \phi\parens{x}\) such that:
-  \begin{align*}
-    \abs{\phi\parens{x}}^{-1} \parens{1 + \varepsilon}^{-1}
-      \leq \Pr\brackets{A\parens{x, \varepsilon} = y}
-      \leq \abs{\phi\parens{x}}^{-1} \parens{1 + \varepsilon}
-  \end{align*}
-  Also, \(A\) runs in time \(O\parens{g\parens{n}}\)
-  where:
-  \begin{align*}
-    n = \max\braces{\abs{x}, \log\parens{\varepsilon^{-1}}}
-  \end{align*}
-\end{definition}
-
-\begin{definition}[\(m\)-level NFA]
-  An \(m\)-level NFA is an NFA in which the states can be
-  partitioned into \(m + 1\) levels with the following properties:
-  \begin{enumerate}
-    \item[(1)]
-      There is exactly one state at level \(0\) and it is the start state.
-
-    \item[(2)]
-      There is exactly one state at level \(m\) and it is the accept state.
-
-    \item[(3)]
-      All transitions are from a node in level \(i\) to a node in
-      level \(i + 1\) for \(i \in \braces{0, \ldots, m - 1}\).
-
-    \item[(4)]
-      For any state, \(p\),
-      the accept state is reachable from \(p\),
-      and \(p\) is reachable from the start state
-      (fully connected automata).
-  \end{enumerate}
-\end{definition}
-
-Kannan further poses the following lemma as an exercise to the reader,
-which we also prove:
-
-\begin{lemma}
-  For any NFA, \(M\), and integer \(m\),
-  there exists an NFA \(M^\prime\) such that \(M^\prime\)
-  is an \(m\)-level NFA with no \(\epsilon\)-transitions,
-  a binary alphabet, and such that
-  \(\abs{L\parens{M^\prime}} = \abs{L\parens{M} \cap \Sigma^m}\).
-  Further, the size of \(M^\prime\) is polynomial in size of \(M\) and \(m\).
-\end{lemma}
-\begin{proof}
-  Given an NFA \(M_1\), it is well-known that there exist
-  a polynomial-time and polynomial-space reduction to an equivalent
-  NFA \(M_2\) without \(\epsilon\)-transitions.
-
-  As \(M_2\) is presumed to be defined over some alphabet \(\Sigma\),
-  we now need to reduce this to an equivalent NFA over a binary alphabet
-  \(\Sigma_2\).
-  To do this, recall from standard results in complexity that we need
-  \(\ceil{\log\parens{\abs{\Sigma}}}\) bits to represent every element
-  of \(\Sigma\).
-  Hence, in order to make an \(\epsilon\)-transition-free and
-  binary alphabet NFA,
-  we may augment every transition edge of \(M_2\)
-  by a sequence of transitions of length
-  \(\ceil{\log\parens{\abs{\Sigma}}}\) that now uses the binary
-  alphabet \(\Sigma_2\) instead of \(\Sigma\).
-  Take \(m^\prime = m \ceil{\log\parens{\abs{\Sigma}}}\).
-  This produced \(M_3\), which lacks \(\varepsilon\)-transitions
-  and is over a binary alphabet \(\Sigma_2\).
-
-  To convert the NFA \(M_3\) into a
-  \(m^\prime\)-level NFA,
-  we do the following.
-  First, let \(Q\) be the set of states of \(M_3\).
-  We create \(m^\prime\) copies of \(Q\), and write them as
-  \(Q_0, Q_1, \ldots, Q_{m^\prime - 1}\).
-  These serve to eventually form the first \(m^\prime\)-layers out of the
-  \(m^\prime + 1\) for an \(m^\prime\)-level NFA.
-  For each set of states \(Q_i\), with
-  \(i \in \braces{0, \ldots, m^\prime - 2}\)
-  as follows: if there exists a one-step transition from some \(q_a\) to
-  \(q_b\) on character \(a \in \Sigma_2\) within \(M_3\),
-  then we connect \(q_a \in Q_i\) and \(q_b \in Q_{i + 1}\) using
-  letter \(a\).
-  We add a final layer consisting of just one state \(q_F\),
-  and connect all the final states of \(Q_{m^\prime - 1}\) to
-  \(q_F\) using the technique just described.
-  This creates \(M_4\), which has \(m^\prime + 1\) layers,
-  the last of which has a single final state.
-
-  In order to make \(M_4\) into an \(m^\prime\)-level NFA
-  (which has \(m^\prime + 1\) layers),
-  we need another step of transformation.
-  Take \(q_0 \in Q\) to be the start state of \(M_3\).
-  Then, in the first layer, mark \(q_0\) as the start state.
-  Now take the sub-graph of \(M_4\) that is reachable from \(q_0\)
-  in the first layer,
-  and this is the desired \(m^\prime\)-level automaton \(M_5\).
-
-  Because the start state \(q_0\) is unique, it is clear that
-  the first layer only has a single state.
-  Furthermore, the last layer also has a single state \(q_F\), which
-  we added by construction earlier.
-  In addition, all transition edges by construction flow from
-  layer \(i\) to the next layer \(i + 1\).
-
-  Because we have taken the parts reachable from the initial state \(q_0\),
-  we guarantee reachability.
-  It may be the case that the final state \(q_F\) is not reachable from
-  \(q_0\), in which case this is fine,
-  and the \(m^\prime\)-level NFA cannot be constructed anyways,
-  because it implies that no strings of length \(m\) exists in
-  the language.
-  Further note that \(m^\prime\) is polynomial in complexity to \(m\).
-  Hence, \(M_5\) is the desired \(m^\prime\)-level NFA.
-
-\end{proof}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{An Algorithm For Measuring}
-
-We are now ready to present a
-quasi-polynomial algorithm for calculating the
-measure of a language's strings up to some length \(N\),
-which we describe as follows:
-
+A measure is a function \(\type{\mu}{\Sigma}{\Rz}\) such that:
 \begin{enumerate}
-  \item[(1)]
-    Take as input a NFA \(M\) that represents language \(L\),
-    some positive integer \(N\), and error bounds \(\varepsilon > 0\)
-    and confidence \(\delta < 1\).
+  \item[(a)]
+    \(\mu\parens{\emptyset} = 0\)
 
-  \item[(2)]
-
-    Let \(A\) be the algorithm specified in
-    Kannan's work~\cite{acmsiam-kannan1995counting}
-    that takes as input a \(m_A\)-level NFA,
-    error tolerance \(\varepsilon_A\),
-    and confidence \(\delta_A\).
-
-  \item[(3)]
-    At each stage, let \(M_m\) be the \(m\)-level NFA of \(M\), and
-    calculate the following:
+  \item[(b)]
+    If \(\parens{A_n} \subseteq \Sigma\) is a countable collection
+    of pairwise disjoint sets, then:
     \begin{align*}
-      v =
-      \sum_{k = 0}^{N}
-        \frac{A\parens{M_k, \varepsilon / N, \delta / N}}{\abs{\Sigma^k}}
-          \eta \parens{k}
+      \mu\parens{\bigcup_{n = 1}^{\infty} A_n}
+        = \sum_{n = 1}^{\infty} \mu\parens{A_n}
     \end{align*}
-
-  \item[(4)]
-    Return \(v\) as an estimate for the measure up to
-    strings of length \(N\).
 \end{enumerate}
+Together \(\parens{X, \Sigma, \mu}\) is called a measure space.
 
 
-\begin{theorem}
-  The algorithm runs in quasi-polynomial time with respect to
-  \(N\), \(\abs{M}\), \(\varepsilon\), and \(\delta\).
-\end{theorem}
-\begin{proof}
-  It suffices to show that each iteration of the sum is
-  quasi-polynomial in complexity.
-  Because only \(N\) iterations occur,
-  if each iteration is quasi-polynomial,
-  then the entire sum is also quasi-polynomial.
 
-  We have shown before that a polynomial-time reduction from
-  \(M\) to \(M_k\) is possible for each \(k\).
-  Furthermore, this is directly fed into the
-  quasi-polynomial time algorithm \(A\).
-  We implicitly assume \(\eta\) to be polynomial time in complexity.
-  Therefore, each iteration is quasi-polynomial time in complexity.
-
-  Together, this means that the entire algorithm is
-  quasi-polynomial time in complexity.
-\end{proof}
+\subsection{Formal Language Theory}
+An alphabet \(\Sigma\) is a finite set of symbols.
+A finite word \(w\) is a finite sequence of symbols from \(\Sigma\),
+and let \(\emptyset\) denote the empty word, which is also finite.
+The length of a word is written \(\abs{w}\).
+Write \(\Sigma^n\) to mean the set of all words of length \(n\),
+and write \(\Sigma^\star\) to mean the set of all finite words.
+A language \(L \subseteq \Sigma^\star\) is a set of words.
 
 
 \subsection{Metric Spaces}
+A metric space \(\parens{M, d}\) is a set \(M\) with a distance
+\(\type{d}{M \times M}{\Rz}\) such that
+for all \(x, y, z \in M\):
+\begin{enumerate}
+  \item[(a)]
+    \(d\parens{x, y} \geq 0\)
+
+  \item[(b)]
+    \(d\parens{x, y} = 0\) if and only if \(x = y\)
+
+  \item[(c)]
+    \(d\parens{x, y} = d\parens{y, x}\)
+
+  \item[(d)]
+    \(d\parens{x, z} \leq d\parens{x, y} + d\parens{y, z}\)
+\end{enumerate}
+
+
+\section{Slicing-Based Measures}
+Consider a language \(L \subseteq \Sigma^\star\).
+The \(n\)-splice of a language written as \(L^n\) is defined as:
+\begin{align*}
+  L^n = L \cap \Sigma^n
+\end{align*}
+We then have the following relations:
+\begin{align*}
+  L
+    = \bigcup_{n = 0}^{\infty} L^n
+    = \bigcup_{n = 0}^{\infty} \parens{L \cap \Sigma^n}
+    = L \cap \bigcup_{n = 0}^{\infty} \Sigma^n
+    = L \cap \Sigma^\star
+    = L
+\end{align*}
+Suppose that \(\parens{\N, \powset{\N}, \eta}\) is a probabiliy measure space
+on \(\N\) with the probability measure \(\eta\),
+one way to define a measure \(\lambda_{\eta}\)
+is as follows:
+\begin{align*}
+  \lambda_{\eta} \parens{L}
+    = \sum_{n = 0}^{\infty}
+        \frac{\abs{L^n}}{\abs{\Sigma^n}} \eta\parens{n}
+\end{align*}
+
+\begin{theorem}
+  \(\parens{\Sigma^\star, \powset{\Sigma^\star}, \lambda_{\eta}}\)
+  is a measure space.
+\end{theorem}
+\begin{proof}
+  Since the \(\powset{\Sigma^\star}\) is the largest \(\sigma\)-algebra
+  on \(\Sigma^\star\), it suffices to show that \(\lambda_{\eta}\) is
+  a measure.
+
+  To see that \(\emptyset\) is mapped to \(0\):
+  \begin{align*}
+    \lambda_{\eta}\parens{\emptyset}
+      = \sum_{n = 0}^{\infty} \frac{\abs{\emptyset}}{\abs{\Sigma^n}} \eta\parens{n}
+      = \sum_{n = 0}^{\infty} 0
+      = 0
+  \end{align*}
+  Now take \(\parens{A_n} \subseteq \Sigma^\star\) to be a countable
+  collection of disjoint sets.
+  Write \(A_n ^k\) to denote the \(k\) splice of the \(n\)th set.
+  In other words: \begin{align*}
+    A_n = \bigcup_{k = 0}^{\infty} A_{n} ^k
+  \end{align*}
+  Observe that all such \(A_{n}^k\) are pairwise disjoint by construction,
+  and so:
+  \begin{align*}
+    \lambda_{\eta} \parens{\bigcup_{n = 0}^{\infty} A_n}
+      = \lambda_{\eta} \parens{\bigcup_{n = 0}^{\infty} \bigcup_{k = 0}^{\infty} A_n ^k}
+      = \sum_{n = 0}^{\infty} \lambda_{\eta} \parens{\bigcup_{k = 0}^{\infty} A_n ^k}
+      = \sum_{n = 0}^{\infty} \sum_{k = 0}^{\infty} \frac{\abs{A_n ^k}}{\abs{\Sigma^n}} \eta\parens{k}
+      = \sum_{n = 0}^{\infty} \lambda_{\eta} \parens{n}
+  \end{align*}
+  We conclude that \(\parens{\Sigma^\star, \powset{\Sigma^\star}, \lambda_{\eta}}\)
+  forms a measure space.
+
+\end{proof}
+We can generalize this more.
+Suppose that \(\nu = \parens{\nu_n}\)
+is a countable collection of measures where
+each \(\nu_n\) is defined on the splice \(\Sigma^n\).
+Then we can extend a definition of \(\lambda_{\eta, \nu}\) as:
+\begin{align*}
+  \lambda_{\eta, \nu} \parens{A}
+    = \sum_{n = 0}^{\infty} \nu\parens{A^n} \eta\parens{n}
+\end{align*}
+
+\begin{theorem}
+  \(\parens{\Sigma^\star, \powset{\Sigma^\star}, \lambda_{\eta, \nu}}\)
+  is a measure space.
+\end{theorem}
+\begin{proof}
+  As with before, we only show that \(\lambda_{\eta, \nu}\) is a measure.
+
+  For \(\emptyset\) we have again:
+  \begin{align*}
+    \lambda_{\eta, \nu}\parens{\emptyset} = \sum_{n = 0}^{\infty} 0 = 0
+  \end{align*}
+
+  Again take \(\parens{A_n} \subseteq \Sigma^\star\) to be a
+  countable disjoint collection of sets,
+  and \(A_n ^k\) to be the \(k\) splice of \(A_n\).
+  Then:
+  \begin{align*}
+    \lambda_{\eta, \nu} \parens{\bigcup_{n = 0}^{\infty} A_n}
+      = \lambda_{\eta, \nu} \parens{\bigcup_{n = 0}^{\infty} \bigcup_{k = 0}^{\infty} A_n ^k}
+      = \sum_{n = 0}^{\infty} \lambda_{\eta, \nu} \parens{\bigcup_{k = 0}^{\infty} A_n ^k}
+      = \sum_{n = 0}^{\infty} \sum_{k = 0}^{\infty} \nu_k \parens{A_n ^k} \eta\parens{k}
+      = \sum_{n = 0}^{\infty} \lambda_{\eta, \nu} \parens{A_n}
+  \end{align*}
+  This shows that
+  \(\parens{\Sigma^\star, \powset{\Sigma^\star}, \lambda_{\eta, \nu}}\)
+  is a measure space.
+\end{proof}
+
+
+\section{Measure Induced Metrics}
+For a measure space \(\parens{X, \Sigma, \mu}\),
+an interesting consequence is that a
+metric space can be defined on \(\Sigma^\star\)
+as follows:
+\begin{align*}
+  d\parens{A, B} = \mu\parens{A \triangle B}
+\end{align*}
+Where \(\triangle\) is the symmetric set difference.
+We now set out to show this.
+
 
 \begin{lemma}
   \(\parens{A \triangle C}
@@ -821,9 +232,8 @@ which we describe as follows:
     C \setminus A
       \subseteq \parens{B \setminus A} \cup \parens{C \setminus B}
   \end{align*}
-  We take turns examining these
-  \begin{enumerate}
-    \item[(i)]
+  We take turns examining these.
+
       If \(x \in A \setminus C\), then this implies that \(x \in A\)
       and \(x \not\in C\).
       There are now two cases, where \(x \in B\) or \(x \not\in B\).
@@ -837,7 +247,6 @@ which we describe as follows:
       \(A \setminus C
       \subseteq \parens{A \setminus B} \cup \parens{B \setminus C}\).
 
-    \item[(ii)]
       If \(x \in C \setminus A\), then this implies that
       \(x \in C\) and \(x \not\in A\).
       The argument is similar to the above, in which either
@@ -848,7 +257,7 @@ which we describe as follows:
       Collectively, the two imply that
       \(C \setminus A \subseteq
         \parens{B \setminus A} \cup \parens{C \setminus B}\).
-  \end{enumerate}
+
   Collectively, this shows that
   \(\parens{A \triangle C}
           \subseteq \parens{A \triangle B} \cup \parens{B \triangle C}\).
@@ -856,35 +265,32 @@ which we describe as follows:
 
 
 \begin{theorem}
-  If \(\parens{X, \Sigma, \lambda}\) is a measure space,
+  If \(\parens{X, \Sigma, \mu}\) is a measure space,
   then for \(\type{d}{\Sigma \times \Sigma}{\Rz}\) defined as:
   \begin{align*}
-    d\parens{A, B} = \lambda\parens{A \triangle B}
+    d\parens{A, B} = \mu\parens{A \triangle B}
   \end{align*}
   Is a metric function.
 \end{theorem}
 \begin{proof}
   We prove the conditions necessary for a metric:
   identity, symmetry, and triangle inequality.
-  \begin{enumerate}
-    \item[(a)]
-      As \(\lambda\) is a measure, then for any \(A \in \Sigma\):
+
+      As \(\mu\) is a measure, then for any \(A \in \Sigma\):
       \begin{align*}
         d\parens{A, A}
-          = \lambda\parens{A \triangle A}
-          = \lambda\parens{\emptyset} = 0
+          = \mu\parens{A \triangle A}
+          = \mu\parens{\emptyset} = 0
       \end{align*}
 
-    \item[(b)]
       By the symmetry of symmetric set difference, for any \(A, B \in \Sigma\):
       \begin{align*}
         d\parens{A, B}
-          = \lambda\parens{A \triangle B}
-          = \lambda\parens{B \triangle A}
+          = \mu\parens{A \triangle B}
+          = \mu\parens{B \triangle A}
           = d\parens{B, A}
       \end{align*}
 
-    \item[(c)]
       For any \(A, B, C \in \Sigma\),
       we have by convexity as shown in the lemma above:
       \begin{align*}
@@ -894,19 +300,23 @@ which we describe as follows:
       Then by sub-additivity of measures:
       \begin{align*}
         d\parens{A, C}
-          = \lambda\parens{A \triangle C}
-          \leq \lambda\parens{
+          = \mu\parens{A \triangle C}
+          \leq \mu\parens{
                 \parens{A \triangle B} \cup \parens{B \triangle C}}
           \leq
-          \lambda\parens{A \triangle B} + \lambda\parens{A \triangle C}
+          \mu\parens{A \triangle B} + \mu\parens{A \triangle C}
           = d\parens{A, B} + d\parens{B, C}
       \end{align*}
-  \end{enumerate}
 \end{proof}
 
-\pagebreak
 
-\printbibliography
+Because \(\parens{\Sigma^\star, \powset{\Sigma^\star}, \lambda_{\eta, \nu}}\)
+is a measure space,
+the consequence is that for any 
+languages \(L_1, L_2 \subseteq \Sigma^\star\),
+we also have a metric space as defined above.
+
+
 
 \end{document}
 

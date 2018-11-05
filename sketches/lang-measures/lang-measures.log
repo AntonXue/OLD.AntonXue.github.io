@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  25 SEP 2018 00:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2018.5.26)  5 NOV 2018 17:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -391,6 +391,9 @@ Package: amsthm 2017/10/31 v2.20.4
 \thm@headsep=\skip62
 \dth@everypar=\toks27
 )
+(/home/celery/texmf/tex/latex/comment/comment.sty
+\CommentStream=\write5
+ Excluding comment 'comment')
 (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/letltxmacro.sty
 Package: letltxmacro 2016/05/16 v1.5 Let assignment for LaTeX macros (HO)
 )
@@ -433,7 +436,7 @@ LaTeX Font Info:    Overwriting symbol font `stmry' in version `bold'
 \c@definition=\count305
 \c@example=\count306
 \c@question=\count307
-LaTeX Info: Redefining \pinl on input line 188.
+LaTeX Info: Redefining \pinl on input line 193.
 )
 (./lang-lib.tex
 (/usr/share/texlive/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
@@ -533,13 +536,7 @@ Package biblatex Info: Data encoding 'utf8' specified.
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'lang-measures.bbl' found.
-(./lang-measures.bbl
-
-Package biblatex Warning: BibTeX reported the following issues
-(biblatex)                with 'infoandcomp-kozen1994kleenealg':
-(biblatex)                - Invalid format of field 'month'.
-
-)
+(./lang-measures.bbl)
 Package biblatex Info: Reference section=0 on input line 27.
 Package biblatex Info: Reference segment=0 on input line 27.
 \c@lstlisting=\count319
@@ -548,8 +545,7 @@ LaTeX Font Info:    Try loading font information for U+msa on input line 28.
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 28.
-
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for U+stmry on input line 28.
@@ -560,20 +556,20 @@ LaTeX Warning: No \author given.
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4] [5] [6]
-[7] [8] [9] [10] [11] [12] (./lang-measures.aux)
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4]
+(./lang-measures.aux)
 Package logreq Info: Writing requests to 'lang-measures.run.xml'.
 \openout1 = `lang-measures.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 10920 strings out of 492648
- 178486 string characters out of 6132015
- 549598 words of memory out of 5000000
- 14678 multiletter control sequences out of 15000+600000
- 16145 words of font info for 63 fonts, out of 8000000 for 9000
+ 10745 strings out of 492648
+ 174813 string characters out of 6132015
+ 550515 words of memory out of 5000000
+ 14507 multiletter control sequences out of 15000+600000
+ 13974 words of font info for 55 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 45i,15n,45p,820b,1145s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 35i,9n,37p,820b,742s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texl
@@ -581,17 +577,15 @@ ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
-6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/s
-hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/share/te
-xlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on lang-measures.pdf (12 pages, 198443 bytes).
+ublic/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmt
+i12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm
+10.pfb>
+Output written on lang-measures.pdf (4 pages, 126481 bytes).
 PDF statistics:
- 103 PDF objects out of 1000 (max. 8388607)
- 73 compressed objects within 1 object stream
+ 65 PDF objects out of 1000 (max. 8388607)
+ 46 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
