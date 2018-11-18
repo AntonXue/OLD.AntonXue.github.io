@@ -11,6 +11,9 @@
 % (download helvetica.sty)
 %\usepackage{newcent}   % uses new century schoolbook postscript font 
 
+\let\linkurl\undefined
+\newcommand{\linkurl}[1]{\href{#1}{\texttt{#1}}}
+
 \begin{document} 
 
 \name{Anton Xue\\[12pt]} % the \\[12pt] adds a blank line after name
@@ -20,8 +23,8 @@
          New Haven, CT 06511}
  
 \address{\textbf{Contact} \\
-         \href{antonxue.github.io}{\texttt{antonxue.github.io}} \\
-         \texttt{anton.xue@yale.edu}}
+         \linkurl{antonxue.github.io} \\
+         \linkurl{anton.xue@yale.edu}}
 
 \begin{resume} 
  
@@ -50,9 +53,13 @@ Yale University
 % \section{Publications} None
 
 \section{Presentations}
-\textit{Towards the Formalization and Analysis of R} (to appear)
-  \hfill Oct 2018 \\
+\textit{Towards the Formalization and Analysis of R}
+  \hfill Nov 2018 \\
 Formal Methods in Computer-Aided Design 2018 Student Forum
+
+\textit{Building a Symbolic Execution Engine for Haskell}
+  \hfill Nov 2016 \\
+Formal Methods in Computer-Aided Design 2017 Student Forum
 
 \textit{Building a Symbolic Execution Engine for Haskell}
   \hfill Aug 2017 \\
@@ -64,12 +71,12 @@ Principles of Programming Languages 2017 Student Research Competition
 
 \section{Teaching}
 \textit{Yale Undergraduate Teaching Assistant} \\
+  CPSC 202: Mathematical Tools for Computer Science
+    \hfill Fall 2016, Fall 2017, Fall 2018 \\
   CPSC 366: Intensive Algorithms
     \hfill Spring 2018 \\
   CPSC 365: Design and Analysis of Algorithms
-    \hfill Spring 2017 \\
-  CPSC 202: Mathematical Tools for Computer Science
-    \hfill Fall 2016, Fall 2017, Fall 2018 \\
+    \hfill Spring 2017
 
 \section{Community}
 \textit{Department Student Advisory Committee}
@@ -78,20 +85,17 @@ Yale University Computer Science Department
 
 \section{Software}
 \textit{G2 Symbolic Execution Engine for Haskell} \\
-\href{https://github.com/BillHallahan/G2}
-     {\texttt{https://github.com/BillHallahan/G2}}
+\linkurl{https://github.com/BillHallahan/G2}\
 
 \textit{Simple-R Symbolic Execution Engine for R} \\
-\href{https://github.com/AntonXue/simple-r}
-     {\texttt{https://github.com/AntonXue/simple-r}}
+\linkurl{https://github.com/AntonXue/simple-r}
 
 \textit{Multi-Terminal Interval Decision Diagrams} \\
-\href{https://github.com/dzufferey/mtidd}
-     {\texttt{https://github.com/dzufferey/mtidd}}
+\linkurl{https://github.com/dzufferey/mtidd}
 
 \section{Technical}
 \textit{Programming Languages} \\
-Haskell, C, C++, Python, Java, R, Scala, \LaTeX
+Haskell, C, C++, Python, Java, R, Scala, SMTLIB, \LaTeX{}
  
 
 \if false
