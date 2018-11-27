@@ -90,7 +90,7 @@ There are several high-level insights that we leverage:
     NFAs can be represented as directed multi-edge graphs
     where each edge is labeled by one letter from \(\Sigma\).
     In other words, let \(e_{i, j, \sigma}\) be an indicator
-    variable encodes the existence of a transition from state \(q_i\)
+    variable encodes the indicator of a transition from state \(q_i\)
     to state \(q_j\) on the letter \(\sigma\).
 
   \item[(2)]
@@ -100,9 +100,13 @@ There are several high-level insights that we leverage:
     Similarly for each \(v \in N\) we can encode a sequence that will force
     a rejection of \(v\) in \(\mcal{A}\).
 
-
 \end{enumerate}
 
+For a particular \(u \in P\), consider the following encoding:
+\begin{align*}
+  \varphi_u \equiv
+    \bigwedge_{1 \leq t < \abs{u}} \bigvee_{i \neq j \neq k}
+\end{align*}
 
 
 \end{document}
