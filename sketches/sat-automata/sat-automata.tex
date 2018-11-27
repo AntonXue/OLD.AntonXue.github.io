@@ -1,0 +1,110 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=5em]{geometry} % 1 cm = 2.84528 em
+\usepackage[backend=bibtex]{biblatex}
+\bibliography{sources}
+% \nocite{*}
+
+\usepackage{lipsum}
+
+% Paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% Includes
+\input{antonxue-lib.tex}
+% \input{lang-lib.tex}
+
+
+% Author
+\title{Separating Strings with Automata and SAT}
+% \author{Anton Xue}
+% \date{\today}
+\date{}
+
+% Document
+\begin{document}
+\maketitle
+
+\section{Introduction}
+In this sketch we study
+how to use SAT to construct a non-deterministic finite automata (NFA)
+that separates two finite sets of strings.
+This yields a decision procedure for calculating
+the metric distance between two regular sets with respect to the
+(inverse) automata size metric.
+
+
+\section{Preliminaries}
+An alphabet \(\Sigma\) is a finite set of unique symbols.
+Let \(\Sigma^\star\) denote the set of all finite strings consisting of
+letters from \(\Sigma\).
+A language \(\mcal{L} \subseteq \Sigma^\star\) is then
+a countable set of strings of \(\Sigma\).
+Often \(\Sigma\) is implicitly assumed.
+
+A non-deterministic finite automata (NFA) \(\mcal{A}\) is represented
+as a tuple
+\(\mcal{A} = \parens{\Sigma, Q, \Delta, s, F}\)
+where \(\Sigma\) is a finite alphabet,
+\(Q\) is a finite set of states,
+\(\type{\Delta}{\parens{Q \times \Sigma}}{\powset{Q}}\)
+is the transition function,
+\(s \in Q\) is the inital state,
+and \(F \subseteq Q\) is a set of final states.
+
+For some string \(w\) we say that \(\mcal{A}\) accepts \(w\)
+if there exists a sequence of transitions on which \(\mcal{A}\) ends
+in a final state when reading \(w\).
+We abuse notation and say
+that \(\mcal{A}\) accepts \(w\) if \(\mcal{A}\parens{w} = 1\).
+Similarly, we say \(\mcal{A}\parens{w} = 0\) if \(\mcal{A}\) rejects \(w\).
+
+Let \(w_i\) denote the \(i\)th letter of the string \(w\),
+and \(\varepsilon\) be the empty string.
+
+
+
+\section{Separating Sets}
+
+The question that this sketch attempts to answer can be formalized as follows:
+
+\begin{question}
+Given a positive set \(P \subseteq \Sigma^\star\)
+and negative set \(N \subseteq \Sigma^\star\)
+with \(P\) and \(N\) disjoint,
+does there eixst an NFA
+\(\mcal{A} = \parens{\Sigma, Q, \Delta, s, F}\)
+with \(\abs{Q} = n\)
+such that for all \(u \in P\) in the positive set \(\mcal{A}\parens{u} = 1\),
+but for all \(v \in N\) in the negative set \(\mcal{A}\parens{v} = 0\).
+\end{question}
+
+We achieve this by constructing a boolean satisfiability formula
+that encodes \(P\) and \(N\),
+and is satisfiable if and only if such \(\mcal{A}\) exists.
+There are several high-level insights that we leverage:
+\begin{enumerate}
+  \item[(1)]
+    NFAs can be represented as directed multi-edge graphs
+    where each edge is labeled by one letter from \(\Sigma\).
+    In other words, let \(e_{i, j, \sigma}\) be an indicator
+    variable encodes the existence of a transition from state \(q_i\)
+    to state \(q_j\) on the letter \(\sigma\).
+
+  \item[(2)]
+    For each \(u \in P\),
+    we can create a formula \(\varphi_u\) that forces a sequence of edge walks
+    resulting in a final state in \(\mcal{A}\).
+    Similarly for each \(v \in N\) we can encode a sequence that will force
+    a rejection of \(v\) in \(\mcal{A}\).
+
+
+\end{enumerate}
+
+
+
+\end{document}
+
+
