@@ -104,9 +104,20 @@ There are several high-level insights that we leverage:
 
 For a particular \(u \in P\), consider the following encoding:
 \begin{align*}
-  \varphi_u \equiv
-    \bigwedge_{1 \leq t < \abs{u}} \bigvee_{i \neq j \neq k}
+  \pi_u \equiv
+    \bigwedge_{1 \leq t < \abs{u}}
+      \parens{\bigvee_{i \neq j \neq k}
+        e_{i, j, u_t} \land e_{j, k, u_{t + 1}}}
 \end{align*}
+This forces the existence of a path on \(\mcal{A}\) for \(u\).
+Additionally, to force \(u\) to stop on a final state,
+we may either have every state be a final state, or just set the following
+formula:
+\begin{align*}
+  \phi_u \equiv
+    \bigwedge_{i \neq j} \parens{e_{i, j, u_{\abs{u}}} \implies f_j}
+\end{align*}
+Where \(f_j\) is an indicator denoting that \(q_j\) is a final state.
 
 
 \end{document}
