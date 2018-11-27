@@ -46,12 +46,12 @@ Often \(\Sigma\) is implicitly assumed.
 
 A non-deterministic finite automata (NFA) \(\mcal{A}\) is represented
 as a tuple
-\(\mcal{A} = \parens{\Sigma, Q, \Delta, s, F}\)
+\(\mcal{A} = \parens{\Sigma, Q, \Delta, S, F}\)
 where \(\Sigma\) is a finite alphabet,
 \(Q\) is a finite set of states,
 \(\type{\Delta}{\parens{Q \times \Sigma}}{\powset{Q}}\)
 is the transition function,
-\(s \in Q\) is the inital state,
+\(S \subseteq Q\) is the inital states,
 and \(F \subseteq Q\) is a set of final states.
 
 For some string \(w\) we say that \(\mcal{A}\) accepts \(w\)
@@ -75,7 +75,7 @@ Given a positive set \(P \subseteq \Sigma^\star\)
 and negative set \(N \subseteq \Sigma^\star\)
 with \(P\) and \(N\) disjoint,
 does there eixst an NFA
-\(\mcal{A} = \parens{\Sigma, Q, \Delta, s, F}\)
+\(\mcal{A} = \parens{\Sigma, Q, \Delta, S, F}\)
 with \(\abs{Q} = n\)
 such that for all \(u \in P\) in the positive set \(\mcal{A}\parens{u} = 1\),
 but for all \(v \in N\) in the negative set \(\mcal{A}\parens{v} = 0\).
@@ -95,29 +95,61 @@ There are several high-level insights that we leverage:
 
   \item[(2)]
     For each \(u \in P\),
-    we can create a formula \(\varphi_u\) that forces a sequence of edge walks
+    we can create a formula that forces a sequence of edge walks
     resulting in a final state in \(\mcal{A}\).
     Similarly for each \(v \in N\) we can encode a sequence that will force
     a rejection of \(v\) in \(\mcal{A}\).
 
 \end{enumerate}
 
-For a particular \(u \in P\), consider the following encoding:
+For any \(w \in \Sigma^\star\), consider the following encoding:
 \begin{align*}
-  \pi_u \equiv
-    \bigwedge_{1 \leq t < \abs{u}}
+  \pi_w \equiv
+    \bigwedge_{1 \leq t < \abs{w}}
       \parens{\bigvee_{i \neq j \neq k}
-        e_{i, j, u_t} \land e_{j, k, u_{t + 1}}}
+        e_{i, j, w_t} \land e_{j, k, w_{t + 1}}}
 \end{align*}
-This forces the existence of a path on \(\mcal{A}\) for \(u\).
-Additionally, to force \(u\) to stop on a final state,
-we may either have every state be a final state, or just set the following
-formula:
+This forces the existence of a path on \(\mcal{A}\) for \(w\).
+Additionally, to force \(w\) to stop on a final state,
+we may either have every state be a final state,
+or just set the following formula:
 \begin{align*}
-  \phi_u \equiv
-    \bigwedge_{i \neq j} \parens{e_{i, j, u_{\abs{u}}} \implies f_j}
+  \varphi_w \equiv
+    \brackets{\bigwedge_{i \neq j} \parens{e_{i, j, w_{1}} \implies s_i}}
+      \land
+    \brackets{\bigwedge_{i \neq j} \parens{e_{i, j, w_{\abs{w}}} \implies f_j}}
 \end{align*}
-Where \(f_j\) is an indicator denoting that \(q_j\) is a final state.
+Essentially, this forces each \(w\) to begin processing on an initial state
+as indicated by \(s_i\), and end on a final state as indicated by \(f_j\).
+Thus, the conjunction \(\pi_w \land \varphi_w\) will be true if and
+only if \(\mcal{A}\) accepts \(w\).
+Hence, the satisfaction of
+its negation will then force \(\mcal{A}\) to reject \(w\).
+We leverage this in order to define
+over \(P\) and \(N\):
+\begin{align*}
+  \Phi_{P, N} =
+    \brackets{\bigwedge_{u \in P} \parens{\pi_u \land \varphi_u}}
+      \land
+    \brackets{\bigwedge_{v \in N} \neg\parens{\pi_v \land \varphi_v}}
+\end{align*}
+Thus, \(\Phi_{P, N}\) defines a formula that will make
+\(\mcal{A}\) to accept \(P\) and reject \(N\).
+
+The variables of the \(\Phi_{P, N}\)
+are the indicators for edges of form \(e_{i, j, \sigma}\) and
+final states of form \(f_j\).
+Suppose that \(\Sigma\) is known.
+If \(\Phi_{P, N}\) is satisfiable,
+then \(\mcal{A} = \parens{\Sigma, Q, \Delta, S, F}\) can be extracted as:
+\begin{align*}
+  Q &= \braces{q_1, \ldots, q_n} \\
+  \Delta &= \braces{\parens{\parens{q_i, \sigma}, q_j} \st e_{i, j, \sigma} = \top} \\
+  S &= \braces{q_i \st s_i = \top} \\
+  F &= \braces{q_j \st f_j = \top} \\
+\end{align*}
+Note that \(\Delta\) is slightly overloaded.
+
 
 
 \end{document}
