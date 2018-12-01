@@ -138,14 +138,25 @@ begins reading \(w\) on a starting state and ends on an accepting state:
         \parens{e_{i, j, w_{1}} \land s_i}}
       \lor
     \brackets{\bigvee_{1 \leq i, j \leq n}
-        \parens{e_{i, j, w_{\abs{w}} \land f_i}}}
+        \parens{e_{i, j, w_{\abs{w}} \land f_j}}}
 \end{align*}
+Where \(s_i\) and \(f_j\) are indicator variables to express that
+\(q_i\) is a starting state and \(q_j\) is a final state respectively.
 Then finally we set:
 \begin{align*}
   \varphi_{w} \equiv \rho_w \land \pi_w \land \gamma_w
 \end{align*}
 Then \(\mcal{A}\) will only accept \(w\) if and only if \(\varphi_w\)
 is satisfiable.
+Finally:
+\begin{align*}
+  \Phi_{P, N} \equiv
+    \brackets{\bigwedge_{u \in P} \varphi_u}
+      \land
+    \brackets{\bigwedge_{v \in N} \neg \varphi_v}
+\end{align*}
+By construction, \(\Phi_{P, N}\) is true if and only if \(\mcal{A}\)
+accepts all \(P\) and rejects all \(N\).
 
 
 \red{AAAAAAAAAAAAAAAAA}
