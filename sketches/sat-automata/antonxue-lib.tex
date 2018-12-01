@@ -4,6 +4,7 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{comment}
+\usepackage[colorlinks]{hyperref}
 \usepackage{letltxmacro}
 \usepackage{listings}
 \usepackage{stmaryrd}
@@ -66,9 +67,6 @@
 \newcommand{\floor}[1]{\ensuremath{\left\lfloor#1\right\rfloor}}
 
 % Sets and Function Spaces
-\let\setcomp\undefined
-\newcommand{\setcomp}[2]{\ensuremath{\left\{#1 \st #2\right\}}}
-
 \let\type\undefined
 \newcommand{\type}[3]{\ensuremath{#1 \colon #2 \to #3}}
 
@@ -127,17 +125,6 @@
 \let\norm\undefined
 \newcommand{\norm}[1]{\ensuremath{\left\lVert#1\right\rVert}}
 
-\let\inner\undefined
-\newcommand{\inner}[2]{\ensuremath{\left\langle#1, #2\right\rangle}}
-
-\let\adj\undefined
-\newcommand{\adj}[1]{\ensuremath{{#1}^{\ast}}}
-
-\let\transp\undefined
-\newcommand{\transp}[1]{\ensuremath{{#1}^{T}}}
-
-\let\inv\undefined
-\newcommand{\inv}[1]{\ensuremath{{#1}^{-1}}}
 
 % Computational Complexity
 \let\class\undefined % Complexity class
@@ -202,6 +189,16 @@
 
 \let\ttcode\undefined
 \newcommand{\ttcode}[1]{\small{\texttt{#1}}}
+
+
+% Text markings
+
+\let\tturl\undefined
+\newcommand{\tturl}[1]{\href{#1}{\texttt{#1}}}
+
+\let\red\undefined
+\newcommand{\red}[1]{\textbf{\color{red}#1}}
+
 
 % Abbreviations
 \let\st\undefined

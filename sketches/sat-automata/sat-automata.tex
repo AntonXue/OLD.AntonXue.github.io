@@ -89,6 +89,7 @@ There are several high-level insights that we leverage:
   \item[(1)]
     NFAs can be represented as directed multi-edge graphs
     where each edge is labeled by one letter from \(\Sigma\).
+    Self-loops are permitted here.
     In other words, let \(e_{i, j, \sigma}\) be an indicator
     variable encodes the indicator of a transition from state \(q_i\)
     to state \(q_j\) on the letter \(\sigma\).
@@ -102,14 +103,64 @@ There are several high-level insights that we leverage:
 
 \end{enumerate}
 
+We first construct a formula that will force \(\mcal{A}\) to accept
+a word \(w\) if and only if the formula is satisfied.
+Let \(y_{i, t}^w\) denote be an indicator variable
+to show that \(\mcal{A}\) is at state \(q_i\) at time \(t\),
+with \(1 \leq i \leq n\) and \(1 \leq t \leq \abs{w} + 1\).
+Note that since each letter of \(w\) acts as a transition,
+the automata will occupy \(\abs{w} + 1\) possibly repeated
+states during its accepting run.
+Then:
+\begin{align*}
+  \rho_w \equiv
+    \bigwedge_{1 \leq t \leq \abs{w} + 1}
+      \brackets{\bigwedge_{1 \leq i, j \leq n}
+        \neg \parens{y_{i, t} ^w \land y_{j, t} ^w}}
+\end{align*}
+Forces the automata to be in only one state at any given time \(t\)
+while reading \(w\).
+To accompany this, let \(e_{i, j, \sigma}\) to denote
+that \(\mcal{A}\) has a transition edge from \(q_i\) to \(q_j\)
+on letter \(\sigma\).
+Similarly:
+\begin{align*}
+  \pi_w \equiv
+    \bigwedge_{1 \leq t \leq \abs{w}}
+      \brackets{\bigvee_{1 \leq i, j \leq n}
+      \parens{y_{i, t} ^w \land y_{j, t + 1} ^w \land e_{i, j, w_t}}}
+\end{align*}
+Additionally, we can force boundary conditions to ensure that \(\mcal{A}\)
+begins reading \(w\) on a starting state and ends on an accepting state:
+\begin{align*}
+  \gamma_{w} \equiv
+    \brackets{\bigvee_{1 \leq i, j \leq n}
+        \parens{e_{i, j, w_{1}} \land s_i}}
+      \lor
+    \brackets{\bigvee_{1 \leq i, j \leq n}
+        \parens{e_{i, j, w_{\abs{w}} \land f_i}}}
+\end{align*}
+Then finally we set:
+\begin{align*}
+  \varphi_{w} \equiv \rho_w \land \pi_w \land \gamma_w
+\end{align*}
+Then \(\mcal{A}\) will only accept \(w\) if and only if \(\varphi_w\)
+is satisfiable.
+
+
+\red{AAAAAAAAAAAAAAAAA}
+
+
 For any \(w \in \Sigma^\star\), consider the following encoding:
 \begin{align*}
   \pi_w \equiv
-    \bigwedge_{1 \leq t < \abs{w}}
+    \bigwedge_{1 \leq t < \abs{w} + 1}
       \parens{\bigvee_{i \neq j \neq k}
         e_{i, j, w_t} \land e_{j, k, w_{t + 1}}}
 \end{align*}
 This forces the existence of a path on \(\mcal{A}\) for \(w\).
+The number of states in the walk of an accept will be \(\abs{w} + 1\),
+since each letter in \(w\) acts as transition between states.
 Additionally, to force \(w\) to stop on a final state,
 we may either have every state be a final state,
 or just set the following formula:
