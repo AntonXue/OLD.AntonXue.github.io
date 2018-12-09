@@ -1,0 +1,101 @@
+
+\section{Measure Theoretic Approaches}
+
+Consider a language \(L \subseteq \Sigma^\star\).
+The \(n\)-splice of a language written as \(L^n\) is defined as:
+\begin{align*}
+  L^n = L \cap \Sigma^n
+\end{align*}
+We then have the following relations:
+\begin{align*}
+  L
+    = \bigcup_{n = 0}^{\infty} L^n
+    = \bigcup_{n = 0}^{\infty} \parens{L \cap \Sigma^n}
+    = L \cap \bigcup_{n = 0}^{\infty} \Sigma^n
+    = L \cap \Sigma^\star
+    = L
+\end{align*}
+Suppose that \(\parens{\N, \powset{\N}, \eta}\) is a probabiliy measure space
+on \(\N\) with the probability measure \(\eta\),
+one way to define a measure \(\lambda_{\eta}\)
+is as follows:
+\begin{align*}
+  \lambda_{\eta} \parens{L}
+    = \sum_{n = 0}^{\infty}
+        \frac{\abs{L^n}}{\abs{\Sigma^n}} \eta\parens{n}
+\end{align*}
+
+\begin{theorem}
+  \(\parens{\Sigma^\star, \powset{\Sigma^\star}, \lambda_{\eta}}\)
+  is a measure space.
+\end{theorem}
+\begin{proof}
+  Since the \(\powset{\Sigma^\star}\) is the largest \(\sigma\)-algebra
+  on \(\Sigma^\star\), it suffices to show that \(\lambda_{\eta}\) is
+  a measure.
+
+  To see that \(\emptyset\) is mapped to \(0\):
+  \begin{align*}
+    \lambda_{\eta}\parens{\emptyset}
+      = \sum_{n = 0}^{\infty} \frac{\abs{\emptyset}}{\abs{\Sigma^n}} \eta\parens{n}
+      = \sum_{n = 0}^{\infty} 0
+      = 0
+  \end{align*}
+  Now take \(\parens{A_n} \subseteq \Sigma^\star\) to be a countable
+  collection of disjoint sets.
+  Write \(A_n ^k\) to denote the \(k\) splice of the \(n\)th set.
+  In other words: \begin{align*}
+    A_n = \bigcup_{k = 0}^{\infty} A_{n} ^k
+  \end{align*}
+  Observe that all such \(A_{n}^k\) are pairwise disjoint by construction,
+  and so:
+  \begin{align*}
+    \lambda_{\eta} \parens{\bigcup_{n = 0}^{\infty} A_n}
+      = \lambda_{\eta} \parens{\bigcup_{n = 0}^{\infty} \bigcup_{k = 0}^{\infty} A_n ^k}
+      = \sum_{n = 0}^{\infty} \lambda_{\eta} \parens{\bigcup_{k = 0}^{\infty} A_n ^k}
+      = \sum_{n = 0}^{\infty} \sum_{k = 0}^{\infty} \frac{\abs{A_n ^k}}{\abs{\Sigma^n}} \eta\parens{k}
+      = \sum_{n = 0}^{\infty} \lambda_{\eta} \parens{n}
+  \end{align*}
+  We conclude that \(\parens{\Sigma^\star, \powset{\Sigma^\star}, \lambda_{\eta}}\)
+  forms a measure space.
+
+\end{proof}
+We can generalize this more.
+Suppose that \(\nu = \parens{\nu_n}\)
+is a countable collection of measures where
+each \(\nu_n\) is defined on the splice \(\Sigma^n\).
+Then we can extend a definition of \(\lambda_{\eta, \nu}\) as:
+\begin{align*}
+  \lambda_{\eta, \nu} \parens{A}
+    = \sum_{n = 0}^{\infty} \nu\parens{A^n} \eta\parens{n}
+\end{align*}
+
+\begin{theorem}
+  \(\parens{\Sigma^\star, \powset{\Sigma^\star}, \lambda_{\eta, \nu}}\)
+  is a measure space.
+\end{theorem}
+\begin{proof}
+  As with before, we only show that \(\lambda_{\eta, \nu}\) is a measure.
+
+  For \(\emptyset\) we have again:
+  \begin{align*}
+    \lambda_{\eta, \nu}\parens{\emptyset} = \sum_{n = 0}^{\infty} 0 = 0
+  \end{align*}
+
+  Again take \(\parens{A_n} \subseteq \Sigma^\star\) to be a
+  countable disjoint collection of sets,
+  and \(A_n ^k\) to be the \(k\) splice of \(A_n\).
+  Then:
+  \begin{align*}
+    \lambda_{\eta, \nu} \parens{\bigcup_{n = 0}^{\infty} A_n}
+      = \lambda_{\eta, \nu} \parens{\bigcup_{n = 0}^{\infty} \bigcup_{k = 0}^{\infty} A_n ^k}
+      = \sum_{n = 0}^{\infty} \lambda_{\eta, \nu} \parens{\bigcup_{k = 0}^{\infty} A_n ^k}
+      = \sum_{n = 0}^{\infty} \sum_{k = 0}^{\infty} \nu_k \parens{A_n ^k} \eta\parens{k}
+      = \sum_{n = 0}^{\infty} \lambda_{\eta, \nu} \parens{A_n}
+  \end{align*}
+  This shows that
+  \(\parens{\Sigma^\star, \powset{\Sigma^\star}, \lambda_{\eta, \nu}}\)
+  is a measure space.
+\end{proof}
+
+

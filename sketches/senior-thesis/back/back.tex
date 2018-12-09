@@ -1,0 +1,92 @@
+
+\section{Background}
+
+
+\red{Filler text for background}
+
+
+\subsection{Regular Languages and Finite Automata}
+
+
+
+A regular language is a language that can be recongnized by a regular
+expression.
+Such languages play a central role in theoretical comptuer science
+and formal language theory due to their ability to simply describe a
+large class of strings.
+We now formalize these terms.
+
+Given a finite set of unique symbols \(\Sigma\) called the alphabet,
+write the set of all finite strings constructed over this alphabet
+as \(\Sigma^\star\).
+A string is nothing more than a finite sequences of symbols from an alphabet.
+Let \(\varepsilon\) denote the empty string which contains no symbols.
+
+\begin{example}
+  Consider an alphabet \(\Sigma = \braces{a, \alpha, b, \beta, \div}\),
+  examples of strings (finite sequences) that can be constructed
+  with this alphabet include
+  \begin{align*}
+    ab\beta\beta\alpha
+      \qquad \qquad
+    \div\div a \beta
+      \qquad \qquad
+    a a a a a a a
+      \qquad \qquad
+    \varepsilon
+      \qquad \qquad
+  \end{align*}
+\end{example}
+
+A language \(L\) is nothing more than a set of strings.
+In other words, \(L \subseteq \Sigma^\star\).
+We are now ready to introduce the concept of a regular language.
+Formally, regular languages are a family of languages inductively
+defined as follows:
+
+\begin{enumerate}
+  \item[(1)]
+    The empty set \(\emptyset\) and the empty string language
+    \(\braces{\varepsilon}\) are regular languages.
+
+  \item[(2)]
+    For each symbol \(a \in \Sigma\),
+    the singleton language \(\braces{a}\) is a regular language.
+
+  \item[(3)]
+    If \(A\) and \(B\) are regular languages,
+    then so is their union \(A \cup B\),
+    their concatenation \(A \cdot B\), and their Kleene star \(A^\star\),
+    defined as:
+    \begin{align*}
+      A \cup B
+        &= \braces{w \st w \in A \cup B} \\
+      A \cdot B
+        &= \braces{w_a \cdot w_b \st w_a \in A, w_b \in B} \\
+      A^\star
+        &= \braces{w^k \st k \in \N, w \in A}
+    \end{align*}
+    Where \(w^k\) is the k-fold concatenation of a string to itself,
+    and \(w_a \cdot w_b\) is the concatenaiton of strings
+    \(w_a\) and \(w_b\).
+    Sometimes we write \(w_a w_b\) for concatenation when context is clear.
+
+  \item[(4)]
+    No other languages are regular.
+\end{enumerate}
+
+
+
+
+\subsection{Metric Spaces}
+
+\red{Filler text on metric spaces}
+
+
+\subsection{Measure Theory}
+
+\red{Filler text on measure theory}
+
+
+
+

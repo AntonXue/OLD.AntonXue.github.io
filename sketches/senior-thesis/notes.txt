@@ -1,0 +1,17 @@
+
+
+Introduction
+
+
+
+Regular languages
+
+
+Metric Spaces
+
+
+(1) Measure theory based metric
+
+
+(2) SAT encoding based metric
+
