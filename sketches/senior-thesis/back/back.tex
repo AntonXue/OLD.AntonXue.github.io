@@ -204,17 +204,126 @@ that must hold for any \(x, y, z \in M\):
 
 \subsection{Measure Theory}
 
-\red{Filler text on measure theory}
+In mathematical analysis, measure theory is concerned with
+the rigorous formulation of ``size''.
+Such notions of size have application in generalizations of
+familiar concepts such as length, area, and volume,
+as well as integration theory.
+Informally, for a set \(X\),
+the goal of measure theory is to assign a measure (size) to subsets of \(X\).
+Often \(X\) is taken to be a space like \(\R^n\),
+and common examples of subsets include intervals, rectangles, or boxes.
 
 
-\begin{example}
-  \red{EXAMPLE 1 of MEASURE SPACE}
+Formally, a measureable space is a pair
+\(\parens{X, \mcal{A}}\) where
+\(X\) is a set and \(\mcal{A} \subseteq \powset{X}\) is called
+a \(\sigma\)-algebra on \(X\) that satisfies the following properties:
+\begin{enumerate}
+  \item[(1)]
+    Inclusion of emptyset and whole space: \(\emptyset, X \in \mcal{A}\).
+
+  \item[(2)]
+    Closure under relative complement:
+    \(E^c \in \mcal{A}\) if \(E \in \mcal{A}\).
+
+  \item[(3)]
+    Closure under countable unions:
+    \(E_1, E_2, \ldots \in \mcal{A}\) implies that
+    \begin{align*}
+      \bigcup_{i = 1}^{\infty} E_i \in \mcal{A}
+    \end{align*}
+
+\end{enumerate}
+
+The \(\sigma\)-algebra defined on \(X\) need not be unique.
+For instance, the smallest \(\sigma\)-algebra for any set \(X\)
+is \(\braces{\emptyset, X}\),
+while the largest \(\sigma\)-algebra is the power set \(\powset{X}\).
+
+If \(E\) belongs to the \(\sigma\)-algebra,
+that is, \(E \in \mcal{A}\), we say that \(E\) is measruable.
+Otherwise for some \(F \in \powset{X} \setminus \mcal{A}\)
+we say that \(F\) is un-measurable.
+
+A measureable space can be extended into a measure space by equipping a
+measure \(\type{\mu}{\mcal{A}}{\R}\) to form a triple
+\(\parens{X, \mcal{A}, \mu}\).
+A measure satisfies the following properties:
+\begin{enumerate}
+  \item[(1)]
+    Empty set has trivial measure: \(\mu\parens{\emptyset} = 0\).
+
+  \item[(2)]
+    Countable additivity:
+    if \(E_1, E_2, \ldots \in \mcal{A}\) are pairwise disjoint, then
+    \begin{align*}
+      \mu\parens{\bigcup_{i = 1}^{\infty} E_i}
+        = \sum_{i = 1}^{\infty} \mu\parens{E_i}
+    \end{align*}
+
+\end{enumerate}
+
+
+\begin{example}[Lebesgue Measure]
+  Consider the real line \(\R\)
+  and some interval open \(\parens{a, b} \subseteq \R\) with \(a < b\).
+  Intuitively one may want to assign the interval a size of
+  equal to its length.
+  In other words, the measure of \(\parens{a, b}\) should be \(b - a\).
+
+  The idea of using lengths (also, area, volume, etc) as a way to measure
+  the size of a set in \(\R^n\) gives rise to the Lebesgue measure
+  \(\lambda\).
+  But to formally define the Lebesgue measure, we must first
+  define the Lebesgue outer measure
+  \(\type{\lambda^\star}{\powset{\R}}{\R}\) as follows:
+  
+  In order to define the Lebesgue mesure \(\lambda\),
+  we first define the Lebesgue outer measure \(\lambda^\star\):
+  \begin{align*}
+    \lambda^\star \parens{E}
+      = \inf\braces{\sum_{i = 1}^{\infty} I_i \st
+                      \braces{\parens{I_i}}
+                      \ \text{is a sequence of open intervals such that} \ 
+                      E \subseteq \bigcup_{i = 1}^{\infty} {I_i}}
+  \end{align*}
+
+  The difference between an outer measure and a measure is that
+  an outer measure is defined on the largest \(\sigma\)-algebra,
+  in this case \(\powset{\R}\),
+  while a measure tends to be defined on a restricted subset.
+
+  The Lebesgue \(\sigma\)-algebra is a subset of \(\powset{\R}\) that
+  is defined as the collection of all sets \(E\) such that
+  for any \(A \subseteq \R\) the following property holds with respect
+  to the Lebesgue outer-measure \(\lambda^\star\):
+  \begin{align*}
+    \lambda^\star \parens{E}
+      = \lambda^\star \parens{A \cap E} + \lambda^\star \parens{A \cap E^c}
+  \end{align*}
+  This is called the Carath{\'e}odory criterion,
+  and on such sets we set \(\lambda\parens{E} = \lambda^\star \parens{E}\).
+  The proof that the Lebesgue measure is indeed a measure can be found
+  in texts on real analysis and measure theory.
+
 \end{example}
 
 
 
-\begin{example}
-  \red{EXAMPLE 2 of MEASURE SPACE}
+\begin{example}[Counting Measure]
+  Given a set \(X\),
+  the counting measure is defined on \(\powset{X}\),
+  and just counts the cardinality of each \(E \subseteq X\).
+  The counting measure tends to see application in settings
+  dealing with finite sets.
+\end{example}
+
+\begin{example}[Probability Measure]
+  Probability measures are measures
+  defined on the probability measure space
+  \(\parens{X, \Omega, \mu}\),
+  where for the whole space \(\mu\parens{X} = 1\).
 \end{example}
 
 
