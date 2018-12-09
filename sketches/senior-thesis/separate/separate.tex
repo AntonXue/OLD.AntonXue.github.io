@@ -1,3 +1,107 @@
 
 \section{Separating Automata}
 
+\red{MOTIVATIONAL TEXT}
+
+\red{DISTANCE METRIC}
+
+\begin{question}
+Given a positive set \(P \subseteq \Sigma^\star\)
+and negative set \(N \subseteq \Sigma^\star\)
+with \(P\) and \(N\) disjoint,
+does there exist an NFA
+\(\mcal{A} = \parens{\Sigma, Q, \Delta, S, F}\)
+with \(\abs{Q} = n\)
+such that for all \(u \in P\) in the positive set \(\mcal{A}\parens{u} = 1\),
+but for all \(v \in N\) in the negative set \(\mcal{A}\parens{v} = 0\).
+\end{question}
+
+We achieve this by constructing a boolean satisfiability formula
+that encodes \(P\) and \(N\),
+and is satisfiable if and only if such \(\mcal{A}\) exists.
+There are several high-level insights that we leverage:
+\begin{enumerate}
+  \item[(1)]
+    NFAs can be represented as directed multi-edge graphs
+    where each edge is labeled by one letter from \(\Sigma\).
+    Self-loops are permitted here.
+    In other words, let \(e_{i, j, \sigma}\) be an indicator
+    variable encodes the indicator of a transition from state \(q_i\)
+    to state \(q_j\) on the letter \(\sigma\).
+
+  \item[(2)]
+    For each \(u \in P\),
+    we can create a formula that forces a sequence of edge walks
+    resulting in a final state in \(\mcal{A}\).
+    Similarly for each \(v \in N\) we can encode a sequence that will force
+    a rejection of \(v\) in \(\mcal{A}\).
+
+\end{enumerate}
+
+We first construct a formula that will force \(\mcal{A}\) to accept
+a word \(w\) if and only if the formula is satisfied.
+Let \(y_{i, t}^w\) denote be an indicator variable
+to show that \(\mcal{A}\) is at state \(q_i\) at time \(t\),
+with \(1 \leq i \leq n\) and \(1 \leq t \leq \abs{w} + 1\).
+Note that since each letter of \(w\) acts as a transition,
+the automata will occupy \(\abs{w} + 1\) possibly repeated
+states during its accepting run.
+Then:
+\begin{align*}
+  \rho_w \equiv
+    \bigwedge_{1 \leq t \leq \abs{w} + 1}
+      \brackets{\bigwedge_{1 \leq i, j \leq n}
+        \neg \parens{y_{i, t} ^w \land y_{j, t} ^w}}
+\end{align*}
+Forces the automata to be in only one state at any given time \(t\)
+while reading \(w\).
+To accompany this, let \(e_{i, j, \sigma}\) to denote
+that \(\mcal{A}\) has a transition edge from \(q_i\) to \(q_j\)
+on letter \(\sigma\).
+Similarly:
+\begin{align*}
+  \pi_w \equiv
+    \bigwedge_{1 \leq t \leq \abs{w}}
+      \brackets{\bigvee_{1 \leq i, j \leq n}
+      \parens{y_{i, t} ^w \land y_{j, t + 1} ^w \land e_{i, j, w_t}}}
+\end{align*}
+Additionally, we can force boundary conditions to ensure that \(\mcal{A}\)
+begins reading \(w\) on a starting state and ends on an accepting state:
+\begin{align*}
+  \gamma_{w} \equiv
+    \brackets{\bigvee_{1 \leq i, j \leq n}
+        \parens{e_{i, j, w_{1}} \land s_i}}
+      \lor
+    \brackets{\bigvee_{1 \leq i, j \leq n}
+        \parens{e_{i, j, w_{\abs{w}} \land f_j}}}
+\end{align*}
+Where \(s_i\) and \(f_j\) are indicator variables to express that
+\(q_i\) is a starting state and \(q_j\) is a final state respectively.
+Then finally we set:
+\begin{align*}
+  \varphi_{w} \equiv \rho_w \land \pi_w \land \gamma_w
+\end{align*}
+Then \(\mcal{A}\) will only accept \(w\) if and only if \(\varphi_w\)
+is satisfiable.
+Finally:
+\begin{align*}
+  \Phi_{P, N} \equiv
+    \brackets{\bigwedge_{u \in P} \varphi_u}
+      \land
+    \brackets{\bigwedge_{v \in N} \neg \varphi_v}
+\end{align*}
+By construction, \(\Phi_{P, N}\) is true if and only if \(\mcal{A}\)
+accepts all \(P\) and rejects all \(N\).
+
+Suppose that \(\Sigma\) is known.
+If \(\Phi_{P, N}\) is satisfiable,
+then \(\mcal{A} = \parens{\Sigma, Q, \Delta, S, F}\) can be extracted as:
+\begin{align*}
+  Q &= \braces{q_1, \ldots, q_n} \\
+  \Delta &= \braces{\parens{\parens{q_i, \sigma}, q_j} \st e_{i, j, \sigma} = \top} \\
+  S &= \braces{q_i \st s_i = \top} \\
+  F &= \braces{q_j \st f_j = \top} \\
+\end{align*}
+
+
+

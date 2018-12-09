@@ -7,8 +7,63 @@
 
 \subsection{Regular Languages and Finite Automata}
 
+Language recognition is a fundamental problem in theoretical computer science.
+Given an alphabet of unique symbols \(\Sigma\),
+let \(\Sigma^\star\) denote the set of all possible finite strings over
+the alphabet \(\Sigma\).
+For some set of strings that we call a language \(L \subseteq \Sigma^\star\)
+and string \(w \in \Sigma^\star\),
+we then ask if \(w \in L\).
+This is the language recognition problem.
+
+A number of problems in theoretical computer science can be formulated
+in terms of language recognition.
+Does this string belong to the set (language) of valid email addresses?
+Does this stirng belong to the set (language) of valid
+computer programs written in my favorite programming language?
+Does this string belong to the set (language) of solutions
+to an instance of the boolean satisfiability problem?
+
+Here we are primarily concerned with recognizing regular languages.
+These are the languages that can be described by regular expressions,
+and see widespread application in text parsing.
+Equivalently stated, regular languages are precisely the set of languages
+recognized by the set of non-deterministic finite automata (NFA),
+which we aim to study here.
+
+Formally, a NFA is a tuple
+\(\parens{\Sigma, Q, \delta, S, F}\)
+that represents a finite state transition machine
+which accepts or rejects strings.
+Here \(\Sigma\) is the alphabet,
+\(Q\) is the set of states,
+\(\type{\Delta}{\Sigma \times Q}{\powset{Q}}\) is the transition function,
+\(S \subseteq Q\) is the set of initial states,
+and \(F \subseteq Q\) is the set of final states.
+
+A NFA accepts a string if there exists a sequence of transition
+starting from some \(q_s \in S\)
+that ends in \(q_f \in F\).
+As the transition function maps to a set of possible states that may
+be arbitrarily chosen,
+only the existence of a transition sequence is necessary,
+hence the term non-deterministic.
+
+\begin{example}[NFA]
+  \red{AAAAAAAAAAAAA}
+\end{example}
 
 
+
+\red{ALGEBRAIC FORMULATION?}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\if false
 A regular language is a language that can be recongnized by a regular
 expression.
 Such languages play a central role in theoretical comptuer science
@@ -75,12 +130,76 @@ defined as follows:
     No other languages are regular.
 \end{enumerate}
 
+As alluded to earlier,
+regular languages are precisely languages
+that are recognized by the set of regular expressions.
+For a regular expression \(R\) to recognize a language \(L\) means that
+the regular expression \(R\) can describe every string in \(L\).
+We now make this more concrete.
+Given an alphabet \(\Sigma\),
+a regular expression is defined inductively as follows
+
+
+\begin{enumerate}
+  \item[(1)]
+    The empty regular expression denotes the empty language \(\emptyset\).
+    The empty string \(\varepsilon\) describes the
+    language containing only the empty string \(\braces{\varepsilon}\).
+    For each symbol \(a \in \Sigma\), 
+    the regular expression of just \(a\) matches the language
+    \(\braces{a}\).
+
+  \item[(2)]
+    Given regular expressions \(R\) and \(S\),
+    the following operations are regular expressions
+    \begin{enumerate}
+      \item[(a)]
+        Concatenation \(RS\) is a regular expression that denotes
+        the 
+
+      \item[(b)]
+      
+      \item[(c)]
+    \end{enumerate}
+
+  \item[(3)]
+\end{enumerate}
+
+\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
 \subsection{Metric Spaces}
 
-\red{Filler text on metric spaces}
+The concept of a distance is formalized in mathematics through a metric space.
+A metric space is a pair \(\parens{M, d}\) where \(M\) is a set
+and \(\type{d}{M \times M}{\R}\) is known as the metric, or distance,
+function that aims to assign a distance between any two members of \(M\).
+A metric space comes equipped with the following axioms
+that must hold for any \(x, y, z \in M\):
+\begin{enumerate}
+  \item[(1)]
+    Non-negativity of \(d\): \(d\parens{x, y} \geq 0\).
+
+  \item[(2)]
+    Identity of indiscernibles:
+    \(d\parens{x, y} = 0\) if and only if \(x = y\).
+
+  \item[(3)]
+    Symmetry:
+    \(d\parens{x, y} = d\parens{y, x}\).
+
+  \item[(4)]
+    Triangle inequality:
+    \(d\parens{x, z} \leq d\parens{x, y} + d\parens{y, z}\).
+
+\end{enumerate}
+
+
+\begin{example}
+  \red{EXAMPLE OF METRIC SPACE HERE}
+\end{example}
 
 
 \subsection{Measure Theory}
@@ -88,5 +207,14 @@ defined as follows:
 \red{Filler text on measure theory}
 
 
+\begin{example}
+  \red{EXAMPLE 1 of MEASURE SPACE}
+\end{example}
+
+
+
+\begin{example}
+  \red{EXAMPLE 2 of MEASURE SPACE}
+\end{example}
 
 

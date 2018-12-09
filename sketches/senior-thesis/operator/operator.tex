@@ -1,3 +1,248 @@
 
 \section{Linear Operators}
 
+\red{MOTIVATIONAL TEXT}
+
+
+For a NFA \(A\), with \(A = \parens{\Sigma, Q, \delta, S, F}\),
+the goal is to view \(A\) acting as a linear operator between spaces.
+In particular, the approach we take is to see \(\delta\) as a
+linear operator between spaces: this is perhaps the most obvious approach,
+because to begin with, \(\delta\) is already the transition function.
+
+But the questions are then:
+what are the appropriate linear spaces,
+and what are the actions of the linear operator?
+One initial thought is that the transition function can, in some way,
+be seen as a directed acyclic graph on the states \(Q\),
+where each edge is weighted by the letters in the alphabet \(\Sigma\)
+that induce the transition.
+The representation as an adjacency matrix does appear in
+literature~\cite{savage1998models}.
+Roughly, if \(M\) is the transition matrix, then \(M_{i, j} \in 2^{\Sigma}\)
+denotes the states that will transition state \(q_i\) to \(q_j\).
+
+While such a matrix representation is useful,
+it is not immediately obvious how such a matrix does indeed correspond
+to a linear operator, especially on what linear spaces.
+One possible interpretation is to see
+the linear spaces as \(\abs{Q}\)-dimensional,
+where each dimension of the space corresponds to one member of \(Q\).
+The objects of the space is then sets of strings over \(\Sigma\).
+
+\begin{definition}[String Space]
+  The string space of \(\Sigma\) is a semiring
+  \(\parens{2^{\Sigma^\star}, \cup, \cdot, \zero, \one}\)
+  such that:
+  \begin{enumerate}
+    \item[(a)]
+      The semiring addition is the set union
+      \(\type{\cup}{2^{\Sigma^\star} \times
+        2^{\Sigma^\star}}{2^{\Sigma^\star}}\).
+
+    \item[(b)]
+      The semiring multiplication is the string concatenation
+      \(\type{\cdot}{2^{\Sigma^\star} \times
+        2^{\Sigma^\star}}{2^{\Sigma^\star}}\)
+      such that:
+      \begin{align*}
+        A \cdot B
+          = \braces{a \cdot b \st a \in A, b \in B}
+      \end{align*}
+  \end{enumerate}
+\end{definition}
+
+Here the string space is the power set of all strings generated
+by \(\Sigma\) through monoid multiplication (string concatenation).
+Defining the string space like this allows us to equip it with a semiring
+structure by viewing addition as set union.
+For convenience,
+we may write \(R\) instead of \(2^{\Sigma^\star}\)
+to denote the set corresponding to the string space.
+
+Observe that \(R\) has the structure of a \(1\)-dimensional linear space.
+The big difference, however, is that the scalar elements are
+elements of a semiring rather than a field.
+Nevertheless, \(R\) is still closed under linear operations,
+and is therefore a linear space.
+
+\begin{theorem}
+  A string space \(R\) is a linear space.
+\end{theorem}
+\begin{proof}
+  \red{descriptive text here}
+\end{proof}
+
+The natural extension of a \(1\)-dimensional linear space
+is a \(n\)-dimensional linear space.
+
+\begin{definition}[\(n\)-String Space]
+  For a string space \(R\) and \(n \in \Zp\),
+  the \(n\)-dimensional string space \(R^n\) is then the
+  free semimodule isomorphic to \(n\) copies of \(R\).
+\end{definition}
+
+A natural representation of \(R^n\) is as a \(n\)-dimensional vector,
+and in this case we prefer row vectors to column vectors.
+We abuse notation to identify elements of \(R^n\) with their
+row vector representation.
+Furthermore, we demonstrate that this is indeed still a linear space.
+
+\begin{theorem}
+  A string space \(R^n\) is a linear space.
+\end{theorem}
+\begin{proof}
+  \red{descriptive text}
+\end{proof}
+
+In particular, it would be nice to have a linear operator
+between string spaces.
+
+\begin{definition}[Linear String Space Operator]
+  A linear string space operator
+  is a linear operator \(\type{A}{R^n}{R^m}\).
+\end{definition}
+
+In particular, we are interested in a matrix representation.
+
+\begin{definition}[Matrix Representation of Linear String Space Operator]
+  The matrix representation of a linear string space operator
+  \(\type{A}{R^n}{R^m}\) is a matrix
+  \(A \in M_{n \times m} \parens{R}\) that
+  acts on row vectors of \(R^n\) by right multiplication.
+\end{definition}
+
+Here each entry of the matrix denotes the sets strings that are
+concatenated during transition.
+As with the \(n\)-dimensional string space \(R^n\),
+we abuse notation for \(A\) to stand in for
+both the linear operator and its matrix representation.
+We now show that this is indeed a linear operator.
+
+\begin{theorem}
+  The matrix representation of \(\type{A}{R^n}{R^m}\) is a linear operator.
+\end{theorem}
+\begin{proof}
+  \red{descriptive text}
+\end{proof}
+
+Observe that the elements for the matrix of \(A\) are drawn from
+\(R\) (which is just \(2^{\Sigma^\star}\))
+rather than \(2^{\Sigma}\),
+which is what we would expect for an NFA.
+In other words, transitions in \(A\) are given by sets of potentially
+long strings, rather than just single alphabets.
+The definition provided here is intended to be slightly more general,
+with the NFA case of single-letter transitions being a special case.
+Nevertheless,
+given a NFA, we are now ready to describe a particular matrix representation
+as a linear operator between \(n\)-string spaces.
+
+\begin{definition}[Matrix Representation of \(\delta\)]
+  For a NFA \(\parens{\Sigma, Q, \delta, S, F}\) with
+  string space \(R\) generated by \(\Sigma\) and \(n = \abs{Q}\),
+  the matrix representation of \(\delta\) as a linear operator
+  is a matrix
+  \(A \in M_{n \times n} \parens{R}\)  where:
+  \begin{align*}
+    A_{i, j}
+      = \braces{a \st \parens{\parens{a, q_i}, B} \in \delta, q_j \in B}
+  \end{align*}
+\end{definition}
+
+Of course, this is a linear string space operator simply because
+every entry of the transition matrix will be a set of singleton strings.
+
+
+
+\subsection{Examples}
+
+\begin{example}
+  Consider \(\Sigma = \braces{a, b, c}\) and the NFA below:
+
+  \begin{figure}[h!]
+  \centering
+  \begin{tikzpicture}
+    [->,
+     >=stealth',
+     shorten >=1pt,
+     auto,
+     node distance=2cm,
+     semithick,
+     state/.style={circle, draw, minimum size=1cm} 
+    ]
+    \node[state] (Q1) at (0, 0) {\(q_1\)};
+    \node[state] (Q2) at (3, 1.5) {\(q_2\)};
+    \node[state] (Q3) at (3, -1.5) {\(q_3\)};
+
+    \path (Q1) edge [] node
+              {\(\braces{a, b}\)} (Q2);
+    \path (Q2) edge [loop right] node
+              {\(\braces{a}\)} (Q2);
+    \path (Q2) edge [] node
+              {\(\braces{b}\)} (Q3);
+    \path (Q3) edge [loop right] node
+              {\(\braces{a, c}\)} (Q3);
+    \path (Q3) edge [] node
+              {\(\braces{c}\)} (Q1);
+  \end{tikzpicture}
+  \caption{NFA Graph}
+  \end{figure}
+  The most important distinction between this and a typical
+  NFA is that we implicitly assume every state to be both starting
+  and accepting.
+  In other words, accepting strings is very permissive,
+  which simplifies things for now.
+  However,
+  to embed this into our model there are several steps.
+
+  First, we have the string space
+  \(\parens{2^{\Sigma^\star}, \bigcup, \cdot, \zero, \one}\).
+
+  Next, for the matrix \(A\) that we will construct,
+  take \(A_{i, j}\) to denote the transition from state
+  \(q_i\) to state \(q_j\).
+  The matrix is then:
+  \begin{align*}
+    A =
+      \begin{bmatrix}
+        \zero & \braces{a, b} & \zero \\
+        \zero & \braces{a} & \braces{b} \\
+        \braces{c} & \zero & \braces{a, c}
+      \end{bmatrix}
+  \end{align*}
+  In order to perform string concatenation towards the right,
+  transition matrices act by right-matrix multiplication.
+  That is, if \(v \in R^3\) is the initial \(n\)-dimensional
+  string space, then the subsequent string space is \(v A\).
+
+  To briefly demonstrate, two transitions of the matrix \(A\) appears as
+  follows:
+  \begin{align*}
+    A^2 =
+      \begin{bmatrix}
+        \zero & \braces{a, b} & \zero \\
+        \zero & \braces{a} & \braces{b} \\
+        \braces{c} & \zero & \braces{a, c}
+      \end{bmatrix} 
+      \begin{bmatrix}
+        \zero & \braces{a, b} & \zero \\
+        \zero & \braces{a} & \braces{b} \\
+        \braces{c} & \zero & \braces{a, c}
+      \end{bmatrix}
+      =
+      \begin{bmatrix}
+        \zero & \braces{aa, ba} & \braces{ab, bb} \\
+        \braces{bc} & \braces{aa} & \braces{ab, ba, bc} \\
+        \braces{ac, cc} & \braces{ca, cb} & \braces{aa, ac, ca, cc}
+      \end{bmatrix}
+  \end{align*}
+  In general, from graph theory, \(A^k\) denotes the \(k\)th consecutive
+  transition using \(A\),
+  and each entry \(A^k _{i, j}\) is the set of strings that will
+  get from state \(q_i\) to \(q_j\) in \(k\) steps.
+
+\end{example}
+
+
+
