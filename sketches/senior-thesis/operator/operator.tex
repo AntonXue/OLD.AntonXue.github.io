@@ -70,7 +70,11 @@ and is therefore a linear space.
   A string space \(R\) is a linear space.
 \end{theorem}
 \begin{proof}
-  \red{descriptive text here}
+  A semiring contains a zero element and is closed under
+  (semiring) addition.
+  Furthermore,
+  it is closed under (left semiring) multiplication
+  with respect to other elements of the semiring.
 \end{proof}
 
 The natural extension of a \(1\)-dimensional linear space
@@ -86,14 +90,11 @@ A natural representation of \(R^n\) is as a \(n\)-dimensional vector,
 and in this case we prefer row vectors to column vectors.
 We abuse notation to identify elements of \(R^n\) with their
 row vector representation.
-Furthermore, we demonstrate that this is indeed still a linear space.
+Furthermore, we demonstrate that this is indeed still a linear space,
+where semiring operations are defined coordinate-wise.
+An immediate consequence is that this also forms a linear space,
+since it is an \(n\)-dimensional linear space.
 
-\begin{theorem}
-  A string space \(R^n\) is a linear space.
-\end{theorem}
-\begin{proof}
-  \red{descriptive text}
-\end{proof}
 
 In particular, it would be nice to have a linear operator
 between string spaces.
@@ -117,14 +118,8 @@ concatenated during transition.
 As with the \(n\)-dimensional string space \(R^n\),
 we abuse notation for \(A\) to stand in for
 both the linear operator and its matrix representation.
-We now show that this is indeed a linear operator.
-
-\begin{theorem}
-  The matrix representation of \(\type{A}{R^n}{R^m}\) is a linear operator.
-\end{theorem}
-\begin{proof}
-  \red{descriptive text}
-\end{proof}
+From linear algebra, we know that the space of linear operators between
+linear spaces is itself a linear space.
 
 Observe that the elements for the matrix of \(A\) are drawn from
 \(R\) (which is just \(2^{\Sigma^\star}\))
