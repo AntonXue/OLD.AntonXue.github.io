@@ -1,8 +1,8 @@
 
 \section{Background}
 
-
-\red{Filler text for background}
+We now introduce and give a quick overview of some of the background
+material relevant.
 
 
 \subsection{Regular Languages and Finite Automata}
@@ -364,5 +364,121 @@ A measure satisfies the following properties:
   \(\parens{X, \Omega, \mu}\),
   where for the whole space \(\mu\parens{X} = 1\).
 \end{example}
+
+
+
+\subsection{Mesure Induced Metric}
+
+For a measure space \(\parens{X, \mcal{E}, \mu}\),
+an interesting consequence is that a
+metric space can be defined on \(\mcal{E}\)
+as follows:
+\begin{align*}
+  d\parens{A, B} = \mu\parens{A \triangle B}
+\end{align*}
+Where \(\triangle\) is the symmetric set difference.
+We now set out to show this.
+
+
+\begin{lemma}
+  \(\parens{A \triangle C}
+          \subseteq \parens{A \triangle B} \cup \parens{B \triangle C}\).
+\end{lemma}
+\begin{proof}
+  Observe that we may rewrite the above as follows:
+  \begin{align*}
+    \parens{A \setminus C} \cup \parens{C \setminus A}
+      \subseteq
+        \brackets{\parens{A \setminus B} \cup \parens{B \setminus C}} \cup
+        \brackets{\parens{B \setminus A} \cup \parens{C \setminus B}}
+  \end{align*}
+  It then suffices to show that:
+  \begin{align*}
+    A \setminus C
+      \subseteq \parens{A \setminus B} \cup \parens{B \setminus C}
+    \qquad
+    \qquad
+    C \setminus A
+      \subseteq \parens{B \setminus A} \cup \parens{C \setminus B}
+  \end{align*}
+  We take turns examining these.
+
+      If \(x \in A \setminus C\), then this implies that \(x \in A\)
+      and \(x \not\in C\).
+      There are now two cases, where \(x \in B\) or \(x \not\in B\).
+      First assume that \(x \in B\), which will imply that
+      \(x \in B \setminus C\).
+      Now assume that \(x \not\in B\), which will imply that
+      \(x \in A \setminus B\).
+      Either way, the implication is that
+      \(x \in \parens{A \setminus B} \cup \parens{B \setminus C}\),
+      and so it follows that
+      \(A \setminus C
+      \subseteq \parens{A \setminus B} \cup \parens{B \setminus C}\).
+
+      If \(x \in C \setminus A\), then this implies that
+      \(x \in C\) and \(x \not\in A\).
+      The argument is similar to the above, in which either
+      \(x \in B\) or \(x \not\in B\).
+      If \(x \in B\), then \(x \in B \setminus A\),
+      and otherwise if \(x \not\in B\) implies that
+      \(x \in C \setminus B\).
+      Collectively, the two imply that
+      \(C \setminus A \subseteq
+        \parens{B \setminus A} \cup \parens{C \setminus B}\).
+
+  Collectively, this shows that
+  \(\parens{A \triangle C}
+          \subseteq \parens{A \triangle B} \cup \parens{B \triangle C}\).
+\end{proof}
+
+
+\begin{theorem}
+  If \(\parens{X, \mcal{E}, \mu}\) is a measure space,
+  then for \(\type{d}{\mcal{E} \times \mcal{E}}{\Rz}\) defined as:
+  \begin{align*}
+    d\parens{A, B} = \mu\parens{A \triangle B}
+  \end{align*}
+  Is a metric function.
+\end{theorem}
+\begin{proof}
+  We prove the conditions necessary for a metric:
+  identity, symmetry, and triangle inequality.
+
+      As \(\mu\) is a measure, then for any \(A \in \mcal{E}\):
+      \begin{align*}
+        d\parens{A, A}
+          = \mu\parens{A \triangle A}
+          = \mu\parens{\emptyset} = 0
+      \end{align*}
+
+      By the symmetry of symmetric set difference,
+      for any \(A, B \in \mcal{E}\):
+      \begin{align*}
+        d\parens{A, B}
+          = \mu\parens{A \triangle B}
+          = \mu\parens{B \triangle A}
+          = d\parens{B, A}
+      \end{align*}
+
+      For any \(A, B, C \in \mcal{E}\),
+      we have by convexity as shown in the lemma above:
+      \begin{align*}
+        A \triangle C \subseteq
+          \parens{A \triangle B} \cup \parens{B \triangle C}
+      \end{align*}
+      Then by sub-additivity of measures:
+      \begin{align*}
+        d\parens{A, C}
+          = \mu\parens{A \triangle C}
+          \leq \mu\parens{
+                \parens{A \triangle B} \cup \parens{B \triangle C}}
+          \leq
+          \mu\parens{A \triangle B} + \mu\parens{A \triangle C}
+          = d\parens{A, B} + d\parens{B, C}
+      \end{align*}
+\end{proof}
+
+
 
 
