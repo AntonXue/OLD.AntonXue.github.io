@@ -1,6 +1,26 @@
 
 \section{Separating Automata}
 
+Another way to measure the distance between two languages is
+with respect to the size of the smallest NFA that separates them.
+This is known as the string separation problem.
+
+More formally, given two sets of strings
+\(P\) and \(N\),
+where we call \(P\) the set of positive strings and \(N\) the set of
+negative strings,
+let \(\mcal{A}\) be the smallest NFA that accepts all the strings in \(P\)
+and rejects all the strings in \(N\),
+where small refers to the number of states.
+A metric can then be defined as:
+\begin{align*}
+  d\parens{P, N} = \frac{1}{2^{\abs{\mcal{A}}}}
+\end{align*}
+Where \(\abs{\mcal{A}}\) counts the number of states of \(\mcal{A}\).
+Note that minimally separating NFAs need not be unique.
+
+
+
 \red{MOTIVATIONAL TEXT}
 
 \red{DISTANCE METRIC}

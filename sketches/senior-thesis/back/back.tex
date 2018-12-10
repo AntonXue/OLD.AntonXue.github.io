@@ -50,15 +50,48 @@ only the existence of a transition sequence is necessary,
 hence the term non-deterministic.
 
 \begin{example}[NFA]
-  \red{AAAAAAAAAAAAA}
+  The NFA below operators over the binary alphabet
+  \(\Sigma = \braces{0, 1}\).
+
+  \begin{center}
+  \begin{tikzpicture}
+    [->,
+     >=stealth',
+     shorten >=1pt,
+     auto,
+     node distance=2cm,
+     semithick,
+     state/.style={circle, draw, minimum size=1cm} 
+    ]
+
+    \node[state, initial] (q0) at (0, 2) {\(q_0\)};
+    \node[state] (q1) at (4, 4) {\(q_1\)};
+    \node[state, accepting] (q2) at (4, 0) {\(q_2\)};
+
+    \draw (q0) edge [above] node{\(0\)} (q1);
+    \draw (q1) edge [left] node{\(1\)} (q2);
+    \draw (q0) edge [below] node{\(0\)} (q2);
+  \end{tikzpicture}
+  \end{center}
+
+  In order for a NFA to accept a string, there must exist a sequence
+  of transitions (which may be non-unique).
+  This particular NFA accepts precisely two strings:
+  \begin{enumerate}
+    \item[(1)]
+      The string \(0\) through the transition sequence \(q_0 q_2\).
+
+    \item[(2)]
+      The string \(01\) through the transition sequence \(q_0 q_1 q_2\).
+  \end{enumerate}
+  Note that from state \(q_0\) there are two out-edges that
+  are both weighted with \(0\).
+  This is what differentiates an NFA from a
+  deterministic finite automata (DFA).
+  In an NFA, out-edges from the same vertex may have shared labels,
+  but in a DFA all out-edges from the same vertex may not share labels.
+
 \end{example}
-
-
-
-\red{ALGEBRAIC FORMULATION?}
-
-
-
 
 
 
@@ -197,8 +230,14 @@ that must hold for any \(x, y, z \in M\):
 \end{enumerate}
 
 
-\begin{example}
-  \red{EXAMPLE OF METRIC SPACE HERE}
+\begin{example}[Euclidean Metric]
+  For some \(x_i \in \R^n\),
+  let \(x_i\) be the \(i\)th coordinate of the vector.
+  Then the Euclidan (L2) metric is defined by
+  \begin{align*}
+    d\parens{x, y}
+      = \sqrt{\sum_{i = 1}^{n} \parens{x_i - y_i}^2}
+  \end{align*}
 \end{example}
 
 
@@ -216,22 +255,22 @@ and common examples of subsets include intervals, rectangles, or boxes.
 
 
 Formally, a measureable space is a pair
-\(\parens{X, \mcal{A}}\) where
-\(X\) is a set and \(\mcal{A} \subseteq \powset{X}\) is called
+\(\parens{X, \mcal{E}}\) where
+\(X\) is a set and \(\mcal{E} \subseteq \powset{X}\) is called
 a \(\sigma\)-algebra on \(X\) that satisfies the following properties:
 \begin{enumerate}
   \item[(1)]
-    Inclusion of emptyset and whole space: \(\emptyset, X \in \mcal{A}\).
+    Inclusion of empty set and whole space: \(\emptyset, X \in \mcal{E}\).
 
   \item[(2)]
     Closure under relative complement:
-    \(E^c \in \mcal{A}\) if \(E \in \mcal{A}\).
+    \(E^c \in \mcal{E}\) if \(E \in \mcal{E}\).
 
   \item[(3)]
     Closure under countable unions:
-    \(E_1, E_2, \ldots \in \mcal{A}\) implies that
+    \(E_1, E_2, \ldots \in \mcal{E}\) implies that
     \begin{align*}
-      \bigcup_{i = 1}^{\infty} E_i \in \mcal{A}
+      \bigcup_{i = 1}^{\infty} E_i \in \mcal{E}
     \end{align*}
 
 \end{enumerate}
@@ -242,13 +281,13 @@ is \(\braces{\emptyset, X}\),
 while the largest \(\sigma\)-algebra is the power set \(\powset{X}\).
 
 If \(E\) belongs to the \(\sigma\)-algebra,
-that is, \(E \in \mcal{A}\), we say that \(E\) is measruable.
-Otherwise for some \(F \in \powset{X} \setminus \mcal{A}\)
+that is, \(E \in \mcal{E}\), we say that \(E\) is measruable.
+Otherwise for some \(F \in \powset{X} \setminus \mcal{E}\)
 we say that \(F\) is un-measurable.
 
 A measureable space can be extended into a measure space by equipping a
-measure \(\type{\mu}{\mcal{A}}{\R}\) to form a triple
-\(\parens{X, \mcal{A}, \mu}\).
+measure \(\type{\mu}{\mcal{E}}{\R}\) to form a triple
+\(\parens{X, \mcal{E}, \mu}\).
 A measure satisfies the following properties:
 \begin{enumerate}
   \item[(1)]
@@ -256,7 +295,7 @@ A measure satisfies the following properties:
 
   \item[(2)]
     Countable additivity:
-    if \(E_1, E_2, \ldots \in \mcal{A}\) are pairwise disjoint, then
+    if \(E_1, E_2, \ldots \in \mcal{E}\) are pairwise disjoint, then
     \begin{align*}
       \mu\parens{\bigcup_{i = 1}^{\infty} E_i}
         = \sum_{i = 1}^{\infty} \mu\parens{E_i}
