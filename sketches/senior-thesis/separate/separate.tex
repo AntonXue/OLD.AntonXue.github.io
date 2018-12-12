@@ -1,40 +1,41 @@
 
 \section{Separating Automata}
 
-Another way to measure the distance between two languages is
-with respect to the size of the smallest NFA that separates them.
-This is known as the string separation problem.
+There are several ways to define a metric over the space of strings.
+For instance,
+the edit distance between two strings defines a metric.
 
-More formally, given two sets of strings
-\(P\) and \(N\),
+Another metric that can be defined over two strings is with respect to an
+automata.
+For strings \(w\) and \(v\),
+let \(\mcal{A}\) be the smallest automata that accepts \(w\) and rejects
+\(v\).
+The distance can then be defined as follows:
+\begin{align*}
+  d\parens{w, v} = \frac{1}{2^{\abs{\mcal{A}}}}
+\end{align*}
+Where \(\abs{A}\) here denotes the number of states of \(\mcal{A}\).
+
+\red{INTUITION OF WHAT THIS METIRC MEANS}
+
+
+The question is then how to promote this to compare over two sets of strings
+rather than just two strings itself.
+That is, given two sets of strings \(P\) and \(N\),
 where we call \(P\) the set of positive strings and \(N\) the set of
 negative strings,
 let \(\mcal{A}\) be the smallest NFA that accepts all the strings in \(P\)
 and rejects all the strings in \(N\),
 where small refers to the number of states.
-A metric can then be defined as:
+can a metric be defined with respect to \(\mcal{A}\)?
+We would like to make a statement like:
 \begin{align*}
   d\parens{P, N} = \frac{1}{2^{\abs{\mcal{A}}}}
 \end{align*}
-Where \(\abs{\mcal{A}}\) counts the number of states of \(\mcal{A}\).
-Note that minimally separating NFAs need not be unique.
-
-
-
-\red{MOTIVATIONAL TEXT}
-
-\red{DISTANCE METRIC}
-
-\begin{question}
-Given a positive set \(P \subseteq \Sigma^\star\)
-and negative set \(N \subseteq \Sigma^\star\)
-with \(P\) and \(N\) disjoint,
-does there exist an NFA
-\(\mcal{A} = \parens{\Sigma, Q, \Delta, S, F}\)
-with \(\abs{Q} = n\)
-such that for all \(u \in P\) in the positive set \(\mcal{A}\parens{u} = 1\),
-but for all \(v \in N\) in the negative set \(\mcal{A}\parens{v} = 0\).
-\end{question}
+However it's not immediately clear that this forms a metric,
+or if it does at all.
+Nevertheless, the method of finding a minimal separating NFA is
+still of theoretical interest.
 
 We achieve this by constructing a boolean satisfiability formula
 that encodes \(P\) and \(N\),

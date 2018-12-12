@@ -1,8 +1,18 @@
 
 \section{Linear Operators}
 
-\red{MOTIVATIONAL TEXT}
+An adjacency matrix can be seen as a linear operator on the space of
+vertices.
+For a linear operator \(\type{T}{X}{Y}\) where \(X\) and \(Y\)
+are normed linear spaces, the norm of \(T\) can be defined
+as follows:
+\begin{align*}
+  \norm{T}
+    = \inf\braces{c \in \R \st
+              \forall x \in X, \norm{Tx} \leq c \norm{x}_X}
+\end{align*}
 
+We aim to extend to this to the space of automata.
 
 For a NFA \(A\), with \(A = \parens{\Sigma, Q, \delta, S, F}\),
 the goal is to view \(A\) acting as a linear operator between spaces.
