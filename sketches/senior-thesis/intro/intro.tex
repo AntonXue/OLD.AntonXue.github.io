@@ -1,7 +1,72 @@
 
 \section{Introduction}
 
-\red{Filler introduction text}
+Language recognition is a fundamental problem in theoretical computer science.
+Given an alphabet of unique symbols \(\Sigma\),
+let \(\Sigma^\star\) denote the set of all possible finite strings over
+the alphabet \(\Sigma\).
+For some set of strings that we call a language \(L \subseteq \Sigma^\star\)
+and string \(w \in \Sigma^\star\),
+we then ask if \(w \in L\).
+This is the language recognition problem.
+
+A number of problems in theoretical computer science can be formulated
+in terms of language recognition.
+Does this string belong to the set (language) of valid email addresses?
+Does this stirng belong to the set (language) of valid
+computer programs written in my favorite programming language?
+Does this string belong to the set (language) of solutions
+to an instance of the boolean satisfiability problem?
+
+Of the many questions that can be formulated in terms of language recognition,
+one of central questions pertains to recognition of regular languages.
+Regular languages are simple yet powerful:
+they are indispensible in their ability to model
+finite state machines,
+describe structural patterns in strings,
+and behave as a simple programming language model.
+Abstractly, regular languages are precisely the set of languages that
+can be described by the class of regular expressions.
+Equivalently, they are the languages that are recognized by
+(non)-deterministic finite automata.
+
+However, because of the way they are defined, a ``flaw'' is that
+two regular languages \(L_1\) and \(L_2\) may differ on a very small number
+of strings, yet have very different representation sizes.
+That is, \(L_1 \cap L_2\) may be very small,
+but the (minimal) regular expression that can recognize \(L_1\) may be
+very bit, while the regular expression used to recognize \(L_2\)
+may be very small.
+So how different is \(L_1\) from \(L_2\)?
+In other words, how might we assign a metric between \(L_1\) and \(L_2\),
+or more generally, over the space of regular languages?
+
+One may attempt a classification with respect to their syntactic metric.
+That is, a metric distance is defined with respect to a representation
+without direct consideration for what strings the two sets may represent.
+Alternatively, one may seek to determine a metric in terms of
+the sets of strings in \(L_1\) and \(L_2\), which would be a semantic metric.
+This metric would be independent of representation,
+and would be defined over the space of regular sets.
+
+
+
+Ideally, we would like a pair of metrics on the space of regular languages,
+one syntactic and one semantic,
+that are highly correlated.
+That is, for 
+
+\red{AAAAAAAAAAAAAAAAA}
+
+
+In this report,
+we present
+
+
+
+\red{MORE TEXT HEREEEEE}
+
+
 
 
 

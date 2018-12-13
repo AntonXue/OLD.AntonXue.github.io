@@ -7,31 +7,8 @@ material relevant.
 
 \subsection{Regular Languages and Finite Automata}
 
-Language recognition is a fundamental problem in theoretical computer science.
-Given an alphabet of unique symbols \(\Sigma\),
-let \(\Sigma^\star\) denote the set of all possible finite strings over
-the alphabet \(\Sigma\).
-For some set of strings that we call a language \(L \subseteq \Sigma^\star\)
-and string \(w \in \Sigma^\star\),
-we then ask if \(w \in L\).
-This is the language recognition problem.
 
-A number of problems in theoretical computer science can be formulated
-in terms of language recognition.
-Does this string belong to the set (language) of valid email addresses?
-Does this stirng belong to the set (language) of valid
-computer programs written in my favorite programming language?
-Does this string belong to the set (language) of solutions
-to an instance of the boolean satisfiability problem?
-
-Here we are primarily concerned with recognizing regular languages.
-These are the languages that can be described by regular expressions,
-and see widespread application in text parsing.
-Equivalently stated, regular languages are precisely the set of languages
-recognized by the set of non-deterministic finite automata (NFA),
-which we aim to study here.
-
-Formally, a NFA is a tuple
+A NFA is a tuple
 \(\parens{\Sigma, Q, \delta, S, F}\)
 that represents a finite state transition machine
 which accepts or rejects strings.
