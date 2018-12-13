@@ -176,7 +176,10 @@ recover an NFA.
   \(y_{i, t}^w\) and \(y_{j, t + 1}^w\) the edge indicator variable
   \(e_{i, j, w_{t}}\) is \(\top\).
   In essence, this together \(\rho_w\) and \(\pi_w\) then forces
-  the existence of a path.
+  the existence of a path of transitions induced by \(w\).
+  Additionally, the formula \(\gamma_w\) forces \(w\) to begin on an
+  initial state and end on a final state.
+  Thus, there is a path that makes \(\mcal{A}\) accept \(w\).
 
 
 
