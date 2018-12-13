@@ -119,7 +119,7 @@ begins reading \(w\) on a starting state and ends on an accepting state:
         \parens{e_{i, j, w_{1}} \land s_i}}
       \lor
     \brackets{\bigvee_{1 \leq i, j \leq n}
-        \parens{e_{i, j, w_{\abs{w}} \land f_j}}}
+        \parens{e_{i, j, w_{\abs{w}}} \land f_j}}
 \end{align*}
 Where \(s_i\) and \(f_j\) are indicator variables to express that
 \(q_i\) is a starting state and \(q_j\) is a final state respectively.
@@ -159,13 +159,14 @@ The formula for \(\Delta\) is bulky as a consequence of attempting to
 recover an NFA.
 
 \begin{theorem}
-  Suppose that \(\Phi_{P, N}\) is satisfiable,
-  then the induced automata \(\mcal{A} = \parens{\Sigma, Q, \Delta, S, F}\)
-  accepts all words in \(P\) and rejects all words in \(N\)
+  \(\varphi_w\) is satisfiable if and only if
+  \(\mcal{A} = \parens{\Sigma, Q, \Delta, S, F}\) accepts \(w\).
 \end{theorem}
 \begin{proof}
-  Suppose that \(w \in P\).
-  Then from \(\rho_w\)
+  Consider a satisfiable configuration of \(\varphi_w\),
+  which implies that \(\rho_w\), \(\pi_w\), and \(\gamma_w\)
+  are all satisfied.
+  From \(\rho_w\)
   there exists exactly one sequence of \(\parens{y_{i, t}^w}\)
   indicator variables that are each \(\top\):
   \begin{align*}
@@ -181,11 +182,48 @@ recover an NFA.
   initial state and end on a final state.
   Thus, there is a path that makes \(\mcal{A}\) accept \(w\).
 
-
-
-  Now suppose that \(w \in N\).
+  For the converse, suppose that \(\mcal{A}\) accepts \(w\).
+  This implies that in the graph representation of \(\mcal{A}\)
+  there exists a path on which \(w\) is accepted.
+  Consider the indicator variable \(e_{i, j, w_t}\) corresponding to each
+  transition of \(w\).
+  In \(\pi_w\) this means that on each such transition we can set
+  \(y_{i, t}^w = \top\) and \(y_{i, t + 1}^w = \top\).
+  This satisfies \(\pi_w\),
+  and also satisfies \(\rho_w\) since we can just set all other
+  \(y\) variables of \(w\) to \(\bot\).
+  Furthermore, since \(\mcal{A}\) accepting \(w\) implies that
+  \(w\) must begin on a starting state and end on a final state,
+  this is automatic for \(\gamma_w\).
+  Hence, \(\varphi_w\) is satisfiable.
 
 \end{proof}
 
+The consequence then extends to \(\Phi_{P, N}\),
+which is a conjunction over all \(\varphi_w\) and \(\neg \varphi_w\)
+sub-formula.
 
+\begin{theorem}
+  \(\Phi_{P, N}\) is satisfiable if and only if
+  \(\mcal{A} = \parens{\Sigma, Q, \Delta, S, F}\) accepts every string
+  in \(P\) and rejects every string in \(N\).
+\end{theorem}
+\begin{proof}
+  For each \(w \in P \cup N\),
+  this is a consequence of \(\mcal{A}\) accepting \(w\)
+  if and only if \(\varphi_w\) is satisfiable.
+\end{proof}
+
+Furthermore, this NFA will be of size \(n\) if
+\(\Phi_{P, N}\) is satisfiable.
+\begin{theorem}
+  If \(\Phi_{P, N}\) is satisfiable, then there exists an NFA of size \(n\)
+  that separates \(P\) and \(N\).
+\end{theorem}
+\begin{proof}
+  The satisfiability of \(\Phi_{P, N}\) implies the existence of
+  a graph defined over at most \(n\) vertices,
+  each of which would correspond to a state of an NFA that separates
+  \(P\) and \(N\).
+\end{proof}
 
