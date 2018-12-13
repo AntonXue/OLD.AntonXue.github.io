@@ -137,4 +137,37 @@ metric through their symmetric set difference.
 \end{example}
 
 
+By embedding the set of strings into a measure space,
+we therefore effectively extend all languages over \(\Sigma\)
+into a metric space,
+not just regular languages.
+This offers a generalized framework,
+but comes with several issues that must be addressed before
+it becomes practical.
+
+First, we did not specify the probability distributions to be used.
+The specific distributions of interest would most likely be
+problem-specific, and would require at least some justification.
+When specifying this metric we had in mind a goemetric distribution,
+which means that this metric would then favor shorter strings over longer ones.
+That is, two languages \(L_1\) and \(L_2\) would be considered more similar
+if they shared a large amount of shorter strings than longer ones.
+
+Second, the summation here is infinite, meaning that a precise closed-form
+solution is only possible in very special cases.
+However because we probability distribution over the non-negative integers
+is used, one may leverage an approximate metric.
+That is, for a fixed probability distribution \(\nu\)
+over the non-negative integers
+and \(\varepsilon > 0\),
+there exists \(N\) such that:
+\begin{align*}
+  \sum_{k = 0}^{N} \nu\parens{k} > 1 - \varepsilon
+\end{align*}
+By introducing such an \(\varepsilon\) error,
+the sum becomes finite,
+and can be refined to arbitrary precision supposing that
+\(\nu\) is computable.
+
+
 
