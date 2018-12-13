@@ -1,18 +1,41 @@
 
 \section{Linear Operators}
 
-An adjacency matrix can be seen as a linear operator on the space of
-vertices.
-For a linear operator \(\type{T}{X}{Y}\) where \(X\) and \(Y\)
-are normed linear spaces, the norm of \(T\) can be defined
-as follows:
+A common representation of NFAs is in terms of graphs,
+which in turn are often represented by adjacency matrices,
+adjacency lists, pointers, or some other representation.
+Here we are concerned with adjacency matrices.
+An interesting property of adjacency matrices is that they can be seen
+as a function that maps between vertices on a graph.
+
+This view is interesting for several reasons.
+First, matrices are ways to represent linear operators
+between finite-dimensional vector spaces.
+Second, the space of linear operators can be endowed with a norm
+known as the operator norm defined as follows:
 \begin{align*}
   \norm{T}
     = \inf\braces{c \in \R \st
               \forall x \in X, \norm{Tx} \leq c \norm{x}_X}
 \end{align*}
+Where \(\type{T}{X}{Y}\) is a linear operator between
+normed vector spaces \(X\) and \(Y\), which need not be finite-dimensional.
+The definition of a norm like this allows us to then define a metric:
+two operators are close in metric if their difference has a small norm.
+The goal is to now extend this to the space of NFAs.
 
-We aim to extend to this to the space of automata.
+There are several immediate problems to consider.
+For one, it's not immediately obvious (if possible) how to embed
+regular languages into a field, which is required for a vector space.
+Existing literature (much of what was also accidentally re-invented below)
+on the algebraic study of formal language theory is grounded
+in the language of (semi)-rings,
+which has much weaker properties than what one may desire from a field.
+Nevertheless, many properties from linear algebra can still be recovered,
+although often with a caveat.
+For instance, the lack of multiplicative inverses means that
+matrix (linear operator) inverses are hard to compute,
+or do not make much sense at first glance.
 
 For a NFA \(A\), with \(A = \parens{\Sigma, Q, \delta, S, F}\),
 the goal is to view \(A\) acting as a linear operator between spaces.
