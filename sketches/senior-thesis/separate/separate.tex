@@ -15,12 +15,35 @@ The distance can then be defined as follows:
   d\parens{w, v} = \frac{1}{2^{\abs{\mcal{A}}}}
 \end{align*}
 Where \(\abs{A}\) here denotes the number of states of \(\mcal{A}\).
+Intuitively, the larger an automata is required to distinguish two strings,
+the closer they are.
 
-\red{INTUITION OF WHAT THIS METIRC MEANS}
 
+This seems like a fairly natural metric,
+so the question is then how to promote this to
+compare over two sets of strings rather than just two strings itself.
+Since languages are no more than sets of strings,
+this upgrade will yield a metric over languages rather than over strings.
 
-The question is then how to promote this to compare over two sets of strings
-rather than just two strings itself.
+A simple way to upgrade a metric over a set to its power set
+(in this context from between strings to between languages)
+is the Hausdorff metric.
+In general, given any metric space \(\parens{M, d}\),
+the Hausdorff metric space for this space is \(\parens{\powset{M}, d_H}\)
+given as:
+\begin{align*}
+  d_H\parens{X, Y} =
+    \max\braces{\sup_{x \in X} \inf_{y \in Y} d\parens{x, y},
+                \sup_{y \in Y} \inf_{x \in X} d\parens{x, y}}
+\end{align*}
+In other words, between two sets \(X, Y \subseteq M\),
+the Hausdorff distance \(d_H\) between them is the distance of the most
+extreme pair of points \(x \in X\) and \(y \in Y\)
+with respect to the original metric \(d\).
+
+However we hope to do better.
+NFAs can be used to separate strings, but they can also be used to separate
+two sets of strings.
 That is, given two sets of strings \(P\) and \(N\),
 where we call \(P\) the set of positive strings and \(N\) the set of
 negative strings,
@@ -36,6 +59,8 @@ However it's not immediately clear that this forms a metric,
 or if it does at all.
 Nevertheless, the method of finding a minimal separating NFA is
 still of theoretical interest.
+
+
 
 We achieve this by constructing a boolean satisfiability formula
 that encodes \(P\) and \(N\),
@@ -119,7 +144,8 @@ If \(\Phi_{P, N}\) is satisfiable,
 then \(\mcal{A} = \parens{\Sigma, Q, \Delta, S, F}\) can be extracted as:
 \begin{align*}
   Q &= \braces{q_1, \ldots, q_n} \\
-  \Delta &= \braces{\parens{\parens{q_i, \sigma}, q_j} \st e_{i, j, \sigma} = \top} \\
+  \Delta &= \braces{\parens{\parens{q_i, \sigma}, \braces{q_j}}
+                \st e_{i, j, \sigma} = \top} \\
   S &= \braces{q_i \st s_i = \top} \\
   F &= \braces{q_j \st f_j = \top} \\
 \end{align*}
