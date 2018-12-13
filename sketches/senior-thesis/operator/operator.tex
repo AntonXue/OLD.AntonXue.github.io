@@ -316,7 +316,6 @@ The elements of a string measure space consists of strings finite,
 while the \(\sigma\)-algebra generated consists of sets of finite strings.
 A measure \(\type{\lambda}{\sigma\parens{\Sigma^\star}}{\Rz}\) is also
 equipped, and may be defined.
-
 We have also shown previously that
 measures are able to define a metric.
 
@@ -339,22 +338,27 @@ measures are able to define a metric.
   is a metric function.
 \end{theorem}
 \begin{proof}
-  \red{descriptive text}
+  The function induced by a measure and the symmetric set difference
+  is a metric.
 \end{proof}
 
 Recall that although we write \(\powset{\Sigma^\star}\) here,
 they are synonymous with \(R\).
 Having defined a metric on string spaces,
-we are interested in examining how we may compare two linear operators
+we are interested in examining how we may
+syntactically compare two linear operators
 between string spaces.
-In other words, for two operators
+To do this, we formalize the notion of edit distance on matrices
+in terms of algebra.
+
+First, for two operators
 \(\type{A_1, A_2}{R^n}{R^m}\), it is possible that
 the two are isomorphic up to some permutation.
 Note that we want to consider the special case of \(n = m\) first,
 for which theories of permutation matrix related to
 graph isomorphism are well-developed.
 After all, we are focused on NFAs here,
-which have nice an straightforward graph representations.
+which have nice an straightforward graph (matrix) representations.
 
 \begin{theorem}[Square Operator Permutation]
   Let \(P_n \subseteq M_{n \times n}\parens{R}\)
@@ -368,17 +372,20 @@ which have nice an straightforward graph representations.
   \end{align*}
 \end{theorem}
 \begin{proof}
-  \red{descriptive text}
+  The action of permutation matrices on the matrix representation on
+  a graph is equivalent to relabelling the vertices,
+  which preserves graph (and thus operator) isomorphism.
 \end{proof}
 
 Permutation matrices give us the ability to talk about
 isomorphisms up to permutation.
-However they lack the ability to about how similar two operators might be.
-To do this, for two operators of the same dimensions,
-we may be interested in seeing how far the image of the operators
+However they lack the ability to talk about how
+syntactically similar two matrices might be up to permutation.
+To do this, for two matrices of the same dimensions,
+we may be interested in seeing how far the image of the matrices
 in each dimension differ.
 Without permutation matrices
-for two linear operators \(A, B\), we may try something like this:
+for two matrices \(A\) and \(B\), we may try something like this:
 \begin{align*}
   \sup_{1 \leq i, j \leq n}
     \zeta\parens{A_{i, j}, B_{i, j}}
@@ -391,7 +398,7 @@ With permutation matrices, we may try something like this:
     \zeta\parens{A_{i, j}, B_{i, j}}
 \end{align*}
 This is fairly straightforward, and more or less just amounts to saying
-to take the best permutation of one of the operators with respect
+to take the best permutation of one of the matrices with respect
 to the other, and then take the distance with respect to
 \(\zeta\).
 
@@ -403,7 +410,7 @@ In addition, we are not completely sure if taking the infimum of
 which means that such an operation may need to be defined with respect
 to a fixed permutation matrix.
 
-We first consider how square operators of different dimensions may be compared.
+We first consider how square matrices of different dimensions may be compared.
 
 \begin{definition}[Linear Operator Dimension]
   Let \(\type{A}{R^n}{R^n}\) be a square linear string space operator.
@@ -420,7 +427,7 @@ Although the newly appended dimensions of operator action
 effectively have trivial action, this still acts as an embedding into
 a higher dimension.
 With this, we then attempt to define a metric between
-two square linear operators of different dimensions:
+two square linear matrices of different dimensions:
 \begin{definition}[Non-Uniform Dimension Square Linear Operator Metric]
   For two square linear operators
   \(\type{A}{R^n}{R^n}\) and \(\type{B}{R^m}{R^m}\) where \(m > n\),
@@ -434,7 +441,7 @@ two square linear operators of different dimensions:
         \zeta\parens{\overline{A}_{i, j}, \parens{PB{P}^T}_{i, j}}
   \end{align*}
 \end{definition}
-In short, when given two square linear operators
+In short, when given two square linear matrices
 \(A\) and \(B\) where \(A\)
 is a smaller dimension than \(B\), the goal of the metric function \(Z\)
 is to first stretch \(A\) into \(\overline{A}\)
@@ -458,6 +465,10 @@ The challenge, of course, is finding the correct permutation matrix \(P\).
 We note that although we used the supremum here, another viable option
 could be general \(p\)-norm type summations,
 which also do induce a metric because they satisfy the triangle inequality.
+
+Nevertheless, the painstaking process here allows us to
+algebraically formalize
+an edit distance metric for matrix representations of NFA.
 
 
 \begin{example}
@@ -605,7 +616,22 @@ which also do induce a metric because they satisfy the triangle inequality.
 
 \end{example}
 
+The experiments here did not work.
+In simulations run,
+there was very poor correlation between the syntactic graph edit distance
+metric with the semantic measure-based metric.
+
+In part this may be because a small edit in a graph may induce a large
+change in the language accepted.
+For instance, disconnecting a single edge
+means that up to (countably) infinitely many words are no longer
+recognized by the automata that the graph represents.
+
+This suggests that other syntactic metrics may be necessary.
 
 
-\red{NOOOOOOOOOOOOOOOOO}
+
+\subsubsection{Other Potential Metrics}
+Other things that we 
+
 
