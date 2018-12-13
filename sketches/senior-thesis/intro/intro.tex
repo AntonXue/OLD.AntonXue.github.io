@@ -35,14 +35,12 @@ that are recognized by (non)-deterministic finite automata.
 However, because of the way they are defined, a ``flaw'' is that
 two regular languages \(L_1\) and \(L_2\) may differ on a very small number
 of strings, yet have very different representation sizes.
-
-
-However, the description of a regular language may be deceiving.
 For two regular language \(L_1\) and \(L_2\) specified by,
 for instance, regular expressions.
 The set of strings shared \(L_1 \cap L_2\) may be a large fraction of both
 languages, and we may wish to consider \(L_1\) and \(L_2\) to be similar.
-However, the (minimal) regular expression used to describe and represent
+On the other hand,
+the (minimal) regular expression used to describe and represent
 \(L_1\) may be very large, while the (minimal) regular
 expression for \(L_2\) may be significantly smaller.
 So how different is \(L_1\) from \(L_2\)?
@@ -55,33 +53,25 @@ without direct consideration for what strings the two sets may represent.
 This would be a metric over the representation, be it regular
 expressions, finite automata, or some other means.
 
-\red{CITEEE}
-
 Alternatively, one may seek to determine a metric in terms of
 the sets of strings in \(L_1\) and \(L_2\), which would be a semantic metric.
 This metric would be independent of representation,
 and would be defined over the space of regular sets.
-
-
 
 Ideally, we would like a pair of metrics on the space of regular languages,
 one syntactic and one semantic,
 that are highly correlated.
 That is, the syntactic metric between \(L_1\) and \(L_2\) is small
 if and only if the semantic metric is also small.
-We set out to attempt to answer this question.
-
-\red{AAAAAAAAAAAAAAAAA}
-
+We set out to explore the different types of metrics for regular languages.
 
 In this report,
-we present
-
-
-
-\red{MORE TEXT HEREEEEE}
-
-
+we present our efforts and progress towards various metric spaces
+on the space of (regular) languages.
+Our efforts span exploration into measure theory,
+rediscovering embedding of formal language theory into algebraic formulations,
+using automata to separate sets,
+and also interesting visualization techniques.
 
 
 

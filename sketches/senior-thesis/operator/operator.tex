@@ -16,7 +16,7 @@ known as the operator norm defined as follows:
 \begin{align*}
   \norm{T}
     = \inf\braces{c \in \R \st
-              \forall x \in X, \norm{Tx} \leq c \norm{x}_X}
+              \forall x \in X, \norm{Tx} \leq c \norm{x}}
 \end{align*}
 Where \(\type{T}{X}{Y}\) is a linear operator between
 normed vector spaces \(X\) and \(Y\), which need not be finite-dimensional.
@@ -26,7 +26,8 @@ The definition of a norm like this allows us to then define a metric:
 two operators are close in metric if their difference has a small norm.
 The goal is to now extend this to the space of NFAs.
 To do this, we first require a rigorous algebraic formulation of
-formal language and automata theory, much of which is re-invented here.
+formal language and automata theory~\cite{pin2010mathematical,kozen1994kleene},
+much of which is re-invented here.
 
 There are several immediate problems to consider.
 For one, it's not immediately obvious (if possible) how to embed

@@ -59,12 +59,16 @@ However it's not immediately clear that this forms a metric,
 or if it does at all.
 Nevertheless, the method of finding a minimal separating NFA is
 still of theoretical interest.
-
+This is type of problem is known to be
+\class{NP-Complete}~\cite{gold1978complexity},
+but having a clear embedding and decision procedure is still useful
+for exploring feasibility.
 
 
 We achieve this by constructing a boolean satisfiability formula
 that encodes \(P\) and \(N\),
 and is satisfiable if and only if such \(\mcal{A}\) exists.
+Our embedding is inspired by techniques from~\cite{neider2018learning}.
 There are several high-level insights that we leverage:
 \begin{enumerate}
   \item[(1)]
