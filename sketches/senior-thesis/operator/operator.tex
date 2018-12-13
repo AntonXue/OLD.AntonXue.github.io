@@ -25,10 +25,13 @@ norm are called Banach spaces.
 The definition of a norm like this allows us to then define a metric:
 two operators are close in metric if their difference has a small norm.
 The goal is to now extend this to the space of NFAs.
+To do this, we first require a rigorous algebraic formulation of
+formal language and automata theory, much of which is re-invented here.
 
 There are several immediate problems to consider.
 For one, it's not immediately obvious (if possible) how to embed
-regular languages into a field, which is required for a vector space.
+regular languages into an algebraic field,
+which is required for a vector space.
 Existing literature (much of what was also accidentally re-invented below)
 on the algebraic study of formal language theory is grounded
 in the language of (semi)-rings,
@@ -38,6 +41,9 @@ although often with a caveat.
 For instance, the lack of multiplicative inverses means that
 matrix (linear operator) inverses are hard to compute,
 or do not make much sense at first glance.
+Because of this, we use the term linear space to do denote spaces
+closed under linear operation, which may not have elements taken
+over a field.
 
 For a NFA \(A\), with \(A = \parens{\Sigma, Q, \Delta, S, F}\),
 the goal is to view \(A\) acting as a linear operator between spaces.
@@ -185,7 +191,6 @@ every entry of the transition matrix will be a set of singleton strings.
 
 
 
-\subsection{Examples}
 
 \begin{example}
   Consider \(\Sigma = \braces{a, b, c}\) and the NFA below:
@@ -277,15 +282,24 @@ every entry of the transition matrix will be a set of singleton strings.
 
 \subsection{Automata Metrics}
 
-Having established a method for embedding NFA in linear spaces,
-our attention now turns to comparing them.
-In short, we are interested in finding how similar the strings
-recognized by two NFAs are.
+Having established how to embed (regular) languages into linear spaces
+with NFAs as linear operators between these spaces,
+we now turn our attention to defining a metric over NFAs.
 
-\subsection{Measures and Metrics}
-We leverage previous work in defining a measure,
-and only provide some definitions here.
-We borrow heavily from previous work in ~\cite{xue2018langmeasures}.
+
+\subsubsection{Edit Distance Metrics}
+Matrices are a common representation of linear operators between
+finite-dimensional linear spaces.
+Our first attempt is based on graph edit distance,
+which directly corresponds with matrix edit distance.
+We that in retrospect this was not a good idea,
+and experimental results were bad.
+Nevertheless, we proceed.
+
+Our main objective here is to define a syntactic metric
+based on graph edit distance in addition to a semantic metric
+derived from earlier work with measure theory.
+First, we quickly recap the measure-based metrics.
 
 \begin{definition}[String Space Measure]
   Let
@@ -303,7 +317,7 @@ while the \(\sigma\)-algebra generated consists of sets of finite strings.
 A measure \(\type{\lambda}{\sigma\parens{\Sigma^\star}}{\Rz}\) is also
 equipped, and may be defined.
 
-We have also shown previously~\cite{xue2018langmeasures} that
+We have also shown previously that
 measures are able to define a metric.
 
 \begin{definition}[String Space Metric]
