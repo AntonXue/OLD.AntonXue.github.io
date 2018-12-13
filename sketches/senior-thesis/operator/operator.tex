@@ -275,4 +275,323 @@ every entry of the transition matrix will be a set of singleton strings.
 \end{example}
 
 
+\subsection{Automata Metrics}
+
+Having established a method for embedding NFA in linear spaces,
+our attention now turns to comparing them.
+In short, we are interested in finding how similar the strings
+recognized by two NFAs are.
+
+\subsection{Measures and Metrics}
+We leverage previous work in defining a measure,
+and only provide some definitions here.
+We borrow heavily from previous work in ~\cite{xue2018langmeasures}.
+
+\begin{definition}[String Space Measure]
+  Let
+  \(\parens{\Sigma^\star, \sigma\parens{\Sigma^\star}}\)
+  be a measurable space defined on the strings \(\Sigma^\star\).
+  If \(\type{\lambda}{\sigma\parens{\Sigma^\star}}{\Rz}\) is a measure,
+  then we call it a string space measure,
+  and the measure space
+  \(\parens{\Sigma^\star, \sigma\parens{\Sigma^\star}, \lambda}\)
+  a string measure space.
+\end{definition}
+
+The elements of a string measure space consists of strings finite,
+while the \(\sigma\)-algebra generated consists of sets of finite strings.
+A measure \(\type{\lambda}{\sigma\parens{\Sigma^\star}}{\Rz}\) is also
+equipped, and may be defined.
+
+We have also shown previously~\cite{xue2018langmeasures} that
+measures are able to define a metric.
+
+\begin{definition}[String Space Metric]
+  Let
+  \(\parens{\Sigma^\star, \sigma\parens{\Sigma^\star}, \lambda}\)
+  be a string measure space.
+  The string metric space \(\parens{\powset{\Sigma^\star}, \zeta}\) is
+  a metric space with a metric function
+  \(\type{\zeta}{\powset{\Sigma^\star} \times \powset{\Sigma^\star}}{\Rz}\)
+  defined as:
+  \begin{align*}
+    \zeta \parens{A, B}
+      = \lambda\parens{A \triangle B}
+  \end{align*}
+\end{definition}
+\begin{theorem}
+  The string space metric function
+  \(\type{\zeta}{\powset{\Sigma^\star} \times \powset{\Sigma^\star}}{\Rz}\)
+  is a metric function.
+\end{theorem}
+\begin{proof}
+  \red{descriptive text}
+\end{proof}
+
+Recall that although we write \(\powset{\Sigma^\star}\) here,
+they are synonymous with \(R\).
+Having defined a metric on string spaces,
+we are interested in examining how we may compare two linear operators
+between string spaces.
+In other words, for two operators
+\(\type{A_1, A_2}{R^n}{R^m}\), it is possible that
+the two are isomorphic up to some permutation.
+Note that we want to consider the special case of \(n = m\) first,
+for which theories of permutation matrix related to
+graph isomorphism are well-developed.
+After all, we are focused on NFAs here,
+which have nice an straightforward graph representations.
+
+\begin{theorem}[Square Operator Permutation]
+  Let \(P_n \subseteq M_{n \times n}\parens{R}\)
+  denote the family of \(n\)-dimensional permutation matrices.
+  Two linear operators
+  \(\type{A_1, A_2}{R^n}{R^n}\) are isomorphic if
+  there is a permutation matrix
+  \(P \in P_n\) such that:
+  \begin{align*}
+    A_1 = P A_2 {P}^T
+  \end{align*}
+\end{theorem}
+\begin{proof}
+  \red{descriptive text}
+\end{proof}
+
+Permutation matrices give us the ability to talk about
+isomorphisms up to permutation.
+However they lack the ability to about how similar two operators might be.
+To do this, for two operators of the same dimensions,
+we may be interested in seeing how far the image of the operators
+in each dimension differ.
+Without permutation matrices
+for two linear operators \(A, B\), we may try something like this:
+\begin{align*}
+  \sup_{1 \leq i, j \leq n}
+    \zeta\parens{A_{i, j}, B_{i, j}}
+\end{align*}
+In other words, we find entries of the matrix that yield the most distance
+with respect to the \(\zeta\) string space metric function.
+With permutation matrices, we may try something like this:
+\begin{align*}
+  \inf_{P \in P_n} \sup_{1 \leq i, j \leq n}
+    \zeta\parens{A_{i, j}, B_{i, j}}
+\end{align*}
+This is fairly straightforward, and more or less just amounts to saying
+to take the best permutation of one of the operators with respect
+to the other, and then take the distance with respect to
+\(\zeta\).
+
+However, there are still several concerns here.
+First, we need to generalize this to cases where
+\(A\) and \(B\) are not the same dimension.
+In addition, we are not completely sure if taking the infimum of
+\(P \in P_n\) retains a metric structure,
+which means that such an operation may need to be defined with respect
+to a fixed permutation matrix.
+
+We first consider how square operators of different dimensions may be compared.
+
+\begin{definition}[Linear Operator Dimension]
+  Let \(\type{A}{R^n}{R^n}\) be a square linear string space operator.
+  For \(m > n\),
+  the dimension extension of \(A\)
+  is a square linear operator \(\type{\overline{A}}{R^m}{R^m}\)
+  whose matrix representation has form:
+  \begin{align*}
+    \overline{A} = \begin{bmatrix} A & \zero \\ \zero & \zero \end{bmatrix}
+  \end{align*}
+\end{definition}
+
+Although the newly appended dimensions of operator action
+effectively have trivial action, this still acts as an embedding into
+a higher dimension.
+With this, we then attempt to define a metric between
+two square linear operators of different dimensions:
+\begin{definition}[Non-Uniform Dimension Square Linear Operator Metric]
+  For two square linear operators
+  \(\type{A}{R^n}{R^n}\) and \(\type{B}{R^m}{R^m}\) where \(m > n\),
+  fix the permutation matrix \(P \in P_m\),
+  define the operator metric
+  \(\type{Z_{p, n, m}}
+      {\parens{R^n \to R^n} \times \parens{R^m \to R^m}}{\Rz}\) as:
+  \begin{align*}
+    Z_{p, n, m}\parens{A, B} =
+      \sup_{1 \leq i, j \leq m}
+        \zeta\parens{\overline{A}_{i, j}, \parens{PB{P}^T}_{i, j}}
+  \end{align*}
+\end{definition}
+In short, when given two square linear operators
+\(A\) and \(B\) where \(A\)
+is a smaller dimension than \(B\), the goal of the metric function \(Z\)
+is to first stretch \(A\) into \(\overline{A}\)
+to match the dimension of \(B\),
+and then apply the supremum coordinate-wise metric
+on \(\overline{A}\) and \(B\).
+
+\begin{theorem}
+  The function
+  \(\type{Z_{p, n, m}}
+      {\parens{R^n \to R^n} \times \parens{R^m \to R^m}}{\Rz}\) 
+  defined above is a metric.
+\end{theorem}
+\begin{proof}
+  Once the permutation matrix \(P \in P_m\) is fixed, this reduces to
+  applying the supremum over a finite set of metric functions
+  for each entry of the matrix.
+\end{proof}
+
+The challenge, of course, is finding the correct permutation matrix \(P\).
+We note that although we used the supremum here, another viable option
+could be general \(p\)-norm type summations,
+which also do induce a metric because they satisfy the triangle inequality.
+
+
+\begin{example}
+  Consider \(\Sigma = \braces{a, b, c}\) and two NFAs defined below:
+
+  \begin{figure}[h!]
+  \centering
+  \begin{minipage}{0.45\textwidth}
+  \begin{tikzpicture}
+    [->,
+     >=stealth',
+     shorten >=1pt,
+     auto,
+     node distance=2cm,
+     semithick,
+     state/.style={circle, draw, minimum size=1cm} 
+    ]
+    \node[state] (Q1) at (0, 0) {\(q_1\)};
+    \node[state] (Q2) at (3, 1.5) {\(q_2\)};
+    \node[state] (Q3) at (3, -1.5) {\(q_3\)};
+
+    \path (Q1) edge [] node
+              {\(\braces{a}\)} (Q2);
+    \path (Q2) edge [loop above] node
+              {\(\braces{b}\)} (Q2);
+    \path (Q2) edge [] node
+              {\(\braces{a}\)} (Q3);
+    \path (Q3) edge [] node
+              {\(\braces{c}\)} (Q1);
+  \end{tikzpicture}
+  \caption{NFA \(A\)}
+  \end{minipage}%
+  \begin{minipage}{0.45\textwidth}
+  \begin{tikzpicture}
+    [->,
+     >=stealth',
+     shorten >=1pt,
+     auto,
+     node distance=2cm,
+     semithick,
+     state/.style={circle, draw, minimum size=1cm} 
+    ]
+    \node[state] (Q1) at (0, 0) {\(q_2\)};
+    \node[state] (Q2) at (3, 1.5) {\(q_3\)};
+    \node[state] (Q3) at (3, -1.5) {\(q_4\)};
+    \node[state] (Q4) at (6, 0) {\(q_1\)};
+  
+
+    \path (Q1) edge [] node
+              {\(\braces{a}\)} (Q2);
+    \path (Q2) edge [loop above] node
+              {\(\braces{b}\)} (Q2);
+    \path (Q2) edge [] node
+              {\(\braces{a}\)} (Q3);
+    \path (Q3) edge [] node
+              {\(\braces{c}\)} (Q1);
+    \path (Q2) edge [] node
+              {\(\braces{c}\)} (Q4);
+    \path (Q4) edge [] node
+              {\(\braces{a}\)} (Q3);
+
+  \end{tikzpicture}
+  \caption{NFA \(B\)}
+  \end{minipage}
+  \end{figure}
+  The respective transition matrices are then:
+  \begin{align*}
+    A =
+      \begin{bmatrix}
+        \zero & \braces{a} & \zero \\
+        \zero & \braces{b} & \braces{a} \\
+        \braces{c} & \zero & \zero
+      \end{bmatrix}
+    \qquad
+    \overline{A} =
+      \begin{bmatrix}
+        \zero & \braces{a} & \zero & \zero \\
+        \zero & \braces{b} & \braces{a} & \zero \\
+        \braces{c} & \zero & \zero & \zero \\
+        \zero & \zero & \zero & \zero
+      \end{bmatrix}
+    \qquad
+    B =
+      \begin{bmatrix}
+        \zero & \zero & \zero & \braces{a} \\
+        \zero & \zero & \braces{a} & \zero \\
+        \braces{c} & \zero & \braces{b} & \braces{a} \\
+        \zero & \braces{c} & \zero & \zero
+      \end{bmatrix}
+  \end{align*}
+
+  The corresponding permutation matrix is:
+  \begin{align*}
+    P =
+      \begin{bmatrix}
+        \zero & \one & \zero & \zero \\
+        \zero & \zero & \one & \zero \\
+        \zero & \zero & \zero & \one \\
+        \one & \zero & \zero & \zero
+      \end{bmatrix}
+  \end{align*}
+  Indeed, we have:
+  \begin{align*}
+    PB{P}^T
+    =
+      \begin{bmatrix}
+        \zero & \one & \zero & \zero \\
+        \zero & \zero & \one & \zero \\
+        \zero & \zero & \zero & \one \\
+        \one & \zero & \zero & \zero
+      \end{bmatrix}
+      \begin{bmatrix}
+        \zero & \zero & \zero & \braces{a} \\
+        \zero & \zero & \braces{a} & \zero \\
+        \braces{c} & \zero & \braces{b} & \braces{a} \\
+        \zero & \braces{c} & \zero & \zero
+      \end{bmatrix}
+      \begin{bmatrix}
+        \zero & \zero & \zero & \one \\
+        \one & \zero & \zero & \zero \\
+        \zero & \one & \zero & \zero \\
+        \zero & \zero & \one & \zero
+      \end{bmatrix}
+    =
+      \begin{bmatrix}
+        \zero & \braces{a} & \zero & \zero \\
+        \zero & \braces{b} & \braces{a} & \braces{c} \\
+        \braces{c} & \zero & \zero & \zero \\
+        \zero & \zero & \braces{a} & \zero
+      \end{bmatrix}
+  \end{align*}
+  If we proceed with the metric \(\zeta\) calculation
+  (assuming a counting measure) at each entry.
+  We find the most significant differences occur
+  at row-column index pairs \(\parens{2, 4}\) and \(\parens{4, 3}\):
+  \begin{align*}
+    \zeta_{\parens{2, 4}}\parens{\overline{A}_{2, 4},
+           \parens{PB{P^T}}_{2, 4}}
+      = \zeta_{\parens{2, 4}}\parens{\zero, \braces{c}} = 1
+    \qquad
+    \zeta_{\parens{4, 3}} \parens{\overline{A}_{4, 3},
+           \parens{PB{P^T}}_{4, 3}}
+      = \zeta_{\parens{4, 3}}\parens{\zero, \braces{a}} = 1
+  \end{align*}
+
+\end{example}
+
+
+
+\red{NOOOOOOOOOOOOOOOOO}
 
