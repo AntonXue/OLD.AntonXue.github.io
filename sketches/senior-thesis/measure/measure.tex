@@ -4,8 +4,7 @@
 Our initial efforts began from a simple question:
 is it possible to assign a notion of size to a regular language?
 We are interested in this perspective for several reasons.
-First, because regular languages are closed under
-intersection and set difference,
+First, because regular languages are closed under finite basic set operations,
 being able to quantiatively measure their intersection and set
 difference would allow us to measure some type of similarity.
 Second, being able to embed regular languages into a measure space,
@@ -136,19 +135,15 @@ metric through their symmetric set difference.
 
 \end{example}
 
-
-By embedding the set of strings into a measure space,
-we therefore effectively extend all languages over \(\Sigma\)
-into a metric space,
-not just regular languages.
-This offers a generalized framework,
-but comes with several issues that must be addressed before
-it becomes practical.
+This embedding gives us a generalized framework that allows us to talk
+about all languages over \(\Sigma\) rather than just regular languages.
+However, there are several tradeoffs that must be addressed before
+this metric becomes practical in both intuition and usage.
 
 First, we did not specify the probability distributions to be used.
 The specific distributions of interest would most likely be
 problem-specific, and would require at least some justification.
-When specifying this metric we had in mind a goemetric distribution,
+When formalizing this metric we had in mind a goemetric distribution,
 which means that this metric would then favor shorter strings over longer ones.
 That is, two languages \(L_1\) and \(L_2\) would be considered more similar
 if they shared a large amount of shorter strings than longer ones.
@@ -167,6 +162,7 @@ there exists \(N\) such that:
 By introducing such an \(\varepsilon\) error,
 the sum becomes finite,
 and can be refined to arbitrary precision supposing that
+probability measure
 \(\nu\) is computable.
 
 

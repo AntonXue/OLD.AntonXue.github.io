@@ -1,14 +1,16 @@
 
 \section{Introduction}
 
-Language recognition is a fundamental problem in theoretical computer science.
+Language recognition is a fundamental problem in computer science.
 Given an alphabet of unique symbols \(\Sigma\),
 let \(\Sigma^\star\) denote the set of all possible finite strings over
 the alphabet \(\Sigma\).
-For some set of strings that we call a language \(L \subseteq \Sigma^\star\)
-and string \(w \in \Sigma^\star\),
-we then ask if \(w \in L\).
-This is the language recognition problem.
+A language \(L \subseteq \Sigma^\star\) is nothing more than a set of strings,
+and we use these terms interchangeably.
+For some string \(w \in \Sigma^\star\),
+we can then ask if \(w \in L\).
+This is the language recognition problem,
+and is no different than a question about set membership.
 
 A number of problems in theoretical computer science can be formulated
 in terms of language recognition.
@@ -27,16 +29,22 @@ describe structural patterns in strings,
 and behave as a simple programming language model.
 Abstractly, regular languages are precisely the set of languages that
 can be described by the class of regular expressions.
-Equivalently, they are the languages that are recognized by
-(non)-deterministic finite automata.
+Equivalently, regular languages are the family of languages
+that are recognized by (non)-deterministic finite automata.
 
 However, because of the way they are defined, a ``flaw'' is that
 two regular languages \(L_1\) and \(L_2\) may differ on a very small number
 of strings, yet have very different representation sizes.
-That is, \(L_1 \cap L_2\) may be very small,
-but the (minimal) regular expression that can recognize \(L_1\) may be
-very bit, while the regular expression used to recognize \(L_2\)
-may be very small.
+
+
+However, the description of a regular language may be deceiving.
+For two regular language \(L_1\) and \(L_2\) specified by,
+for instance, regular expressions.
+The set of strings shared \(L_1 \cap L_2\) may be a large fraction of both
+languages, and we may wish to consider \(L_1\) and \(L_2\) to be similar.
+However, the (minimal) regular expression used to describe and represent
+\(L_1\) may be very large, while the (minimal) regular
+expression for \(L_2\) may be significantly smaller.
 So how different is \(L_1\) from \(L_2\)?
 In other words, how might we assign a metric between \(L_1\) and \(L_2\),
 or more generally, over the space of regular languages?
@@ -44,6 +52,11 @@ or more generally, over the space of regular languages?
 One may attempt a classification with respect to their syntactic metric.
 That is, a metric distance is defined with respect to a representation
 without direct consideration for what strings the two sets may represent.
+This would be a metric over the representation, be it regular
+expressions, finite automata, or some other means.
+
+\red{CITEEE}
+
 Alternatively, one may seek to determine a metric in terms of
 the sets of strings in \(L_1\) and \(L_2\), which would be a semantic metric.
 This metric would be independent of representation,
@@ -54,7 +67,9 @@ and would be defined over the space of regular sets.
 Ideally, we would like a pair of metrics on the space of regular languages,
 one syntactic and one semantic,
 that are highly correlated.
-That is, for 
+That is, the syntactic metric between \(L_1\) and \(L_2\) is small
+if and only if the semantic metric is also small.
+We set out to attempt to answer this question.
 
 \red{AAAAAAAAAAAAAAAAA}
 

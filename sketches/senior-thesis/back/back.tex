@@ -26,6 +26,8 @@ be arbitrarily chosen,
 only the existence of a transition sequence is necessary,
 hence the term non-deterministic.
 
+The size of an NFA is the number of states \(\abs{Q}\).
+
 \begin{example}[NFA]
   The NFA below operators over the binary alphabet
   \(\Sigma = \braces{0, 1}\).
@@ -50,6 +52,18 @@ hence the term non-deterministic.
     \draw (q0) edge [below] node{\(0\)} (q2);
   \end{tikzpicture}
   \end{center}
+  Here we would have the following configuration:
+  \begin{align*}
+    \Sigma &= \braces{0, 1} \\
+    Q &= \braces{q_0, q_1, q_2} \\
+    \Delta &=
+      \braces{\parens{\parens{0, q_0}, \braces{q_1, q_2}}, \uspace
+              \parens{\parens{1, q_1}, \braces{q_2}}} \\
+    S &= \braces{q_0} \\
+    F &= \braces{q_2}
+  \end{align*}
+
+  Of course the size of this NFA is \(\abs{Q} = 3\).
 
   In order for a NFA to accept a string, there must exist a sequence
   of transitions (which may be non-unique).
@@ -72,111 +86,34 @@ hence the term non-deterministic.
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\if false
-A regular language is a language that can be recongnized by a regular
-expression.
-Such languages play a central role in theoretical comptuer science
-and formal language theory due to their ability to simply describe a
-large class of strings.
-We now formalize these terms.
+A very nice property about regular languages
+is that they are closed under the basic set operations of
+complementation, union, and intersection,
+with only polynomial complexity in representation changes:
+be it regular expressions or NFAs.
 
-Given a finite set of unique symbols \(\Sigma\) called the alphabet,
-write the set of all finite strings constructed over this alphabet
-as \(\Sigma^\star\).
-A string is nothing more than a finite sequences of symbols from an alphabet.
-Let \(\varepsilon\) denote the empty string which contains no symbols.
+We sketch a quick illustration for why infinite set operations may not work.
+Suppose that we define a sequence of languages over
+\(\Sigma = \braces{a, b}\) as follows:
+\begin{align*}
+  L_1 = \braces{ab}
+  \qquad \qquad
+  L_2 = \braces{aabb}
+  \qquad \qquad
+  L_3 = \braces{aaabbb}
+  \qquad \qquad
+  \ldots
+\end{align*}
+Then the union effectively describes the following language:
+\begin{align*}
+  \bigcup_{k = 1}^{\infty} L_k = \braces{a^k b^k \st k \in \Zp}
+\end{align*}
+Where \(a^k b^k\) is short-hand for a string that is
+\(k\) consecutive \(a\)'s followed by \(k\) consecutive \(b\)'s.
+It is known that such a language is not regular,
+and this is therefore an example where regular languages
+are not closed under infinite set operations.
 
-\begin{example}
-  Consider an alphabet \(\Sigma = \braces{a, \alpha, b, \beta, \div}\),
-  examples of strings (finite sequences) that can be constructed
-  with this alphabet include
-  \begin{align*}
-    ab\beta\beta\alpha
-      \qquad \qquad
-    \div\div a \beta
-      \qquad \qquad
-    a a a a a a a
-      \qquad \qquad
-    \varepsilon
-      \qquad \qquad
-  \end{align*}
-\end{example}
-
-A language \(L\) is nothing more than a set of strings.
-In other words, \(L \subseteq \Sigma^\star\).
-We are now ready to introduce the concept of a regular language.
-Formally, regular languages are a family of languages inductively
-defined as follows:
-
-\begin{enumerate}
-  \item[(1)]
-    The empty set \(\emptyset\) and the empty string language
-    \(\braces{\varepsilon}\) are regular languages.
-
-  \item[(2)]
-    For each symbol \(a \in \Sigma\),
-    the singleton language \(\braces{a}\) is a regular language.
-
-  \item[(3)]
-    If \(A\) and \(B\) are regular languages,
-    then so is their union \(A \cup B\),
-    their concatenation \(A \cdot B\), and their Kleene star \(A^\star\),
-    defined as:
-    \begin{align*}
-      A \cup B
-        &= \braces{w \st w \in A \cup B} \\
-      A \cdot B
-        &= \braces{w_a \cdot w_b \st w_a \in A, w_b \in B} \\
-      A^\star
-        &= \braces{w^k \st k \in \N, w \in A}
-    \end{align*}
-    Where \(w^k\) is the k-fold concatenation of a string to itself,
-    and \(w_a \cdot w_b\) is the concatenaiton of strings
-    \(w_a\) and \(w_b\).
-    Sometimes we write \(w_a w_b\) for concatenation when context is clear.
-
-  \item[(4)]
-    No other languages are regular.
-\end{enumerate}
-
-As alluded to earlier,
-regular languages are precisely languages
-that are recognized by the set of regular expressions.
-For a regular expression \(R\) to recognize a language \(L\) means that
-the regular expression \(R\) can describe every string in \(L\).
-We now make this more concrete.
-Given an alphabet \(\Sigma\),
-a regular expression is defined inductively as follows
-
-
-\begin{enumerate}
-  \item[(1)]
-    The empty regular expression denotes the empty language \(\emptyset\).
-    The empty string \(\varepsilon\) describes the
-    language containing only the empty string \(\braces{\varepsilon}\).
-    For each symbol \(a \in \Sigma\), 
-    the regular expression of just \(a\) matches the language
-    \(\braces{a}\).
-
-  \item[(2)]
-    Given regular expressions \(R\) and \(S\),
-    the following operations are regular expressions
-    \begin{enumerate}
-      \item[(a)]
-        Concatenation \(RS\) is a regular expression that denotes
-        the 
-
-      \item[(b)]
-      
-      \item[(c)]
-    \end{enumerate}
-
-  \item[(3)]
-\end{enumerate}
-
-\fi
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -210,7 +147,7 @@ that must hold for any \(x, y, z \in M\):
 \begin{example}[Euclidean Metric]
   For some \(x_i \in \R^n\),
   let \(x_i\) be the \(i\)th coordinate of the vector.
-  Then the Euclidan (L2) metric is defined by
+  Then the Euclidean (L2) metric is defined by
   \begin{align*}
     d\parens{x, y}
       = \sqrt{\sum_{i = 1}^{n} \parens{x_i - y_i}^2}
@@ -231,7 +168,7 @@ Often \(X\) is taken to be a space like \(\R^n\),
 and common examples of subsets include intervals, rectangles, or boxes.
 
 
-Formally, a measureable space is a pair
+Formally, a measurable space is a pair
 \(\parens{X, \mcal{E}}\) where
 \(X\) is a set and \(\mcal{E} \subseteq \powset{X}\) is called
 a \(\sigma\)-algebra on \(X\) that satisfies the following properties:
@@ -258,11 +195,11 @@ is \(\braces{\emptyset, X}\),
 while the largest \(\sigma\)-algebra is the power set \(\powset{X}\).
 
 If \(E\) belongs to the \(\sigma\)-algebra,
-that is, \(E \in \mcal{E}\), we say that \(E\) is measruable.
+that is, \(E \in \mcal{E}\), we say that \(E\) is measurable.
 Otherwise for some \(F \in \powset{X} \setminus \mcal{E}\)
 we say that \(F\) is un-measurable.
 
-A measureable space can be extended into a measure space by equipping a
+A measurable space can be extended into a measure space by equipping a
 measure \(\type{\mu}{\mcal{E}}{\R}\) to form a triple
 \(\parens{X, \mcal{E}, \mu}\).
 A measure satisfies the following properties:
@@ -295,15 +232,16 @@ A measure satisfies the following properties:
   define the Lebesgue outer measure
   \(\type{\lambda^\star}{\powset{\R}}{\R}\) as follows:
   
-  In order to define the Lebesgue mesure \(\lambda\),
+  In order to define the Lebesgue measure \(\lambda\),
   we first define the Lebesgue outer measure \(\lambda^\star\):
   \begin{align*}
     \lambda^\star \parens{E}
-      = \inf\braces{\sum_{i = 1}^{\infty} I_i \st
+      = \inf\braces{\sum_{i = 1}^{\infty} \ell\parens{I_i} \st
                       \braces{\parens{I_i}}
                       \ \text{is a sequence of open intervals such that} \ 
                       E \subseteq \bigcup_{i = 1}^{\infty} {I_i}}
   \end{align*}
+  Where \(\ell\parens{I_i}\) is the length of interval \(I_i\).
 
   The difference between an outer measure and a measure is that
   an outer measure is defined on the largest \(\sigma\)-algebra,
@@ -320,7 +258,7 @@ A measure satisfies the following properties:
   \end{align*}
   This is called the Carath{\'e}odory criterion,
   and on such sets we set \(\lambda\parens{E} = \lambda^\star \parens{E}\).
-  The proof that the Lebesgue measure is indeed a measure can be found
+  The proof that the Lebesgue measure is a measure can be found
   in texts on real analysis and measure theory.
 
 \end{example}
@@ -344,7 +282,7 @@ A measure satisfies the following properties:
 
 
 
-\subsection{Mesure Induced Metric}
+\subsection{Measure Induced Metric}
 
 For a measure space \(\parens{X, \mcal{E}, \mu}\),
 an interesting consequence is that a
