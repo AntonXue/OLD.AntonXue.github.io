@@ -1,8 +1,8 @@
 
 \section{Background}
 
-We now introduce and give a quick overview of some of the background
-material relevant.
+We now introduce and give a quick overview of some of the relevant
+background material.
 
 
 \subsection{Regular Languages and Finite Automata}
@@ -76,7 +76,7 @@ The size of an NFA is the number of states \(\abs{Q}\).
       The string \(01\) through the transition sequence \(q_0 q_1 q_2\).
   \end{enumerate}
   Note that from state \(q_0\) there are two out-edges that
-  are both weighted with \(0\).
+  are both labeled with \(0\).
   This is what differentiates an NFA from a
   deterministic finite automata (DFA).
   In an NFA, out-edges from the same vertex may have shared labels,
@@ -108,7 +108,7 @@ Then the union effectively describes the following language:
 \begin{align*}
   \bigcup_{k = 1}^{\infty} L_k = \braces{a^k b^k \st k \in \Zp}
 \end{align*}
-Where \(a^k b^k\) is short-hand for a string that is
+where \(a^k b^k\) is short-hand for a string that is
 \(k\) consecutive \(a\)'s followed by \(k\) consecutive \(b\)'s.
 It is known that such a language is not regular,
 and this is therefore an example where regular languages
@@ -145,7 +145,7 @@ that must hold for any \(x, y, z \in M\):
 
 
 \begin{example}[Euclidean Metric]
-  For some \(x_i \in \R^n\),
+  For some \(x \in \R^n\),
   let \(x_i\) be the \(i\)th coordinate of the vector.
   Then the Euclidean (L2) metric is defined by
   \begin{align*}
@@ -179,6 +179,7 @@ a \(\sigma\)-algebra on \(X\) that satisfies the following properties:
   \item[(2)]
     Closure under relative complement:
     \(E^c \in \mcal{E}\) if \(E \in \mcal{E}\).
+    Take \(E^c = X \setminus E\).
 
   \item[(3)]
     Closure under countable unions:
@@ -220,7 +221,7 @@ A measure satisfies the following properties:
 
 \begin{example}[Lebesgue Measure]
   Consider the real line \(\R\)
-  and some interval open \(\parens{a, b} \subseteq \R\) with \(a < b\).
+  and some open interval \(\parens{a, b} \subseteq \R\) with \(a < b\).
   Intuitively one may want to assign the interval a size of
   equal to its length.
   In other words, the measure of \(\parens{a, b}\) should be \(b - a\).
@@ -270,7 +271,8 @@ A measure satisfies the following properties:
   the counting measure is defined on \(\powset{X}\),
   and just counts the cardinality of each \(E \subseteq X\).
   The counting measure tends to see application in settings
-  dealing with finite sets.
+  dealing with finite sets,
+  although it can certainly be used for infinite sets.
 \end{example}
 
 \begin{example}[Probability Measure]
@@ -354,7 +356,7 @@ We now set out to show this.
   \begin{align*}
     d\parens{A, B} = \mu\parens{A \triangle B}
   \end{align*}
-  Is a metric function.
+  is a metric function.
 \end{theorem}
 \begin{proof}
   We prove the conditions necessary for a metric:

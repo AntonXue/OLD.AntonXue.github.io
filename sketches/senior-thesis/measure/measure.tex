@@ -5,13 +5,17 @@ Our initial efforts began from a simple question:
 is it possible to assign a notion of size to a regular language?
 We are interested in this perspective for several reasons.
 First, because regular languages are closed under finite basic set operations,
-being able to quantiatively measure their intersection and set
+being able to quantitatively measure their intersection and set
 difference would allow us to measure some type of similarity.
 Second, being able to embed regular languages into a measure space,
 as noted earlier,
 would allow us to derive a metric function with respect to the
 symmetric set difference.
 The natural course of investigation leads to measure theory.
+Although some related work exists~\cite{ray2005signed},
+these are primarily concerned with discrete event controllers
+rather than general automata,
+and focus on a probabilistic perspective.
 
 Consider a language \(L \subseteq \Sigma^\star\).
 The \(n\)-splice of a language written as \(L^n\) is defined as:
@@ -27,7 +31,7 @@ We then have the following relations:
     = L \cap \Sigma^\star
     = L
 \end{align*}
-Suppose that \(\parens{\N, \powset{\N}, \eta}\) is a probabiliy measure space
+Suppose that \(\parens{\N, \powset{\N}, \eta}\) is a probabiltiy measure space
 on \(\N\) with the probability measure \(\eta\),
 one way to define a measure \(\lambda_{\eta}\)
 is as follows:

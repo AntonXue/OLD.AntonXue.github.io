@@ -44,13 +44,13 @@ with respect to the original metric \(d\).
 However we hope to do better.
 NFAs can be used to separate strings, but they can also be used to separate
 two sets of strings.
-That is, given two sets of strings \(P\) and \(N\),
+That is, given two disjoint sets of strings \(P\) and \(N\),
 where we call \(P\) the set of positive strings and \(N\) the set of
 negative strings,
 let \(\mcal{A}\) be the smallest NFA that accepts all the strings in \(P\)
 and rejects all the strings in \(N\),
 where small refers to the number of states.
-can a metric be defined with respect to \(\mcal{A}\)?
+Can a metric be defined with respect to \(\mcal{A}\)?
 We would like to make a statement like:
 \begin{align*}
   d\parens{P, N} = \frac{1}{2^{\abs{\mcal{A}}}}
@@ -121,7 +121,7 @@ begins reading \(w\) on a starting state and ends on an accepting state:
   \gamma_{w} \equiv
     \brackets{\bigvee_{1 \leq i, j \leq n}
         \parens{e_{i, j, w_{1}} \land s_i}}
-      \lor
+      \land
     \brackets{\bigvee_{1 \leq i, j \leq n}
         \parens{e_{i, j, w_{\abs{w}}} \land f_j}}
 \end{align*}
@@ -159,8 +159,6 @@ then \(\mcal{A} = \parens{\Sigma, Q, \Delta, S, F}\) can be extracted as:
 In short, an automata is recovered based on the edge indicators
 \(e_{i, j, \sigma}\),
 each of which denotes one transition.
-The formula for \(\Delta\) is bulky as a consequence of attempting to
-recover an NFA.
 
 \begin{theorem}
   \(\varphi_w\) is satisfiable if and only if
@@ -205,7 +203,7 @@ recover an NFA.
 
 The consequence then extends to \(\Phi_{P, N}\),
 which is a conjunction over all \(\varphi_w\) and \(\neg \varphi_w\)
-sub-formula.
+sub-formulas.
 
 \begin{theorem}
   \(\Phi_{P, N}\) is satisfiable if and only if

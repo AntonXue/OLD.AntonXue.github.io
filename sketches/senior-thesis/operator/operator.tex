@@ -20,7 +20,7 @@ known as the operator norm defined as follows:
 \end{align*}
 Where \(\type{T}{X}{Y}\) is a linear operator between
 normed vector spaces \(X\) and \(Y\), which need not be finite-dimensional.
-We remark that norm vector spaces that are complete with repsect to their
+We remark that normed vector spaces that are complete with repsect to their
 norm are called Banach spaces.
 The definition of a norm like this allows us to then define a metric:
 two operators are close in metric if their difference has a small norm.
@@ -42,7 +42,7 @@ although often with a caveat.
 For instance, the lack of multiplicative inverses means that
 matrix (linear operator) inverses are hard to compute,
 or do not make much sense at first glance.
-Because of this, we use the term linear space to do denote spaces
+Because of this, we use the term linear space to denote spaces
 closed under linear operation, which may not have elements taken
 over a field.
 
@@ -56,13 +56,13 @@ But the questions are then:
 what are the appropriate linear spaces,
 and what are the actions of the linear operator?
 One initial thought is that the transition function can, in some way,
-be seen as a directed acyclic graph on the states \(Q\),
+be seen as a directed graph on the states \(Q\),
 where each edge is weighted by the letters in the alphabet \(\Sigma\)
 that induce the transition.
 The representation as an adjacency matrix does appear in
 literature~\cite{savage1998models}.
 Roughly, if \(M\) is the transition matrix, then \(M_{i, j} \in 2^{\Sigma}\)
-denotes the states that will transition state \(q_i\) to \(q_j\).
+denotes the set of letters that will transition state \(q_i\) to \(q_j\).
 
 While such a matrix representation is useful,
 it is not immediately obvious how such a matrix does indeed correspond
@@ -94,7 +94,8 @@ The objects of the space is then sets of strings over \(\Sigma\).
   \end{enumerate}
 \end{definition}
 
-Here the string space is the power set of all strings generated
+Note that the above is also the definition of a semiring,
+and here the string space is the power set of all strings generated
 by \(\Sigma\) through monoid multiplication (string concatenation).
 Defining the string space like this allows us to equip it with a semiring
 structure by viewing addition as set union.
@@ -168,7 +169,7 @@ Observe that the elements for the matrix of \(A\) are drawn from
 rather than \(2^{\Sigma}\),
 which is what we would expect for an NFA.
 In other words, transitions in \(A\) are given by sets of potentially
-long strings, rather than just single alphabets.
+long strings, rather than just single symbols.
 The definition provided here is intended to be slightly more general,
 with the NFA case of single-letter transitions being a special case.
 Nevertheless,
@@ -313,12 +314,10 @@ First, we quickly recap the measure-based metrics.
   a string measure space.
 \end{definition}
 
-The elements of a string measure space consists of strings finite,
+The elements of a string measure space consists of finite strings,
 while the \(\sigma\)-algebra generated consists of sets of finite strings.
-A measure \(\type{\lambda}{\sigma\parens{\Sigma^\star}}{\Rz}\) is also
-equipped, and may be defined.
-We have also shown previously that
-measures are able to define a metric.
+A measure \(\type{\lambda}{\sigma\parens{\Sigma^\star}}{\Rz}\)
+as defined before can also be used to define a metric.
 
 \begin{definition}[String Space Metric]
   Let
