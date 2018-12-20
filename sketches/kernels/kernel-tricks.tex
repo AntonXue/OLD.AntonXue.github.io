@@ -1,0 +1,109 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=5em]{geometry} % 1 cm = 2.84528 em
+\usepackage[backend=bibtex]{biblatex}
+\usepackage{xcolor}
+\bibliography{sources}
+% \nocite{*}
+
+\usepackage{lipsum}
+
+% Paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% Includes
+\input{antonxue-lib.tex}
+% \input{lang-lib.tex}
+
+
+% Author
+\title{Kernel Methods and Automata}
+\author{Anton Xue}
+% \date{\today}
+\date{}
+
+% Document
+\begin{document}
+\maketitle
+
+\section{Introduction}
+In this sketch we study the relation between graph kernels and
+finite state machines.
+We study previous work in algebraic formulation for automata theory
+and kernel methods, with an interest in how these techniques
+may be extended to formal methods.
+
+
+
+\section{Preliminaries}
+
+
+\subsection{Algebraic Automata Theory}
+Previous work in formulation in algebraic foundations for automata
+theory exist in literature~\cite{kuich2012semirings},
+and much of our notation is taken from~\cite{cortes2004rational}.
+We overload notation for addition (\(+\)) and multiplication (\(\cdot\))
+in algebraic structures when possible to avoid clutter.
+Similarly, the additive identity (\(0\)) and multiplicative identity (\(1\))
+are also overloaded when possible.
+
+
+\begin{definition}[Weighted Finite State Transducer]
+  A weighted finite state transducer over a semiring \(\mbb{K}\) is an
+  \(8\)-tuple
+  \(\parens{\Sigma_I, \Sigma_O, Q, I, F, \Delta, \lambda, \rho}\) where
+  \begin{itemize}
+    \item
+      \(\Sigma_I\) is a finite input alphabet.
+
+    \item
+      \(\Sigma_O\) is a finite output alphabet.
+
+    \item
+      \(Q\) is a finite set of states.
+
+    \item
+      \(I \subseteq Q\) is the set of starting states.
+
+    \item
+      \(F \subseteq Q\) is the set of final states.
+
+    \item
+      \(\Delta \subseteq
+          Q \times
+          \parens{\Sigma_I \cup \braces{\varepsilon}} \times
+          \mbb{K} \times
+          \parens{\Sigma_O \cup \braces{\varepsilon}} \times
+          Q \)
+      is the transition function weighted by \(\mbb{K}\).
+        
+    \item
+      \(\type{\lambda}{I}{\mbb{K}}\) is the initial state weight function.
+
+    \item
+      \(\type{\rho}{F}{\mbb{K}}\) is the final state weight function.
+
+    \end{itemize}
+\end{definition}
+
+
+\subsection{Reproducing Kernel Hilbert Spaces}
+
+
+
+\section{Automata Embeddings}
+
+
+
+\section{Bounding Inner Products}
+
+
+
+\printbibliography
+
+
+\end{document}
+
+
