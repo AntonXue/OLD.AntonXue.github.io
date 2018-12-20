@@ -49,11 +49,50 @@ in algebraic structures when possible to avoid clutter.
 Similarly, the additive identity (\(0\)) and multiplicative identity (\(1\))
 are also overloaded when possible.
 
+\begin{definition}[Monoid]
+  A monoid is an algebraic structure \(\parens{\mbb{K}, \cdot, 1}\) where:
+  
+  \begin{itemize}
+    \item
+      \(\mbb{K}\) is closed under monoid multiplication
+      \(\type{\cdot}{\mbb{K} \times \mbb{K}}{\mbb{K}}\).
+
+    \item
+      \(1\) is the multiplicative identity.
+
+  \end{itemize}
+
+  When possible, we elide the \(\cdot\) in monoid multiplication to write
+  \(ab\) instead of \(a \cdot b\).
+  When multiplication \(\cdot\) is commutative,
+  the system is known as a commutative monoid.
+\end{definition}
+
+
+\begin{definition}[Semiring]
+  A semiring \(\parens{\mbb{K}, +, \cdot, 0, 1}\) is a system where:
+
+  \begin{itemize}
+    \item
+      Semiring addition is a commutative monoid
+      \(\parens{\mbb{K}, +, 0}\).
+
+    \item
+      Semiring multiplication
+      \(\parens{\mbb{K}, \cdot, 1}\) is a monoid.
+
+    \item
+      \(0\) annihilates semiring multiplication.
+  \end{itemize}
+
+\end{definition}
+
 
 \begin{definition}[Weighted Finite State Transducer]
   A weighted finite state transducer over a semiring \(\mbb{K}\) is an
   \(8\)-tuple
-  \(\parens{\Sigma_I, \Sigma_O, Q, I, F, \Delta, \lambda, \rho}\) where
+  \(\parens{\Sigma_I, \Sigma_O, Q, I, F, \Delta, \lambda, \rho}\) where:
+
   \begin{itemize}
     \item
       \(\Sigma_I\) is a finite input alphabet.
