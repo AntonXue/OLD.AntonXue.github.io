@@ -15,7 +15,7 @@
 
 % Includes
 \input{antonxue-lib.tex}
-% \input{lang-lib.tex}
+\input{ker-lib.tex}
 
 
 % Author
@@ -129,6 +129,9 @@ using a semiring to specify transition weights.
       \(\type{\rho}{F}{\mbb{K}}\) is the final state weight function.
 
     \end{itemize}
+
+    Note that the transition function \(\Delta\) is defined to
+    permit non-deterministic behavior by default.
 \end{definition}
 
 It should be noted that \(\Sigma_I\) and \(\Sigma_O\) can be
@@ -177,6 +180,107 @@ which can be eliminated anyways~\cite{savage1998models}.
 
 
 \subsection{Reproducing Kernel Hilbert Spaces}
+
+Inner products spaces are nice because they allow us to measure projection.
+Additionally, an inner product induces a norm, from which a metric,
+and thus topology, can also be created.
+
+\begin{definition}[Hilbert Space]
+  A Hilbert space is a inner product space that is complete with respect
+  to the metric induced by its inner product.
+\end{definition}
+
+If \(\mcal{H}\) is a Hilbert space,
+write
+\(\type{\angles{\cdot, \cdot}_{\mcal{H}}}{\mcal{H} \times \mcal{H}}{\R}\)
+to denote its inner product.
+We drop the subscript when context is clear,
+and remark that another option is for complex-valued inner products.
+
+A special type of Hilbert spaces are known as
+reproducing kernel Hilbert spaces~\cite{berlinet2011reproducing}.
+In short,
+these are Hilbert spaces with a special function known
+as the reproducing kernel.
+
+
+\begin{definition}[Reproducing Kernel]
+  Let \(\mcal{H}\) be a Hilbert space.
+  A reproducing kernel is a function
+  \(\type{k}{\mcal{H} \times \mcal{H}}{\R}\)
+  that satisfies the property
+  \begin{align*}
+    f\parens{x} = \angles{f, k\parens{x, \cdot}}_H
+  \end{align*}
+  for all \(f \in \mcal{H}\).
+\end{definition}
+
+A reproducing Kernel hilbert space can be induced by the existence
+of a kernel function (not to be confused with the reproducing kernel).
+This type of kernel function can be defined over general sets,
+and provides a way of taking inner products by embedding them
+into a Hilbert spcae.
+
+\begin{definition}[Kernel]
+  Let \(\mcal{X}\) be a set.
+  A function \(\type{k}{\mcal{X} \times \mcal{X}}{\R}\) if:
+
+  \begin{enumerate}
+    \item
+      \(k\parens{x, y} = k\parens{y, x}\) for all \(x, y \in \mcal{X}\).
+      This is known as symmetric.
+
+    \item
+      If for all \(x_1, x_2, \ldots, x_n \in \mcal{X}\)
+      the Gram matrix \(K\)
+      defined by:
+      \begin{align*}
+        K_{i, j} = k\parens{x_i, x_j}
+      \end{align*}
+      is positive semi-definite.
+
+  \end{enumerate}
+
+\end{definition}
+
+Given a set \(\mcal{X}\) and a kernel
+\(\type{k}{\mcal{X} \times \mcal{X}}{\R}\),
+one can generate a Hilbert space.
+Define a ``feautre map'' \(\type{\varphi}{\mcal{X}}{\R^{\mcal{X}}}\)
+as follows:
+\begin{align*}
+  \varphi\parens{x} = k\parens{x, \cdot}
+\end{align*}
+Then \(\varphi\) maps each element of \(\mcal{X}\)
+into a Hilbert space \(\mcal{H}\) consisting of the closure of
+the span of functions \(\type{f}{\mcal{X}}{\R}\):
+\begin{align*}
+  \mcal{H} =
+    \overline{\vspan\braces{\type{f}{\mcal{X}}{\R}}}
+    = \overline{
+        \braces{
+          \sum_{i = 1}^{n} a_i k\parens{\cdot, x_i}
+            \st n \in \N, x_i \in \mcal{X}, a_i \in \R}}
+\end{align*}
+Consider two functions \(f, g \in \mcal{H}\) which would have form:
+\begin{align*}
+  f\parens{x} = \sum_{i \in I} a_i k\parens{x, u_i}
+  \qquad \qquad
+  g\parens{x} = \sum_{j \in J} b_j k\parens{x, v_j}
+\end{align*}
+where each \(u_i, v_j \in \mcal{X}\).
+Note that the summation may be infinite over the index sets \(I\)
+and \(J\) may be infinite, since Hilbert spaces are complete with
+respect to the norm induced by the inner product.
+The inner product between \(f\) and \(g\) is then defined as:
+\begin{align*}
+  \angles{f, g}
+    = \angles{\sum_{i \in I} a_i k\parens{\cdot, u_i},
+              \sum_{j \in J} b_i k\parens{\cdot, v_j}}
+    = \sum_{i \in I} \sum_{j \in J} a_i b_j k\parens{u_i, v_j}
+\end{align*}
+This is further described and proven in previous
+work~\cite{cortes2004rational, vishwanathan2010graph}.
 
 
 
