@@ -246,12 +246,12 @@ into a Hilbert space.
 Given a set \(\mcal{X}\) and a kernel
 \(\type{k}{\mcal{X} \times \mcal{X}}{\R}\),
 one can generate a Hilbert space.
-Define a ``feature map'' \(\type{\varphi}{\mcal{X}}{\R^{\mcal{X}}}\)
+Define a ``feature map'' \(\type{\phi}{\mcal{X}}{\R^{\mcal{X}}}\)
 as follows:
 \begin{align*}
-  \varphi\parens{x} = k\parens{x, \cdot}
+  \phi\parens{x} = k\parens{x, \cdot}
 \end{align*}
-Then \(\varphi\) maps each element of \(\mcal{X}\)
+Then \(\phi\) maps each element of \(\mcal{X}\)
 into a Hilbert space \(\mcal{H}\) consisting of the closure of
 the span of functions \(\type{f}{\mcal{X}}{\R}\):
 \begin{align*}
@@ -346,7 +346,7 @@ adjacency matrices of graphs to define the notion of a product graph.
 
 
 
-\section{Automata Embeddings}
+\section{Embedding Automata}
 
 
 \subsection{Simple Graphs}
@@ -364,13 +364,32 @@ of notation.
 Then a kernel on this space of graph adjacency matrices can be
 defined as follows:
 \begin{align*}
-  K\parens{G, H}
+  k\parens{G, H}
     = \sum_{k = 0}^{\infty} \mu\parens{k} q^T \parens{G \otimes H}^k p
 \end{align*}
-where \(\mu\parens{k}\) is a function over \(\N\)
+where \(\type{\mu}{\N}{\R}\) is a function over \(\N\)
 to help ensure that the summation converges,
-\(q\) and \(p\) are fixed and of the appropriate dimension.
+\(q\) and \(p\) are fixed and of the appropriate dimensions.
 
+Note that adjacency matrices may either act on column vectors by
+left multiplication or row vectors by right multiplication,
+whichever is convenient.
+
+
+\subsection{Non-deterministic Finite Automata}
+A similar trick can be used for NFAs.
+However a few considerations have to be made when representing NFAs
+as matrices.
+In particular, because semiring multiplication is not commutative,
+we must be extra careful in our construction.
+
+Consider a NFA \(\parens{\Sigma, Q, \Delta, S, F}\)
+where \(\abs{Q} = n\).
+We want to represent this as a matrix \(A_{n \times n}\)
+where \(A_{i, j}\) denotes the transition from state \(q_i\)
+to state \(q_j\).
+We choose to read strings left to right, so this implies that
+\(A\) should act by right multiplication on row vectors.
 
 
 
