@@ -215,11 +215,11 @@ as the reproducing kernel.
   for all \(f \in \mcal{H}\).
 \end{definition}
 
-A reproducing Kernel hilbert space can be induced by the existence
+A reproducing kernel Hilbert space can be induced by the existence
 of a kernel function (not to be confused with the reproducing kernel).
 This type of kernel function can be defined over general sets,
 and provides a way of taking inner products by embedding them
-into a Hilbert spcae.
+into a Hilbert space.
 
 \begin{definition}[Kernel]
   Let \(\mcal{X}\) be a set.
@@ -246,7 +246,7 @@ into a Hilbert spcae.
 Given a set \(\mcal{X}\) and a kernel
 \(\type{k}{\mcal{X} \times \mcal{X}}{\R}\),
 one can generate a Hilbert space.
-Define a ``feautre map'' \(\type{\varphi}{\mcal{X}}{\R^{\mcal{X}}}\)
+Define a ``feature map'' \(\type{\varphi}{\mcal{X}}{\R^{\mcal{X}}}\)
 as follows:
 \begin{align*}
   \varphi\parens{x} = k\parens{x, \cdot}
@@ -281,6 +281,45 @@ The inner product between \(f\) and \(g\) is then defined as:
 \end{align*}
 This is further described and proven in previous
 work~\cite{cortes2004rational, vishwanathan2010graph}.
+
+
+
+\subsection{Tensor Products}
+Tensor algebra are treated in more detail
+in other texts~\cite{itskov2007tensor},
+and multiple generalizations exist.
+In this sketch we are interested in a very specialized slice of
+tensor algebra.
+Note that we use the term linear space instead of vector space,
+since much of linear algebra, including tensor algebra,
+does not necessarily have to be defined over fields.
+
+\begin{definition}[Tensor Product of Linear Spaces]
+  Let \(V\) be a linear space with countable basis
+  \(\braces{v_1, v_2, \ldots}\),
+  and \(W\) be a linear space with countable basis
+  \(\braces{w_1, w_2, \ldots}\).
+  The tensor product \(V \otimes W\) is the linear space
+  spanned by the countable basis \(\braces{v_i \otimes w_j}\).
+\end{definition}
+
+Note that we treat \(v_i \otimes w_j\)
+as symbols without special meaning attributed to them.
+For instance, if \(V\) has basis \(\braces{v_1, v_2}\)
+and \(W\) has basis \(\braces{w_1, w_2, w_3}\),
+then \(V \otimes W\) has basis:
+\begin{align*}
+  \braces{v_1 \otimes w_1, v_1 \otimes w_2, v_1 \otimes w_3,
+          v_2 \otimes w_1, v_2 \otimes w_2, v_2 \otimes w_3}
+\end{align*}
+
+Additionally, if \(\type{S}{V}{W}\) and \(\type{T}{X}{Y}\)
+are linear transformations,
+then the tensor product would have type:
+\begin{align*}
+  \type{S \otimes T}{V \otimes X}{W \otimes Y}
+\end{align*}
+
 
 
 
