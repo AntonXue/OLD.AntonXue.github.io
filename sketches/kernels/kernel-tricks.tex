@@ -480,15 +480,19 @@ in a similar manner.
 
 We will sometimes overload notation to have \(A\) mean both the transition
 matrix and the NFA that it represents.
+Inspired by the normalized kernel definition for simple graphs above,
+this suggests that we can extend it to NFA as well.
 
-Consider two NFAs:
-\begin{align*}
-  A = \parens{\Sigma_A, Q_A, \Delta_A, I_A, F_A}
-  \qquad \qquad
-  B = \parens{\Sigma_B, Q_B, \Delta_B, I_B, F_B}
-\end{align*}
-A normalized kernel can then be defined as:
-\begin{align*}
+
+\begin{definition}[Normalized NFA Kernel]
+  Given two non-deterministic finite automata:
+  \begin{align*}
+    A = \parens{\Sigma_A, Q_A, \Delta_A, I_A, F_A}
+    \qquad \qquad
+    B = \parens{\Sigma_B, Q_B, \Delta_B, I_B, F_B}
+  \end{align*}
+  The normalized NFA kernel is defined as:
+  \begin{align*}
   k\parens{A, B}
     = \frac{1}{\abs{\Sigma_A} \abs{Q_A}^2 \abs{\Sigma_B} \abs{Q_B}^2}
         \sum_{k = 0}^{\infty}
@@ -496,8 +500,25 @@ A normalized kernel can then be defined as:
           \parens{\alpha_A \otimes \alpha_B}^T
             \parens{A \otimes B}^k
             \parens{\beta_A \otimes \beta_B}
-\end{align*}
+  \end{align*}
+  where
+  \(A \otimes B\) is the Kronecker product of the transition matrices
+  of \(A\) and \(B\) over the
+  \(\parens{\Sigma_A \cup \Sigma_B}^\star\) semiring,
+  \(\alpha_A \otimes \alpha_B\) is the Kronecker product of the initial
+  state vector of \(A\) and \(B\),
+  \(\beta_A \otimes \beta_B\) is the Kronecker product of the final
+  state vector of \(A\) and \(B\),
+  and \(\mu\) is a probability distribution on \(\N\).
+\end{definition}
 
+
+\begin{theorem}
+  A normalized NFA kernel satisfies the following properties:
+\end{theorem}
+\begin{proof}
+  \red{yes}
+\end{proof}
 
 
 
