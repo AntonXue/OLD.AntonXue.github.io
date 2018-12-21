@@ -269,8 +269,8 @@ Consider two functions \(f, g \in \mcal{H}\) which would have form:
   g\parens{x} = \sum_{j \in J} b_j k\parens{x, v_j}
 \end{align*}
 where each \(u_i, v_j \in \mcal{X}\).
-Note that the summation may be infinite over the index sets \(I\)
-and \(J\) may be infinite, since Hilbert spaces are complete with
+Note that the summation may be countably infinite over the index sets \(I\)
+and \(J\), since Hilbert spaces are complete with
 respect to the norm induced by the inner product.
 The inner product between \(f\) and \(g\) is then defined as:
 \begin{align*}
@@ -312,6 +312,8 @@ then \(V \otimes W\) has basis:
   \braces{v_1 \otimes w_1, v_1 \otimes w_2, v_1 \otimes w_3,
           v_2 \otimes w_1, v_2 \otimes w_2, v_2 \otimes w_3}
 \end{align*}
+Note that the above basis written in this manner can be considered
+an ordered basis of \(V \otimes W\).
 
 Additionally, if \(\type{S}{V}{W}\) and \(\type{T}{X}{Y}\)
 are linear transformations,
@@ -320,6 +322,24 @@ then the tensor product would have type:
   \type{S \otimes T}{V \otimes X}{W \otimes Y}
 \end{align*}
 
+Finite-dimensional linear transformations are often envisioned
+as matrices that act on column vectors by left multiplication.
+For two matrices \(A_{m \times n}\) and \(B_{p \times q}\)
+that represent linear transforms
+\(\type{A}{\R^n}{\R^m}\) and \(\type{B}{\R^q}{\R^p}\) respectively,
+the Kronecker product is a way to lift the linear
+transform represented by \(A\) and \(B\) into the tensor product space.
+We write this in terms of block matrices as follows:
+\begin{align*}
+  {A \otimes B}
+    = \begin{bmatrix}
+        A_{1, 1} B & \ldots & A_{1, n} B \\
+        \vdots & \ddots & \vdots \\
+        A_{m, 1} B & \ldots & A_{m, n} B
+      \end{bmatrix}
+\end{align*}
+This is then a linear transformation with respect to the ordered basis
+\(R^n \otimes \R^q\) and \(\R^m \otimes \R^p\).
 
 
 
