@@ -341,13 +341,42 @@ We write this in terms of block matrices as follows:
 This is then a linear transformation with respect to the ordered basis
 \(R^n \otimes \R^q\) and \(\R^m \otimes \R^p\).
 
+The Kronecker product on matrices is also used as a tensor product over
+adjacency matrices of graphs to define the notion of a product graph.
+
 
 
 \section{Automata Embeddings}
 
 
+\subsection{Simple Graphs}
+
+We first consider kernel methods over graphs, which is the main focus
+of Vishwanathan~\cite{vishwanathan2010graph}.
+The main idea is that the space of simple graphs can be treated
+using kernel methods described above.
+Here, simple graphs are taken to mean (un)-directed graphs
+that are representable by \(0 / 1\) adjacency matrices.
+
+Let \(G\) and \(H\) be two finite simple graphs.
+Use the same letters to represent their adjacency matrices in an abuse
+of notation.
+Then a kernel on this space of graph adjacency matrices can be
+defined as follows:
+\begin{align*}
+  K\parens{G, H}
+    = \sum_{k = 0}^{\infty} \mu\parens{k} q^T \parens{G \otimes H}^k p
+\end{align*}
+where \(\mu\parens{k}\) is a function over \(\N\)
+to help ensure that the summation converges,
+\(q\) and \(p\) are fixed and of the appropriate dimension.
+
+
+
 
 \section{Bounding Inner Products}
+
+\red{What do lower bounds on inner products mean??}
 
 
 
