@@ -87,10 +87,14 @@ are also overloaded when possible.
 
 \end{definition}
 
+A weighted finite state transducer (WFST) is a very
+general transition system defined
+using a semiring to specify transition weights.
+
 
 \begin{definition}[Weighted Finite State Transducer]
-  A weighted finite state transducer over a semiring \(\mbb{K}\) is an
-  \(8\)-tuple
+  A weighted finite state transducer over a semiring \(\mbb{K}\) is
+  a system
   \(\parens{\Sigma_I, \Sigma_O, Q, I, F, \Delta, \lambda, \rho}\) where:
 
   \begin{itemize}
@@ -126,6 +130,50 @@ are also overloaded when possible.
 
     \end{itemize}
 \end{definition}
+
+It should be noted that \(\Sigma_I\) and \(\Sigma_O\) can be
+seen as the generators of the free monoids
+\(\Sigma_I ^\star\) and \(\Sigma_O ^\star\),
+which represents the set of all strings over
+\(\Sigma_I\) and \(\Sigma_O\) respectively.
+
+Although we are not yet interested in the full generality that
+a WFST offers, it is still nice to see what is available to us
+in terms of abstraction.
+
+A special case of WFSTs that we are interested in
+are non-deterministic finite automata,
+whose specification in terms of WSFTs
+is by Cortes~\cite{cortes2004rational}.
+We introduce a simplified structure.
+
+\begin{definition}[Non-deterministic Finite Automata]
+  A non-deterministic finite automata is a system
+  \(\parens{\Sigma, Q, \Delta, I, F}\) where:
+
+  \begin{enumerate}
+    \item
+      \(\Sigma\) is a finite alphabet.
+
+    \item
+      \(Q\) is a finite set of states.
+
+    \item
+      \(\Delta \subseteq Q \times \Sigma \times Q\)
+      is the transition function.
+
+    \item
+      \(I \subseteq Q\) is the set of initial states.
+
+    \item
+      \(F \subseteq Q\) is the set of final states.
+
+  \end{enumerate}
+\end{definition}
+
+We do not permit \(\varepsilon\)-transitions in our definition,
+which can be eliminated anyways~\cite{savage1998models}.
+
 
 
 \subsection{Reproducing Kernel Hilbert Spaces}
