@@ -358,7 +358,10 @@ using kernel methods described above.
 Here, simple graphs are taken to mean (un)-directed graphs
 that are representable by \(0 / 1\) adjacency matrices.
 
-Let \(G\) and \(H\) be two finite simple graphs.
+Let \(G = \parens{V_G, E_G}\) and
+\(H = \parens{V_H, E_H}\) be two finite simple graphs.
+Here \(V_G\) is the vertex set of \(G\), and \(E_H \subseteq V_G \times V_G\)
+is the edge set of \(G\), with similar notation for \(H\).
 Use the same letters to represent their adjacency matrices in an abuse
 of notation.
 Then a kernel on this space of graph adjacency matrices can be
@@ -369,11 +372,34 @@ defined as follows:
 \end{align*}
 where \(\type{\mu}{\N}{\R}\) is a function over \(\N\)
 to help ensure that the summation converges,
-\(q\) and \(p\) are fixed and of the appropriate dimensions.
+\(q\) and \(p\) are fixed and of the appropriate dimensions
+intended to mean something along the lines of final
+and initial weights with respect to a basis on \(V_G \otimes H_G\).
 
 Note that adjacency matrices may either act on column vectors by
 left multiplication or row vectors by right multiplication,
 whichever is convenient.
+
+Suppose that \(G\) and \(H\) are known,
+then a normalized version of the kernel can be defined as:
+\begin{align*}
+  k\parens{G, H}
+    = \frac{1}{\abs{V_G}^2 \abs{V_H}^2}
+      \sum_{k = 0}^{\infty} \mu\parens{k} q^T \parens{G \otimes H}^k p
+\end{align*}
+Since \(G\) and \(H\) represent adjacency matrices respectively,
+if \(q, p \in \brackets{0, 1}^{\abs{V_G} \abs{V_H}}\),
+then each iteration of the summation does not exceed the dimension
+of \(G \otimes H\),
+which is \(\abs{V_G}^2 \abs{V_H}^2\).
+In addition, if \(\mu\) is a probability distribution on \(\N\), then:
+\begin{align*}
+  0 \leq k\parens{G, H} \leq 1
+\end{align*}
+For all simple graphs \(G\) and \(H\).
+
+
+
 
 
 \subsection{Non-deterministic Finite Automata}
