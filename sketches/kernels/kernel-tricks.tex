@@ -68,6 +68,14 @@ are also overloaded when possible.
   the system is known as a commutative monoid.
 \end{definition}
 
+\begin{example}
+  Consider a finite alphabet \(\Sigma\),
+  then the system \(\parens{\Sigma^{\star}, \cdot, \varepsilon}\)
+  forms a monoid,
+  where monoid multiplication \(\cdot\)
+  is string concatenation and \(\varepsilon\) is the empty string.
+\end{example}
+
 
 \begin{definition}[Semiring]
   A semiring \(\parens{\mbb{K}, +, \cdot, 0, 1}\) is a system where:
@@ -86,6 +94,23 @@ are also overloaded when possible.
   \end{itemize}
 
 \end{definition}
+
+\begin{example}
+  For a finite alphabet \(\Sigma\),
+  the system
+  \(\parens{\powset{\Sigma^\star}, \cup, \cdot, \emptyset, \varepsilon}\)
+  forms a semiring.
+  Here semiring addition is set union,
+  and semiring multiplication is defined as:
+  \begin{align*}
+    A \cdot B
+      = \braces{a \cdot b \st a \in A, b \in B}
+  \end{align*}
+  for all \(A, B \in \powset{\Sigma^\star}\).
+  We take
+  the additive identity to be the empty set \(\emptyset\),
+  and the multiplicative identity as the empty string \(\varepsilon\).
+\end{example}
 
 A weighted finite state transducer (WFST) is a very
 general transition system defined
@@ -339,7 +364,7 @@ We write this in terms of block matrices as follows:
       \end{bmatrix}
 \end{align*}
 This is then a linear transformation with respect to the ordered basis
-\(R^n \otimes \R^q\) and \(\R^m \otimes \R^p\).
+\(\R^n \otimes \R^q\) and \(\R^m \otimes \R^p\).
 
 The Kronecker product on matrices is also used as a tensor product over
 adjacency matrices of graphs to define the notion of a product graph.
@@ -388,7 +413,7 @@ then a normalized version of the kernel can be defined as:
       \sum_{k = 0}^{\infty} \mu\parens{k} q^T \parens{G \otimes H}^k p
 \end{align*}
 Since \(G\) and \(H\) represent adjacency matrices respectively,
-if \(q, p \in \brackets{0, 1}^{\abs{V_G} \abs{V_H}}\),
+if \(q\) and \(p\) take on values in \(\brackets{0, 1}\),
 then each iteration of the summation does not exceed the dimension
 of \(G \otimes H\),
 which is \(\abs{V_G}^2 \abs{V_H}^2\).
@@ -396,7 +421,7 @@ In addition, if \(\mu\) is a probability distribution on \(\N\), then:
 \begin{align*}
   0 \leq k\parens{G, H} \leq 1
 \end{align*}
-For all simple graphs \(G\) and \(H\).
+for all simple graphs \(G\) and \(H\).
 
 
 
@@ -409,13 +434,70 @@ as matrices.
 In particular, because semiring multiplication is not commutative,
 we must be extra careful in our construction.
 
-Consider a NFA \(\parens{\Sigma, Q, \Delta, S, F}\)
-where \(\abs{Q} = n\).
-We want to represent this as a matrix \(A_{n \times n}\)
+Consider an NFA \(\parens{\Sigma, Q, \Delta, S, F}\).
+We want to represent this as a matrix \(A_{\abs{Q} \times \abs{Q}}\)
 where \(A_{i, j}\) denotes the transition from state \(q_i\)
 to state \(q_j\).
-We choose to read strings left to right, so this implies that
+We arbitrarily choose to read strings left to right, so this implies that
 \(A\) should act by right multiplication on row vectors.
+
+Additionally, we must account for the fact that edges in an NFA
+may be weighted by multiple elements (or strings, in a more general setting)
+from the alphabet.
+This suggests that each entry of \(A\) should instead be a set:
+\begin{align*}
+  A_{i, j} =
+    \braces{\sigma \st \parens{q_i, \sigma, q_j} \in \Delta}
+\end{align*}
+In fact, it is possible to view each entry of the \(A\) matrix
+as a member of the
+\(\parens{\powset{\Sigma^\star}, \cup, \cdot, \emptyset, \varepsilon}\)
+semiring, which was discussed earlier.
+Note that technically this would technically permit each transition
+to consume a string of letters rather than a single one,
+but we could just be careful in our construction to avoid
+these cases that would make analysis efforts more difficult.
+All together, \(A\) would then be typed as follows:
+\begin{align*}
+  \type{A}{\parens{\Sigma^\star}^{\abs{Q}}}{\parens{\Sigma^\star}^{\abs{Q}}}
+\end{align*}
+where the semiring operations and identities are implicit.
+For each \(1 \leq i, j \leq \abs{Q}\),
+the entry \(A_{i, j}\) is still defined as before,
+and this \(A\) matrix acts on row vectors by right multiplication.
+
+Additionally, take \(\alpha\) to be a \(\abs{Q}\)-sized vector
+representing the initial states, where:
+\begin{align*}
+  \alpha_i =
+    \begin{cases}
+      \braces{\varepsilon} &\quad q_i \in I \\
+      \emptyset &\quad \ow
+    \end{cases}
+\end{align*}
+Define \(\beta\) to be the vector representing the final states
+in a similar manner.
+
+We will sometimes overload notation to have \(A\) mean both the transition
+matrix and the NFA that it represents.
+
+Consider two NFAs:
+\begin{align*}
+  A = \parens{\Sigma_A, Q_A, \Delta_A, I_A, F_A}
+  \qquad \qquad
+  B = \parens{\Sigma_B, Q_B, \Delta_B, I_B, F_B}
+\end{align*}
+A normalized kernel can then be defined as:
+\begin{align*}
+  k\parens{A, B}
+    = \frac{1}{\abs{\Sigma_A} \abs{Q_A}^2 \abs{\Sigma_B} \abs{Q_B}^2}
+        \sum_{k = 0}^{\infty}
+          \mu\parens{k}
+          \parens{\alpha_A \otimes \alpha_B}^T
+            \parens{A \otimes B}^k
+            \parens{\beta_A \otimes \beta_B}
+\end{align*}
+
 
 
 
