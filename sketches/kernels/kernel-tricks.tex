@@ -223,7 +223,7 @@ We drop the subscript when context is clear,
 and remark that another option is for complex-valued inner products.
 
 A special type of Hilbert spaces are known as
-reproducing kernel Hilbert spaces~\cite{berlinet2011reproducing}.
+reproducing kernel Hilbert spaces (RKHS)~\cite{berlinet2011reproducing}.
 In short,
 these are Hilbert spaces with a special function known
 as the reproducing kernel.
@@ -240,7 +240,7 @@ as the reproducing kernel.
   for all \(f \in \mcal{H}\).
 \end{definition}
 
-A reproducing kernel Hilbert space can be induced by the existence
+A RKHS can be induced by the existence
 of a kernel function (not to be confused with the reproducing kernel).
 This type of kernel function can be defined over general sets,
 and provides a way of taking inner products by embedding them
@@ -262,7 +262,7 @@ into a Hilbert space.
       \begin{align*}
         K_{i, j} = k\parens{x_i, x_j}
       \end{align*}
-      is positive semi-definite.
+      is positive definite.
 
   \end{enumerate}
 
@@ -497,9 +497,9 @@ this suggests that we can extend it to NFA as well.
     = \frac{1}{\abs{\Sigma_A} \abs{Q_A}^2 \abs{\Sigma_B} \abs{Q_B}^2}
         \sum_{k = 0}^{\infty}
           \mu\parens{k}
-          \parens{\alpha_A \otimes \alpha_B}^T
+          \abs{\parens{\alpha_A \otimes \alpha_B}^T
             \parens{A \otimes B}^k
-            \parens{\beta_A \otimes \beta_B}
+            \parens{\beta_A \otimes \beta_B}}
   \end{align*}
   where
   \(A \otimes B\) is the Kronecker product of the transition matrices
@@ -514,11 +514,33 @@ this suggests that we can extend it to NFA as well.
 
 
 \begin{theorem}
-  A normalized NFA kernel satisfies the following properties:
+  The normalized NFA kernel induces a RKHS.
 \end{theorem}
 \begin{proof}
-  \red{yes}
+  It suffices to prove that \(k\) is symmetric and
+  positive definite.
+  \begin{align*}
+    ffffff
+  \end{align*}
+
+
+
+  \red{descriptive text here}
 \end{proof}
+
+
+\begin{theorem}
+  The normalized NFA kernel is normalized in the sense that:
+  \begin{align*}
+    0 \leq k\parens{A, B} \leq 1
+  \end{align*}
+  for all NFA \(A\) and \(B\).
+\end{theorem}
+\begin{proof}
+  \red{descriptive text here}
+
+\end{proof}
+
 
 
 
