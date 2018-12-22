@@ -495,9 +495,9 @@ this suggests that we can extend it to NFA as well.
   The normalized NFA kernel is defined as:
   \begin{align*}
   k\parens{A, B}
-    = \frac{1}{\abs{\Sigma_A} \abs{Q_A}^2 \abs{\Sigma_B} \abs{Q_B}^2}
+    = \frac{1}{\abs{Q_A}^2 \abs{Q_B}^2}
         \sum_{k = 0}^{\infty}
-          \mu\parens{k}
+          \frac{\mu\parens{k}}{\abs{\Sigma_A}^k \abs{\Sigma_B}^k}
           \abs{\parens{\alpha_A \otimes \alpha_B}^\top
             \parens{A \otimes B}^k
             \parens{\beta_A \otimes \beta_B}}
@@ -525,7 +525,7 @@ this suggests that we can extend it to NFA as well.
   Observe that exchanging the order of the Kronecker product
   on matrices only serves to change the order of the bases that the
   new linear transformation acts on.
-  Consider two
+  Consider two automata given as:
   \begin{align*}
     A = \parens{\Sigma_A, Q_A, \Delta_A, I_A, F_A}
     \qquad \qquad
@@ -549,7 +549,7 @@ this suggests that we can extend it to NFA as well.
   for all \(k\).
   The immediate consequence is that \(k\) is symmetric.
 
-  Now consider the following:
+  Now take \(A\) as before and consider the following:
   \begin{align*}
     \parens{\alpha_A \otimes \alpha_A}^\top
     \parens{A \otimes A}^k
@@ -574,7 +574,36 @@ this suggests that we can extend it to NFA as well.
   for all NFA \(A\) and \(B\).
 \end{theorem}
 \begin{proof}
-  \red{descriptive text here}
+  Given two automata as:
+  \begin{align*}
+    A = \parens{\Sigma_A, Q_A, \Delta_A, I_A, F_A}
+    \qquad \qquad
+    B = \parens{\Sigma_B, Q_B, \Delta_B, I_B, F_B}
+  \end{align*}
+
+  First we have that \(k\) is always non-negative by inspection.
+
+  Our construction forces the adjacency matrices \(A\) and \(B\)
+  to have in each entry at most
+  \(\abs{\Sigma_A}\) and \(\abs{\Sigma_B}\) elements respectively.
+  Consequently, each entry of \(A^k\) and \(B^k\)
+  will have at most \(\abs{\Sigma_A}^k\) and \(\abs{\Sigma_B}^k\)
+  elements repsectively, since that is the maximum number of strings of
+  length \(k\) for each alphabet.
+  Therefore, \(\parens{A \otimes B}^k\)
+  will have size
+  \(\parens{\abs{Q_A} \abs{Q_B}} \times \parens{\abs{Q_A} \abs{Q_B}}\),
+  with at most \(\abs{\Sigma_A}^k \abs{\Sigma_B}^k\) elements
+  in each entry, and so:
+  \begin{align*}
+    \frac{1}{\abs{Q_A}^2 \abs{Q_B}^2}
+    \frac{1}{\abs{\Sigma_A}^k \abs{\Sigma_B}^k}
+    \abs{\parens{\alpha_A \otimes \alpha_B}^\top \parens{A \otimes B}^k \parens{\beta_A \otimes \beta_B}}
+      \leq 1
+  \end{align*}
+  for all \(k\).
+  As \(\mu\) is a probability distribution on \(\N\),
+  we conclude that \(k\) is normalized.
 
 \end{proof}
 
