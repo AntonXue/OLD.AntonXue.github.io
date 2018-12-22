@@ -264,6 +264,7 @@ into a Hilbert space.
       \end{align*}
       is positive definite.
 
+
   \end{enumerate}
 
 \end{definition}
@@ -393,7 +394,7 @@ Then a kernel on this space of graph adjacency matrices can be
 defined as follows:
 \begin{align*}
   k\parens{G, H}
-    = \sum_{k = 0}^{\infty} \mu\parens{k} q^T \parens{G \otimes H}^k p
+    = \sum_{k = 0}^{\infty} \mu\parens{k} q^\top \parens{G \otimes H}^k p
 \end{align*}
 where \(\type{\mu}{\N}{\R}\) is a function over \(\N\)
 to help ensure that the summation converges,
@@ -410,7 +411,7 @@ then a normalized version of the kernel can be defined as:
 \begin{align*}
   k\parens{G, H}
     = \frac{1}{\abs{V_G}^2 \abs{V_H}^2}
-      \sum_{k = 0}^{\infty} \mu\parens{k} q^T \parens{G \otimes H}^k p
+      \sum_{k = 0}^{\infty} \mu\parens{k} q^\top \parens{G \otimes H}^k p
 \end{align*}
 Since \(G\) and \(H\) represent adjacency matrices respectively,
 if \(q\) and \(p\) take on values in \(\brackets{0, 1}\),
@@ -497,14 +498,14 @@ this suggests that we can extend it to NFA as well.
     = \frac{1}{\abs{\Sigma_A} \abs{Q_A}^2 \abs{\Sigma_B} \abs{Q_B}^2}
         \sum_{k = 0}^{\infty}
           \mu\parens{k}
-          \abs{\parens{\alpha_A \otimes \alpha_B}^T
+          \abs{\parens{\alpha_A \otimes \alpha_B}^\top
             \parens{A \otimes B}^k
             \parens{\beta_A \otimes \beta_B}}
   \end{align*}
   where
   \(A \otimes B\) is the Kronecker product of the transition matrices
   of \(A\) and \(B\) over the
-  \(\parens{\Sigma_A \cup \Sigma_B}^\star\) semiring,
+  \(\powset{\parens{\Sigma_A \cup \Sigma_B}^\star}\) semiring,
   \(\alpha_A \otimes \alpha_B\) is the Kronecker product of the initial
   state vector of \(A\) and \(B\),
   \(\beta_A \otimes \beta_B\) is the Kronecker product of the final
@@ -519,13 +520,49 @@ this suggests that we can extend it to NFA as well.
 \begin{proof}
   It suffices to prove that \(k\) is symmetric and
   positive definite.
+
+  We first show symmetry.
+  Observe that exchanging the order of the Kronecker product
+  on matrices only serves to change the order of the bases that the
+  new linear transformation acts on.
+  Consider two
   \begin{align*}
-    ffffff
+    A = \parens{\Sigma_A, Q_A, \Delta_A, I_A, F_A}
+    \qquad \qquad
+    B = \parens{\Sigma_B, Q_B, \Delta_B, I_B, F_B}
   \end{align*}
+  where we use \(A\) and \(B\) to also denote the transition matrix
+  with each element taken from the
+  \(\powset{\parens{\Sigma_A \cup \Sigma_B}^\star}\) semiring,
+  with \(\alpha_A\) and \(\alpha_B\) for the initial states
+  and \(\beta_A\) and \(\beta_B\) for the final states as defined earlier.
+  Since the semiring operation here is union, this implies that:
+  \begin{align*}
+    \parens{\alpha_A \otimes \alpha_B}^\top
+    \parens{A \otimes B}^k
+    \parens{\beta_A \otimes \beta_B}
+    =
+    \parens{\alpha_B \otimes \alpha_A}^\top
+    \parens{B \otimes A}^k
+    \parens{\beta_B \otimes \beta_A}
+  \end{align*}
+  for all \(k\).
+  The immediate consequence is that \(k\) is symmetric.
 
+  Now consider the following:
+  \begin{align*}
+    \parens{\alpha_A \otimes \alpha_A}^\top
+    \parens{A \otimes A}^k
+    \parens{\beta_A \otimes \beta_A}
+  \end{align*}
+  This will only be the empty set if \(A\)
+  lacks strings of length \(k\).
+  If it is the case that \(k\parens{A, A} = 0\),
+  then the implication is that \(A\) accepts no strings.
+  In this case, \(\phi\parens{A}\) is taken to mean the zero element of
+  \(\mcal{H}\),
+  and so we conclude that \(k\) is positive definite.
 
-
-  \red{descriptive text here}
 \end{proof}
 
 
