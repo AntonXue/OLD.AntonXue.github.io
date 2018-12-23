@@ -302,7 +302,7 @@ The inner product between \(f\) and \(g\) is then defined as:
 \begin{align*}
   \angles{f, g}
     = \angles{\sum_{i \in I} a_i k\parens{\cdot, u_i},
-              \sum_{j \in J} b_i k\parens{\cdot, v_j}}
+              \sum_{j \in J} b_i k\parens{\cdot, v_j}}_{\R^{\mcal{X}}}
     = \sum_{i \in I} \sum_{j \in J} a_i b_j k\parens{u_i, v_j}
 \end{align*}
 This is further described and proven in previous
@@ -607,6 +607,27 @@ this suggests that we can extend it to NFA as well.
 
 \end{proof}
 
+
+\subsection{A Few Consequences}
+
+
+\subsubsection{Metric and Normed Spaces}
+
+A Hilbert space \(\mcal{H}\), or any inner product space in general,
+induces a norm as:
+\begin{align*}
+  \norm{f} = \angles{f, f} ^2
+\end{align*}
+A norm then induces a metric as:
+\begin{align*}
+  d\parens{f, g} = \norm{f - g}
+\end{align*}
+
+
+\subsubsection{Measure and Probability Spaces}
+This kernel provides a way of computing the metric
+defined in~\cite{xue2018measures} since it
+implicitly calculates language intersection.
 
 
 
