@@ -102,10 +102,10 @@ are also overloaded when possible.
   forms a semiring.
   Here semiring addition is set union,
   and semiring multiplication is defined as:
-  \begin{align*}
+  \begin{align}
     A \cdot B
       = \braces{a \cdot b \st a \in A, b \in B}
-  \end{align*}
+  \end{align}
   for all \(A, B \in \powset{\Sigma^\star}\).
   We take
   the additive identity to be the empty set \(\emptyset\),
@@ -234,9 +234,9 @@ as the reproducing kernel.
   A reproducing kernel is a function
   \(\type{k}{\mcal{H} \times \mcal{H}}{\R}\)
   that satisfies the property
-  \begin{align*}
+  \begin{align}
     f\parens{x} = \angles{f, k\parens{x, \cdot}}_H
-  \end{align*}
+  \end{align}
   for all \(f \in \mcal{H}\).
 \end{definition}
 
@@ -259,9 +259,9 @@ into a Hilbert space.
       If for all \(x_1, x_2, \ldots, x_n \in \mcal{X}\)
       the Gram matrix \(K\)
       defined by:
-      \begin{align*}
+      \begin{align}
         K_{i, j} = k\parens{x_i, x_j}
-      \end{align*}
+      \end{align}
       is positive definite.
 
 
@@ -274,37 +274,37 @@ Given a set \(\mcal{X}\) and a kernel
 one can generate a Hilbert space.
 Define a ``feature map'' \(\type{\phi}{\mcal{X}}{\R^{\mcal{X}}}\)
 as follows:
-\begin{align*}
+\begin{align}
   \phi\parens{x} = k\parens{x, \cdot}
-\end{align*}
+\end{align}
 Then \(\phi\) maps each element of \(\mcal{X}\)
 into a Hilbert space \(\mcal{H}\) consisting of the closure of
 the span of functions \(\type{f}{\mcal{X}}{\R}\):
-\begin{align*}
+\begin{align}
   \mcal{H} =
     \overline{\vspan\braces{\type{f}{\mcal{X}}{\R}}}
     = \overline{
         \braces{
           \sum_{i = 1}^{n} a_i k\parens{\cdot, x_i}
             \st n \in \N, x_i \in \mcal{X}, a_i \in \R}}
-\end{align*}
+\end{align}
 Consider two functions \(f, g \in \mcal{H}\) which would have form:
-\begin{align*}
+\begin{align}
   f\parens{x} = \sum_{i \in I} a_i k\parens{x, u_i}
   \qquad \qquad
   g\parens{x} = \sum_{j \in J} b_j k\parens{x, v_j}
-\end{align*}
+\end{align}
 where each \(u_i, v_j \in \mcal{X}\).
 Note that the summation may be countably infinite over the index sets \(I\)
 and \(J\), since Hilbert spaces are complete with
 respect to the norm induced by the inner product.
 The inner product between \(f\) and \(g\) is then defined as:
-\begin{align*}
+\begin{align}
   \angles{f, g}
     = \angles{\sum_{i \in I} a_i k\parens{\cdot, u_i},
               \sum_{j \in J} b_i k\parens{\cdot, v_j}}_{\R^{\mcal{X}}}
     = \sum_{i \in I} \sum_{j \in J} a_i b_j k\parens{u_i, v_j}
-\end{align*}
+\end{align}
 This is further described and proven in previous
 work~\cite{cortes2004rational, vishwanathan2010graph}.
 
@@ -334,19 +334,19 @@ as symbols without special meaning attributed to them.
 For instance, if \(V\) has basis \(\braces{v_1, v_2}\)
 and \(W\) has basis \(\braces{w_1, w_2, w_3}\),
 then \(V \otimes W\) has basis:
-\begin{align*}
+\begin{align}
   \braces{v_1 \otimes w_1, v_1 \otimes w_2, v_1 \otimes w_3,
           v_2 \otimes w_1, v_2 \otimes w_2, v_2 \otimes w_3}
-\end{align*}
+\end{align}
 Note that the above basis written in this manner can be considered
 an ordered basis of \(V \otimes W\).
 
 Additionally, if \(\type{S}{V}{W}\) and \(\type{T}{X}{Y}\)
 are linear transformations,
 then the tensor product would have type:
-\begin{align*}
+\begin{align}
   \type{S \otimes T}{V \otimes X}{W \otimes Y}
-\end{align*}
+\end{align}
 
 Finite-dimensional linear transformations are often envisioned
 as matrices that act on column vectors by left multiplication.
@@ -356,14 +356,14 @@ that represent linear transforms
 the Kronecker product is a way to lift the linear
 transform represented by \(A\) and \(B\) into the tensor product space.
 We write this in terms of block matrices as follows:
-\begin{align*}
+\begin{align}
   {A \otimes B}
     = \begin{bmatrix}
         A_{1, 1} B & \ldots & A_{1, n} B \\
         \vdots & \ddots & \vdots \\
         A_{m, 1} B & \ldots & A_{m, n} B
       \end{bmatrix}
-\end{align*}
+\end{align}
 This is then a linear transformation with respect to the ordered basis
 \(\R^n \otimes \R^q\) and \(\R^m \otimes \R^p\).
 
@@ -392,10 +392,10 @@ Use the same letters to represent their adjacency matrices in an abuse
 of notation.
 Then a kernel on this space of graph adjacency matrices can be
 defined as follows:
-\begin{align*}
+\begin{align}
   k\parens{G, H}
     = \sum_{k = 0}^{\infty} \mu\parens{k} q^\top \parens{G \otimes H}^k p
-\end{align*}
+\end{align}
 where \(\type{\mu}{\N}{\R}\) is a function over \(\N\)
 to help ensure that the summation converges,
 \(q\) and \(p\) are fixed and of the appropriate dimensions
@@ -408,20 +408,20 @@ whichever is convenient.
 
 Suppose that \(G\) and \(H\) are known,
 then a normalized version of the kernel can be defined as:
-\begin{align*}
+\begin{align}
   k\parens{G, H}
     = \frac{1}{\abs{V_G}^2 \abs{V_H}^2}
       \sum_{k = 0}^{\infty} \mu\parens{k} q^\top \parens{G \otimes H}^k p
-\end{align*}
+\end{align}
 Since \(G\) and \(H\) represent adjacency matrices respectively,
 if \(q\) and \(p\) take on values in \(\brackets{0, 1}\),
 then each iteration of the summation does not exceed the dimension
 of \(G \otimes H\),
 which is \(\abs{V_G}^2 \abs{V_H}^2\).
 In addition, if \(\mu\) is a probability distribution on \(\N\), then:
-\begin{align*}
+\begin{align}
   0 \leq k\parens{G, H} \leq 1
-\end{align*}
+\end{align}
 for all simple graphs \(G\) and \(H\).
 
 
@@ -446,10 +446,10 @@ Additionally, we must account for the fact that edges in an NFA
 may be weighted by multiple elements (or strings, in a more general setting)
 from the alphabet.
 This suggests that each entry of \(A\) should instead be a set:
-\begin{align*}
+\begin{align}
   A_{i, j} =
     \braces{\sigma \st \parens{q_i, \sigma, q_j} \in \Delta}
-\end{align*}
+\end{align}
 In fact, it is possible to view each entry of the \(A\) matrix
 as a member of the
 \(\parens{\powset{\Sigma^\star}, \cup, \cdot, \emptyset, \varepsilon}\)
@@ -459,9 +459,9 @@ to consume a string of letters rather than a single one,
 but we could just be careful in our construction to avoid
 these cases that would make analysis efforts more difficult.
 All together, \(A\) would then be typed as follows:
-\begin{align*}
+\begin{align}
   \type{A}{\parens{\powset{\Sigma^\star}}^{\abs{Q}}}{\parens{\powset{\Sigma^\star}}^{\abs{Q}}}
-\end{align*}
+\end{align}
 where the semiring operations and identities are implicit.
 For each \(1 \leq i, j \leq \abs{Q}\),
 the entry \(A_{i, j}\) is still defined as before,
@@ -469,13 +469,13 @@ and this \(A\) matrix acts on row vectors by right multiplication.
 
 Additionally, take \(\alpha\) to be a \(\abs{Q}\)-sized vector
 representing the initial states, where:
-\begin{align*}
+\begin{align}
   \alpha_i =
     \begin{cases}
       \braces{\varepsilon} &\quad q_i \in I \\
       \emptyset &\quad \ow
     \end{cases}
-\end{align*}
+\end{align}
 Define \(\beta\) to be the vector representing the final states
 in a similar manner.
 
@@ -487,13 +487,13 @@ this suggests that we can extend it to NFA as well.
 
 \begin{definition}[Normalized NFA Kernel]
   Given two non-deterministic finite automata:
-  \begin{align*}
+  \begin{align}
     A = \parens{\Sigma_A, Q_A, \Delta_A, I_A, F_A}
     \qquad \qquad
     B = \parens{\Sigma_B, Q_B, \Delta_B, I_B, F_B}
-  \end{align*}
+  \end{align}
   The normalized NFA kernel is defined as:
-  \begin{align*}
+  \begin{align}
   k\parens{A, B}
     = \frac{1}{\abs{Q_A}^2 \abs{Q_B}^2}
         \sum_{k = 0}^{\infty}
@@ -501,7 +501,7 @@ this suggests that we can extend it to NFA as well.
           \abs{\parens{\alpha_A \otimes \alpha_B}^\top
             \parens{A \otimes B}^k
             \parens{\beta_A \otimes \beta_B}}
-  \end{align*}
+  \end{align}
   where
   \(A \otimes B\) is the Kronecker product of the transition matrices
   of \(A\) and \(B\) over the
@@ -526,18 +526,18 @@ this suggests that we can extend it to NFA as well.
   on matrices only serves to change the order of the bases that the
   new linear transformation acts on.
   Consider two automata given as:
-  \begin{align*}
+  \begin{align}
     A = \parens{\Sigma_A, Q_A, \Delta_A, I_A, F_A}
     \qquad \qquad
     B = \parens{\Sigma_B, Q_B, \Delta_B, I_B, F_B}
-  \end{align*}
+  \end{align}
   where we use \(A\) and \(B\) to also denote the transition matrix
   with each element taken from the
   \(\powset{\parens{\Sigma_A \cup \Sigma_B}^\star}\) semiring,
   with \(\alpha_A\) and \(\alpha_B\) for the initial states
   and \(\beta_A\) and \(\beta_B\) for the final states as defined earlier.
   Since the semiring operation here is union, this implies that:
-  \begin{align*}
+  \begin{align}
     \parens{\alpha_A \otimes \alpha_B}^\top
     \parens{A \otimes B}^k
     \parens{\beta_A \otimes \beta_B}
@@ -545,16 +545,16 @@ this suggests that we can extend it to NFA as well.
     \parens{\alpha_B \otimes \alpha_A}^\top
     \parens{B \otimes A}^k
     \parens{\beta_B \otimes \beta_A}
-  \end{align*}
+  \end{align}
   for all \(k\).
   The immediate consequence is that \(k\) is symmetric.
 
   Now take \(A\) as before and consider the following:
-  \begin{align*}
+  \begin{align}
     \parens{\alpha_A \otimes \alpha_A}^\top
     \parens{A \otimes A}^k
     \parens{\beta_A \otimes \beta_A}
-  \end{align*}
+  \end{align}
   This will only be the empty set if \(A\)
   lacks strings of length \(k\).
   If it is the case that \(k\parens{A, A} = 0\),
@@ -568,18 +568,18 @@ this suggests that we can extend it to NFA as well.
 
 \begin{theorem}
   The normalized NFA kernel is normalized in the sense that:
-  \begin{align*}
+  \begin{align}
     0 \leq k\parens{A, B} \leq 1
-  \end{align*}
+  \end{align}
   for all NFA \(A\) and \(B\).
 \end{theorem}
 \begin{proof}
   Given two automata as:
-  \begin{align*}
+  \begin{align}
     A = \parens{\Sigma_A, Q_A, \Delta_A, I_A, F_A}
     \qquad \qquad
     B = \parens{\Sigma_B, Q_B, \Delta_B, I_B, F_B}
-  \end{align*}
+  \end{align}
 
   First we have that \(k\) is always non-negative by inspection.
 
@@ -595,12 +595,12 @@ this suggests that we can extend it to NFA as well.
   \(\parens{\abs{Q_A} \abs{Q_B}} \times \parens{\abs{Q_A} \abs{Q_B}}\),
   with at most \(\abs{\Sigma_A}^k \abs{\Sigma_B}^k\) elements
   in each entry, and so:
-  \begin{align*}
+  \begin{align}
     \frac{1}{\abs{Q_A}^2 \abs{Q_B}^2}
     \frac{1}{\abs{\Sigma_A}^k \abs{\Sigma_B}^k}
     \abs{\parens{\alpha_A \otimes \alpha_B}^\top \parens{A \otimes B}^k \parens{\beta_A \otimes \beta_B}}
       \leq 1
-  \end{align*}
+  \end{align}
   for all \(k\).
   As \(\mu\) is a probability distribution on \(\N\),
   we conclude that \(k\) is normalized.
@@ -615,13 +615,13 @@ this suggests that we can extend it to NFA as well.
 
 A Hilbert space \(\mcal{H}\), or any inner product space in general,
 induces a norm as:
-\begin{align*}
+\begin{align}
   \norm{f} = \angles{f, f} ^2
-\end{align*}
+\end{align}
 A norm then induces a metric as:
-\begin{align*}
+\begin{align}
   d\parens{f, g} = \norm{f - g}
-\end{align*}
+\end{align}
 
 
 \subsubsection{Measure and Probability Spaces}
