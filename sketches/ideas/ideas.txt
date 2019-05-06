@@ -1,0 +1,10 @@
+Some ideas
+----------
+
+* Sturm-Liouville eigenvalue problems have discrete analogues in the form
+  of difference equations; can they extend to automata theory somehow,
+  such as via Brozowski derivatives?
+
+* Topological properties such as connectedness for program analysis
+
+
