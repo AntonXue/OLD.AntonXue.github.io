@@ -7,4 +7,5 @@ Some ideas
 
 * Topological properties such as connectedness for program analysis
 
+* Abstract stone duality
 
