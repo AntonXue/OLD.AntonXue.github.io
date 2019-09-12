@@ -9,3 +9,9 @@ Some ideas
 
 * Abstract stone duality
 
+* Random weights on NNs
+
+* Random inputs to NNs
+
+* Policy gradient does not affect correctness too much with online decisions
+
