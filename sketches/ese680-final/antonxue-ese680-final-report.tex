@@ -1,0 +1,934 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%2345678901234567890123456789012345678901234567890123456789012345678901234567890
+%        1         2         3         4         5         6         7         8
+
+\documentclass[11pt]{article}  % Comment this line out
+                                                          % if you need a4paper
+%\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4
+                                                          % paper
+
+%\IEEEoverridecommandlockouts                              % This command is only
+%                                                          % needed if you want to
+%                                                          % use the \thanks command
+%\overrideIEEEmargins
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsthm}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{optidef}
+\usepackage[noabbrev]{cleveref}
+\usepackage{comment}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[nodisplayskipstretch]{setspace}
+\usepackage{url}
+\usepackage[labelfont=bf]{subcaption}
+\usepackage[labelfont=bf]{caption}
+
+% The following packages can be found on http:\\www.ctan.org
+\usepackage{graphics} % for pdf, bitmapped graphics files
+\usepackage{epsfig} % for postscript graphics files
+%\usepackage{mathptmx} % assumes new font selection scheme installed
+\usepackage{times} % assumes new font selection scheme installed
+\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amssymb}  % assumes amsmath package installed
+\usepackage{amsfonts}
+\usepackage[margin=1in]{geometry}
+\usepackage[numbers,sort,compress]{natbib}
+
+% Custom packages
+\usepackage{physics}
+\usepackage{xcolor}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{coro}[theorem]{Corollary} 
+\newtheorem{remark}{Remark}
+\newtheorem{example}{Example}
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+\newtheorem{corollary}{Corollary}
+%\newcommand{\qed}{\QED}
+
+
+\let\red\undefined
+\newcommand{\red}[1]{\textbf{\color{red}#1}}
+
+\let\mbb\undefined
+\newcommand{\mbb}[1]{\mathbb{#1}}
+
+\let\mcal\undefined
+\newcommand{\mcal}[1]{\mathcal{#1}}
+
+\let\parens\undefined
+\newcommand{\parens}[1]{\left(#1\right)}
+
+\let\brackets\undefined
+\newcommand{\brackets}[1]{\left[#1\right]}
+
+\let\braces\undefined
+\newcommand{\braces}[1]{\left\{#1\right\}}
+
+\let\angles\undefined
+\newcommand{\angles}[1]{\langle#1\rangle}
+
+\let\norm\undefined
+\newcommand{\norm}[1]{\lVert #1 \rVert}
+
+\let\dom\undefined
+\DeclareMathOperator{\dom}{dom}
+
+\let\Tr\undefined
+\DeclareMathOperator{\Tr}{Tr}
+
+\let\poly\undefined
+\DeclareMathOperator{\poly}{poly}
+
+\let\argmin\undefined
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\let\prox\undefined
+\DeclareMathOperator{\prox}{prox}
+
+\let\epi\undefined
+\DeclareMathOperator{\epi}{epi}
+
+% Title
+\title{\LARGE \bf
+ESE 680 Final Report:
+First-Order Methods for
+Constrained Linear Quadratic Regulator Optimization
+}
+
+\author{Anton Xue}%
+\date{December 19, 2019}
+
+\begin{document}
+
+%% WE ARE NOT GIVING STOPPING CRITERIA AND SUBOPTIMALITY BOUND
+%% WE ARE NOT MENTIONING WHETHER THE CONVERGENCE CRITERIA IS LOCALIZED OR WHAT
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{abstract}
+This is the final report on our investigation into
+constrained optimization of linear quadratic regulators (LQR)
+via policy gradient methods.
+The primary objectives for this project were:
+(1) to gain familiarity with literature and mathematical tooling,
+(2) to identify suitable constraints on the LQR objective function,
+and
+(3) to study convergence properties of first-order methods of LQR
+with such constraints.
+We present basic observations and findings over the course of this project,
+as well as outline difficulties in constrained LQR optimization.
+\end{abstract}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+\label{sec:introduction}
+First-order policy gradient methods~\cite{sutton2000policy}
+have seen rising prominence in reinforcement learning and control theory
+for several key reasons:
+they exploit simple ideas about derivatives that many practitioners
+are already well-acquainted with;
+they can be efficiently implemented even when the underlying system
+may be complex or black-box;
+and they often work well in practice.
+The idea is simple: gradient descent (or ascent) directly over some
+objective (policy's cost or reward) using
+until some (near) optimal value is reached.
+
+A recently result in mathematical control theory applies
+such techniques to solving an instance of
+the LQR optimization problem~\cite{fazel2018global}.
+For a discrete time linear dynamical system
+\(x_{t + 1} = A x_t + B u_t\) with
+states \(x_t \in \mbb{R}^n\) and control input \(u_t \in \mbb{R}^k\),
+the objective is to find a linear feedback controller of form
+\(u_t = - K x_t\) that minimizes
+\begin{align}
+  J_{x_0} (K) = \sum_{t = 0}^{\infty} x_t ^\top Q x_t + u_t ^\top R u_t
+  \label{eq:lqr-cost}
+\end{align}
+where \(x_0 \in \mbb{R}^n\) is an initial starting state,
+\(Q, R \succ 0\) (positive-definite) with appropriate dimensions.
+Equation~\ref{eq:lqr-cost} is known as the
+infinite-horizon discrete-time LQR cost function.
+As one of the earliest inventions of feedback control by Kalman in the 1960's,
+the LQR framework remains an important tool in the
+control engineer's toolbox.
+Despite its relevance, the LQR cost function,
+especially in the context of finding optimal \(K\),
+can be challenging to work with.
+Provided that one can solve the algebraic Ricatti equation (ARE):
+\begin{align}
+  P = A^\top P A + Q - A^\top P B (B^\top P B + R)^{-1} B^\top P A
+  \label{eq:p-are}
+\end{align}
+for a \(P \succ 0\)
+the optimal controller \(K^\star\) can then be stated as
+\begin{align}
+  K^\star = - (B^\top P B + R)^{-1} B^\top P A
+\end{align}
+More classical approaches involve
+eigenvalue decomposition with matrix inversion~\cite{lancaster1995algebraic} and
+semidefinite programming~\cite{balakrishnan2003semidefinite},
+among others.
+However such methods come with drawbacks:
+they do not parametrize directly over the policy \(K\),
+they do not necessarily target the objective function of interest \(J\),
+and they are not easily adaptable to model-free settings
+where \(A\) and \(B\) may only be interacted with
+in possibly noisy environments.
+
+Fazel et al~\cite{fazel2018global} demonstrate that it is possible for
+first-order gradient-based methods to work directly over
+the LQR cost function.
+Moreover, such methods are able to achieve convergence to a globally optimal
+\(K^\star\) provided that one begins at a stabilizing \(K_0\).
+The ability to run first-order methods to optimize over the LQR cost function
+has strong implications:
+it enables LQR optimization problems to fall back on
+highly-optimized solvers,
+opens up more angles of attack for model-free LQR problem instances,
+and introduces new theoretical tooling to analyze the LQR cost function.
+
+Indeed, new ways to find an optimal controller is exciting and important,
+but what good is a controller if it is not \textit{safe}?
+In problem settings where a system's state and control trajectory
+must avoid ``bad'' regions, optimality alone does not suffice.
+In this project we are concerned with constrained optimization of the LQR
+cost function using first-order methods.
+Our outline is as follows:
+\begin{enumerate}
+  \item[(1)]
+    Review literature and texts related to
+    optimization techniques~\cite{boyd2004convex, tibshirani2018convex}.
+    As we enter the project with little background in optimization,
+    this is crucial before investigation of
+    more recent results on LQR~\cite{fazel2018global}
+    and optimization~\cite{karimi2016linear}.
+    Much of this is relevant foundations summarized in
+    Section~\ref{sec:background}.
+
+
+  \item[(2)]
+    Investigate different types of constraints on the objective function,
+    both hard and soft,
+    that are amenable to first-order methods.
+    We detail our approaches, findings, and challenges in
+    Section~\ref{sec:approaches}.
+
+  \item[(3)]
+    Discuss fundamental challenges to first-order LQR optimization,
+    in particular NP-Hardness issues that arise when
+    constraining the controller \(K\).
+    These are deferred to Section~\ref{sec:discussion}.
+
+\end{enumerate}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Background}
+\label{sec:background}
+
+Here we present background information relevant to the investigation of
+first-order methods on the LQR cost function.
+This section is a partial summary of information obtained from
+literature~\cite{fazel2018global, karimi2016linear}
+and pedagogical texts~\cite{boyd2004convex, tibshirani2018convex}.
+Additionally, we present relevant notation and definitions.
+
+
+\subsection{Gradient Descent}
+For a differentiable real-valued function \(f : \mbb{R}^n \to \mbb{R}\),
+gradient descent is a simple iterative method that
+seeks to find local minima of the function.
+Starting at some initial point \(x_0 \in \mbb{R}^n\),
+gradient descent generates a sequence of of improvements with the update rule
+\begin{align}
+  x_{k + 1} = x_k - \alpha_k \grad f(x_k)
+\end{align}
+for some possibly adaptive step size \(\alpha_k > 0\).
+With sufficiently strong assumptions on \(f\),
+gradient descent will converge to a local minima.
+A common assumption is \(f\) convex with Lipschitz continuity on \(\grad f\).
+This allows gradient descent variants to achieve a
+linear convergence rate in the sense of
+\begin{align}
+  f(x_k) - f^\star \leq c^k \brackets{f(x_0) - f^\star}
+\end{align}
+for some contraction factor \(c < 1\) that is dependent on \(f\)
+and the specific technique applied.
+In other words, gradient descent techniques are able to achieve
+an exponential approximation to the optimal value in a
+linear number of iterations.
+
+\subsection{The Polyak-\L{}ojasiewicz Condition}
+Unsurprisingly, convexity of \(f\) is not the weakest condition necessary
+for gradient descent to achieve a linear convergence rate.
+As early as the 1960's Polyak~\cite{polyak1963gradient}
+and \L{}ojasiewicz~\cite{lojasiewicz1961probleme}
+independently established sufficient condition on \(f\) that
+enables gradient descent to achieve linear convergence.
+This is further explored in~\cite{karimi2016linear}
+and is dubbed the Polyak-\L{}ojasiewicz condition,
+alternatively known as the PL condition, PL inequality, or PL for short.
+
+\begin{definition}[PL Inequality~\cite{karimi2016linear, polyak1963gradient, lojasiewicz1961probleme}]
+  A differentiable \(f : \mbb{R}^n \to \mbb{R}\)
+  % with \(L\)-Lipschitz gradient
+  is said to satisfy the PL inequality
+  if for some \(\mu > 0\)
+  \begin{align}
+    \frac{1}{2 \mu} \norm{\grad f (x)}^2 \geq f(x) - f(x_p)
+    \label{eq:pl-ineq}
+  \end{align}
+  for all \(x \in \dom{f}\),
+  where \(x_p\) is the projection of \(x\) onto
+  the optimal level set \(\mcal{X}^\star\).
+\end{definition}
+
+
+\begin{theorem}[Linear Convergence Under PL Inequality~\cite{karimi2016linear, polyak1963gradient, lojasiewicz1961probleme}]
+  Suppose \(f\) satisfies the PL inequality with constant \(\mu\)
+  and has \(L\)-Lipschitz
+  gradient,
+  then gradient descent with a step-size of \(1/L\)
+  in the sense of
+  \begin{align}
+    x_{k + 1} = x_k - \frac{1}{L} \grad f(x_k)
+  \end{align}
+  has a global linear convergence rate
+  \begin{align}
+    f(x_k) - f^\star
+      \leq \parens{1 - \frac{\mu}{L}}^k \brackets{f(x_0) - f^\star}
+  \end{align}
+\end{theorem}
+
+Karimi et al also establish the equivalence of the PL inequality
+and a condition known as error-bound, or EB for short.
+This equivalent condition may be easier to intuit about the statement of
+the PL inequality.
+
+\begin{definition}[Error Bound~\cite{karimi2016linear}]
+  A differentiable \(f : \mbb{R}^n \to \mbb{R}\)
+  % with \(L\)-Lipschitz gradient
+  is said to satisfy the error bound condition if
+  there exists some \(\beta > 0\) such that
+  \begin{align}
+    \angles{\grad f (x), x_p - x} \geq \beta \norm{x_p - x}^2
+  \end{align}
+  for all \(x \in \dom{f}\),
+  where \(x_p\) is the projection of \(x\) onto
+  the optimal level set \(\mcal{X}^\star\).
+\end{definition}
+
+EB states that the growth of \(f\) away from an optimal point
+\(x_p\) is at least linear.
+An implication here is that a function that satisfies
+EB (and thus the PL inequality) is lower-bounded below by a quadratic.
+That is, there exists \(\alpha > 0\) such that
+\begin{align}
+  f(x) - f(x_p) \geq \alpha \norm{x_p - x}^2
+\end{align}
+
+Furthermore, functions that satisfy the PL inequality
+also have an important property known as \textit{invexity}.
+
+\begin{definition}[Invexity~\cite{karimi2016linear}]
+  A differentiable \(f : \mbb{R}^n \to \mbb{R}\)
+  is invex if there exists a vector-valued \(\eta\)
+  such that
+  \begin{align}
+    f(y) \geq f(x) + \grad f(x)^\top \eta (x, y)
+  \end{align}
+  for all \(x, y \in \dom{f}\).
+\end{definition}
+
+A function is invex if and only if every stationary point of \(f\)
+is a global minima:
+\(\grad f(x) = 0\) implies \(x\) is optimal.
+Furthermore, when \(\eta(x, y) = y - x\),
+convexity is invexity as a special case.
+
+
+\subsection{Proximal Methods}
+Sometimes it is desirable to run constrained optimization.
+These can be encoded in problems of form:
+\begin{align}
+  \argmin_{x \in \mbb{R}^n} F(x) = f(x) + g(x)
+  \label{eq:prox-opt}
+\end{align}
+where \(g\) is an extended real-valued function
+assumed to be convex but not necessarily smooth,
+while \(f\) is differentiable along with different assumptions
+(such as convex) depending on problem domain.
+The perspective here should be that: \(f\) is the target function
+to be minimized while \(g\) acts as the penalty.
+Most naively, we can put more positive weight on \(g\) for values that
+\textit{more violate} where we would like the optimal solution to be.
+A small trick allows hard constraints to also be encoded:
+if \(g = I_C\) is an indicator function over the convex set \(C\)
+taking on values in \(\braces{0, + \infty}\),
+this is equivalent to
+\begin{align}
+  \argmin_{x \in \mbb{R}^n} f(x) + I_C (x)
+    = \argmin_{x \in C} f(x)
+\end{align}
+supposing that \(f < \infty\).
+Additionally suppose that such convex \(C\) is a set in which we would like
+the optimal value to lie in,
+projected gradient descent is first-order technique
+that entails applying a ``projection'' step after each gradient step:
+\begin{align}
+  x_k \in C
+  \quad \xrightarrow{\text{gradient step}} \quad
+  x_k ^\prime \not\in C
+  \quad \xrightarrow{\text{projection step}} \quad
+  x_{k + 1} \in C
+\end{align}
+The proximal operator
+is a generalization of the projection operator in Hilbert
+spaces, and is defined with respect to an extended real-valued function
+\(g\) as follows:
+\begin{align}
+  \prox_{g, \lambda} (x)
+    = \argmin_{z \in \dom{h}}
+      \enskip {g(z) + \frac{1}{2 \lambda} \norm{z - x}^2}
+\end{align}
+To reiterate, projection is a special case with \(g = I_C\).
+For proximal (generalized projected) gradient descent
+the update rule is
+\begin{align}
+  x_{k + 1} = \prox_{g, \alpha_k} (x_k - \alpha_k \grad f(x_k))
+\end{align}
+There are several useful interpretations
+of proximal methods~\cite{parikh2014proximal,rockafellar1970convex},
+a particularly nice one being that this is gradient descent with \(\grad f\)
+on a Moreau-Yosida regularization of \(g\) with parameter of \(\alpha_k\)
+updated at each step \(k\).
+Classical analysis of proximal gradient descent enjoys a linear convergence
+rate when \(f\) is assumed to be convex
+(although the projection step itself may be difficult).
+Karimi et al relax the convexity assumption on \(f\)
+and yield the following result.
+
+\begin{definition}[Proximal-PL Inequality~\cite{karimi2016linear}]
+  Consider the problem presented in Equation~\ref{eq:prox-opt}
+  where \(f\) is differentiable with \(L\)-Lipschitz continuous gradient
+  and \(g\) is simple and convex but potentially non-smooth.
+  The proximal-PL inequality is satisfied if there exists
+  a \(\mu > 0\) such that
+  \begin{align}
+    \frac{1}{2 \mu} \mcal{D}_g (x, L) \geq F(x) - F^\star
+  \end{align}
+  where
+  \begin{align}
+    \mcal{D}_g (x, \alpha)
+      = - 2 \alpha \min_{y \in \dom{g}}
+        \braces{\angles{\grad f(x), y - x} + \frac{\alpha}{2} \norm{y - x}^2
+            + g(y) - g(x)}
+  \end{align}
+  in which case we say that \(F\) satisfies the proximal-PL inequality.
+\end{definition}
+
+
+\begin{theorem}[Convergence of Proximal-PL Gradient Descent]
+  Consider the problem presented in Equation~\ref{eq:prox-opt}
+  where \(f\) has \(L\)-Lipschitz continuous gradient,
+  \(F\) has a non-empty solution set, \(g\) is convex,
+  and \(F\) satisfies the proximal-PL inequality with constant \(\mu\).
+  Then a proximal gradient method with a step size of \(1/L\)
+  \begin{align}
+    x_{k + 1} =
+      \argmin_{y \in \dom{g}}
+        \braces{\angles{\grad f(x), y - x_{k}}
+              + \frac{L}{2} \norm{y - x_k}^2
+              + g(y) - g(x_k)}
+  \end{align}
+  converges linearly to the optimal \(F^\star\)
+  \begin{align}
+    F(x_k) - F^\star \leq \parens{1 - \frac{\mu}{L}}^k \brackets{F(x_0) - F^\star}   
+  \end{align}
+\end{theorem}
+
+
+\subsection{Recent Results on LQR}
+A recent result by Fazel et al~\cite{fazel2018global} demonstrates
+that the LQR cost function (1) satisfies the PL inequality
+and (2) an ``almost smoothness'' condition.
+Together, these are sufficient conditions for gradient descent
+to achieve global convergence to the minimum at a linear rate
+provided that the initial controller \(K_0\) is stable:
+when \(\norm{A - BK_0} < 1\) under the operator norm.
+Our notation so far has largely followed that of Fazel et al's,
+although we use \(J\) instead of \(C\) for the LQR cost function
+due to compensate for handwriting legibility,
+and we introduce additional definitions and results when relevant.
+To begin, let \(P_K \succ 0\) be the solution to:
+\begin{align}
+  P_K = Q + K^\top R K + (A - BK)^\top P_K (A - BK)
+\end{align}
+which allows us to then express the LQR cost function as
+\(J_{x_0} (K) = x_0 ^\top P_K x_0\).
+As Fazel et al assume deterministic dynamics except for the initial
+state \(x_0\),
+the (un-normalized) state correlation matrix is
+\begin{align}
+  \Sigma_K = \mbb{E}_{x_0 \sim \mcal{D}} \sum_{t = 0}^{\infty} x_t x_t ^\top
+\end{align}
+where the trajectory is generated with respect to the controller \(K\).
+A key contribution of Fazel et al is an explicit characterization of
+the gradient of \(J\) (the Hessian is additionally
+investigated and characterized in follow-up work~\cite{bu2019lqr}).
+
+\begin{theorem}[LQR Gradient Expression~\cite{fazel2018global}]
+  \begin{align}
+    \grad J(K) = 2 E_K \Sigma_K,
+      \qquad
+      E_K = (R + B^\top P_K B)K - B^\top P_K A
+  \end{align}
+\end{theorem}
+
+There are minute technical details that should we remark here:
+Fazel et al work over an initial distribution of states \(\mcal{D}\),
+but as their analysis does not rely on assumptions about \(\mcal{D}\)
+we can make a trajectory completely deterministic to start on some
+\(x_0\) by taking \(\mcal{D}\) to be the Dirac distribution.
+Our work builds on top of Fazel et al with a few simplifications:
+among which we assume that some initial state \(x_0\) is fixed
+and simply write \(J(K)\) instead of \(J_{x_0} (K)\).
+
+For the result of \(J\)'s PL inequality, Fazel et al
+use the term ``gradient domination'' (Lemma 11~\cite{fazel2018global}),
+which is stated as follows:
+
+\begin{theorem}[Gradient Domination (PL Inequality)~\cite{fazel2018global}]
+  Let \(K^\star\) be an optimal policy.
+  Suppose that \(K\) has finite cost and \(\mu > 0\), it holds that
+  \begin{align}
+  J(K) - J(K^\star)
+    \leq \frac{\norm{\Sigma_{K^\star}}}{\mu^2 \sigma_{\min} (R)}
+        \Tr (\grad J(K) ^\top \grad J(K)),
+    \qquad \mu < \sigma_{\min} (\Sigma_K)
+  \end{align}
+  for a lower-bound:
+  \begin{align}
+    \frac{\mu}{\norm{R + B^\top P_K B}} \Tr (E_K ^\top E_k)
+      \leq J(K) - J(K^\star)
+  \end{align}
+\end{theorem}
+
+Note that the \(\mu\) used here is not necessarily the same \(\mu\)
+for the PL inequality statement of Equation~\ref{eq:pl-ineq}.
+In any case,
+gradient domination (PL inequality) alone is not sufficient to guarantee
+linear convergence of gradient-based methods.
+Recall that an additional assumption of Lipschitz gradient is often assumed.
+The result on ``almost-smoothness'' is the substitute here.
+
+\begin{theorem}[Almost Smoothness~\cite{fazel2018global}]
+  \(J(K)\) satisfies
+  \begin{align}
+    J(K^\prime) - J(K)
+      = -2 \Tr (\Sigma_{K^\prime} \Delta^\top E_K)
+        + \Tr(\Sigma_{K^\prime} \Delta^\top (R + B^\top P_K B) \Delta),
+      \qquad
+      \Delta = K - K^\prime
+  \end{align}
+\end{theorem}
+
+We remark that the sign of \(\Delta\) is important.
+A good amount of perturbation analysis is done to show that
+\(\Sigma_{K^\prime} \approx \Sigma_K + O(\norm{\Delta})\),
+which allows the term \(2 \Tr (\Sigma_K^\prime \Delta ^\top E_K)\)
+to behave like \(\Tr (\Delta ^\top \grad J(K))\).
+Together, these are able to yield a convergence result for gradient descent:
+
+\begin{theorem}[Global Convergence of Gradient Descent Methods~\cite{fazel2018global}]
+  Suppose that \(J(K_0) < \infty\) and \(\mu > 0\),
+  then for an appropriate step size \(\eta\) where
+  \begin{align}
+    \eta = \poly \parens{
+        \frac{\mu \sigma_{\min} (Q)}{J(K_0)},
+        \frac{1}{\norm{A}},
+        \frac{1}{\norm{B}},
+        \frac{1}{\norm{R}},
+        \sigma_{\min} (R)}
+  \end{align}
+  and for
+  \begin{align}
+    N &\geq \frac{\norm{\Sigma_{K^\star}}}{\mu}
+          \log\parens{\frac{J(K_0) - J(K^\star)}{\varepsilon}}
+          \poly\parens{\frac{J(K_0)}{\mu \sigma_{\min} (Q)},
+            \norm{A}, \norm{B}, \norm{R}, \frac{1}{\sigma_{\min} (R)}}
+  \end{align}
+  gradient descent enjoys the performance bound of
+  \(J(K_N) - J(K^\star) \leq \varepsilon\).
+\end{theorem}
+
+It should be noted that Fazel et al provide additional analysis
+for Gauss-Newton, natural gradient, and stochastic gradient descent methods,
+but they were not our primary targets of investigation for this project.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Approaches to Constrained LQR Optimization}
+\label{sec:approaches}
+
+An important step in constrained LQR optimization is picking
+\textit{which} constraints to use.
+Such constraints should ideally
+be (1) reasonable and (2) amenable to gradient descent.
+Here we present a few of the constraints attempted
+and document basic results and challenges encountered during the investigation.
+
+\subsection{Convex and Quadratic (Hard) Constraints on States}
+A basic form of hard-constrained optimization would look as follows
+\begin{align}
+  \min_{K} \enskip J(K),
+    \qquad
+  \mathrm{s.t.} \enskip x_t \in C \enskip \text{for all \(t\)}
+\end{align}
+where \(C\) is a convex set, possibly a polytope.
+In other words, we must find some controller \(K\) such that
+each state of the trajectory \(x_t \in C\) for infinite time.
+A similar constrained optimization problem was of form
+\begin{align}
+  \min_K \enskip J(K),
+    \qquad
+  \mathrm{s.t.} \enskip \sum_{t = 0}^{\infty} x_t ^\top S x_t \leq M < \infty
+  \label{eq:hard-quad-sum}
+\end{align}
+for some \(S \succ 0\),
+which requires that \(x_t\) converge to the origin sufficiently fast.
+The primary challenge with these two constraint forms is that
+we are performing gradient descent on a function parametrized by \(K\),
+and it is unclear how techniques such as projected / proximal gradient
+descent would apply to relate \(K\) to elements \(x_t\) of the trajectory.
+Slight modifications to Equation~\ref{eq:hard-quad-sum}
+yields the optimization problem
+\begin{align}
+  \min_K \enskip J(K),
+    \qquad
+  \mathrm{s.t.}
+    \enskip x_t ^\top S x_t \leq M < \infty \enskip \text{for all \(t\)}
+\end{align}
+with \(S \succ 0\).
+That is, instead of requiring a sum over all \(x_t\) terms to converge,
+we simply require that each \(x_t\) be sufficiently 
+close to the origin.
+Although projected gradient methods still appear to be out of our immediate
+reach,
+we are nevertheless able to derive two basic results presented below.
+
+\begin{theorem}[Small Operator Norm Implies Bounded]
+  If \(S \succ 0\), \(\norm{x_0} \leq 1\), and
+  \begin{align}
+    \norm{(A - BK)^t}^2 \leq \frac{M}{\lambda_{\max} (S)}
+    \qquad
+    \qquad
+    \text{for all \(t\)},
+  \end{align}
+  then \(x_t ^\top S x_t \leq M\) for all \(t\).
+\end{theorem}
+\begin{proof}
+  Suppose the assumptions hold,
+  then for any \(t \geq 0\):
+  \begin{align}
+    x_t ^\top S x_t
+      &= x_0 ^\top ((A - BK)^t)^\top S (A - BK)^t x_0 \\
+      &\leq \norm{(A - BK)^t}^2 x_0 ^\top S x_0 \\
+      &\leq \frac{M}{\lambda_{\max} (S)} x_0 ^\top S x_0 \\
+      &\leq M
+  \end{align}
+\end{proof}
+
+\begin{theorem}[Bounded Implies Small Operator Norm]
+  If \(S \succ 0\), \(\norm{x_0} \leq 1\),
+  and \(x_t ^\top S x_t \leq M\) for all \(t\),
+  then
+  \begin{align}
+    \norm{(A - BK)^t} ^2 \leq \frac{M}{\lambda_{\min} (S)}
+    \qquad
+    \qquad
+    \text{for all \(t\).}
+  \end{align}
+\end{theorem}
+\begin{proof}
+  Suppose the assumptions hold, then for any \(t \geq 0\):
+  \begin{align*}
+    M &\geq x_t ^ \top S x_t \\
+      &= \Tr (x_0 ^\top ((A - BK)^t) ^\top S (A - BK)^t x_0) \\
+      &= \lambda_{\min} (S) \Tr( ((A - BK)^t)^\top (A - BK)^t) \\
+      &= \lambda_{\min} (S) \norm{(A - BK)^t}^2
+  \end{align*}
+\end{proof}
+
+
+\subsection{Infinite-Horizon Quadratic (Soft) Constraints}
+We further considered a soft constraint of form
+\begin{align}
+  \min_{K} \enskip J(K) + \alpha \sum_{t = 0}^{\infty} x_t ^\top S x_t
+\end{align}
+where \(\alpha > 0\) and \(S \succ 0\).
+Unfortunately this makes the problem too easy:
+one can rewrite this into a new LQR cost function
+\begin{align}
+  J(K) + \alpha \sum_{t = 0}^{\infty} x_t ^\top S x_t
+    = \sum_{t = 0}^{\infty} x_t ^\top (Q + \alpha S) x_t + u_t ^\top R u_t
+    = \tilde{J} (K)
+\end{align}
+where we may define a new \(\tilde{Q} = Q + \alpha S\).
+Plugging this new \(\tilde{Q}\) for \(Q\), and \(\tilde{J}\) for \(J\)
+in Fazel's results would 
+make all the analyses go through.
+We therefore seek more interesting cases of soft constraints.
+
+
+\subsection{Proximal-PL Inequality-Based (Soft) Constraints}
+
+Yet another approach was attempting to apply proximal gradient methods to
+the LQR cost function.
+That is, if a soft penalty function \(G\) is found such that
+\(J + G\)
+satisfies the proximal-PL inequality,
+then proximal gradient descent approaches would converge at a linear rate.
+
+At some point due to an \textbf{algebraic mistake} it was thought that if 
+\(J\) satisfies the restricted secant inequality (RSI)
+and \(G\) was an indicator function on a convex set,
+then these would be sufficient conditions to ensure that
+convergence happens at a linear rate.
+
+\begin{definition}[Restricted Secant Inequality~\cite{karimi2016linear}]
+  A differentiable function \(f : \mbb{R}^n \to \mbb{R}\)
+  is said to satisfy RSI if
+  there exists \(\mu > 0\) such that
+  \begin{align}
+    \angles{\grad f(x), x - x_p} \geq \mu \norm{x - x_p}^2
+  \end{align}
+  for all \(x \in \dom{f}\), where \(x_p\) is the projection of \(x\)
+  onto the optimal level set \(\mcal{X}^\star\).
+\end{definition}
+
+Supposing that we only assume \(g\) is convex,
+the weakest condition for \(f\) that Karimi et al derived
+that would suffice for \(F = f + g\) to satisfy the proximal-PL inequality
+was that \(f\) needed to be strongly convex away from the optimal level set.
+We were also not able to derive any weaker conditions.
+It is unknown if \(f\) satisfying RSI is strong enough to imply that
+\(f + g\) satisfies the proximal-PL inequality.
+Nevertheless, this mistake motivated attempts to show whether \(J\)
+satisfies RSI.
+To do this, it would suffice to show that
+for some \(\mu > 0\):
+\begin{align}
+  \Tr (\grad J(K) ^\top \Delta) \geq \mu \Tr (\Delta^\top \Delta),
+    \qquad
+    \Delta = K - K^\prime
+\end{align}
+We present two main approaches towards this goal
+and discuss their difficulties and limitations.
+
+
+\subsubsection{RSI Proof Approach 1}
+Observe that RSI requires both \(\grad J(K)^\top \Delta\)
+on one side of the inequality and \(\Delta^\top \Delta\)
+on the other side.
+The challenge here was manipulating algebraic inequalities
+and identities in order to get to this form.
+We primarily leveraged existing ones established in Fazel et al
+due to the current lack of comfort with complex derivations.
+A particularly useful one was the almost-smoothness condition,
+which, for \(K^\prime\) sufficiently close to \(K\)
+such that \(\Sigma_{K^\prime} \approx \Sigma_K + O(\norm{\Delta})\),
+would allow us use
+Lemma 12 of Fazel et al~\cite{fazel2018global} to (wishfully) write:
+\begin{align}
+  \Tr (\grad J^\top \Delta)
+    &= 2 \Tr(\Sigma_K \Delta^\top E_K) \\
+    &\approx 2 \Tr(\Sigma_{K^\prime} \Delta^\top E_K)
+        - 2 \Tr(O(\norm{\Delta}) \Delta^\top E_K) \\
+    &\approx 2 \Tr(\Sigma_{K^\prime} \Delta^\top E_K) \\
+    &= \Tr (\Sigma_{K^\prime} \Delta^\top (R + B^\top P_K B) \Delta)
+        + J(K) - J(K^\prime) \\
+    &\geq \Tr (\Sigma_{K^\prime} \Delta^\top (R + B^\top P_K B) \Delta) \\
+    &\geq \sigma_{\min} (\Sigma_{K^\prime})
+          \sigma_{\min} (R)
+            \Tr (\Delta^\top \Delta)
+\end{align}
+The difficulty in this approach is that we were not able to show that
+\begin{align}
+  \Tr(\Sigma_{K^\prime} E_K) \geq \Tr(\Sigma_K E_K) 
+\end{align}
+for all \(K^\prime\) obtained via a gradient descent step from \(K\).
+If this is indeed the case, then the proof would go through.
+Unfortunately, we were not able to work out a proof of this given
+their perturbation analysis,
+which are given in terms of norm-bounds that ignore
+signs which would be important here.
+
+
+\subsubsection{RSI Proof Approach 2}
+Since the gradient update rule presented in Fazel et al takes form
+\(K^\prime = K - \eta \grad J(K)\),
+this implies that
+\begin{align}
+  \Tr (\grad J(K) ^\top \Delta)
+    = \Tr (\grad J(K)^\top \eta \grad J(K))
+    = \eta \norm{\grad J(K)}^2
+\end{align}
+Thus under this rule it would suffice to show that
+\begin{align}
+  \Tr(\grad J(K)^\top \grad J(K))
+    \geq \beta \Tr (\Delta^\top \Delta)
+\end{align}
+for some \(\beta > 0\).
+In other words, we would need \(\grad J(K)^\top \grad J(K)\)
+on one side of an inequality and \(\Delta ^\top \Delta\)
+on the other wise, which changes the proof goal slightly.
+One such derivation process in Fazel et al that did contain
+some of the mechanisms that \textit{should} make this go through
+existed in their proof of
+gradient domination (recall: PL inequality)
+of \(J\) (Lemma 11~\cite{fazel2018global}).
+Unfortunately, we were not able to
+manipulate the terms in a way to make this work.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+\label{sec:discussion}
+
+Here we discuss the LQR optimization problem as a whole.
+We discuss some fundamental theoretical limitations
+in addition to other properties of the LQR cost function.
+
+\subsection{Inherent Challenges and Fundamental Limits of First-Order Methods}
+A fundamental result from computational complexity~\cite{blondel1997np}
+states that
+the decision problem of whether there exists a feedback gain matrix \(K\)
+such that \(A - BK\) is stable,
+and that \(K\) lies in an interval family of matrices,
+is NP-Hard.
+To see how this relates to LQR,
+observe that using the observation that \(x_t = (A - BK)^t x_0\),
+this is akin to requiring that \(J(K) < \infty\).
+This means that unless \(\mathrm{P} = \mathrm{NP}\),
+there is no efficient (weakly polynomial) time algorithm that
+performs constrained optimization on LQR while ensuring \(K\) is
+bounded in an interval of matrices.
+
+Because first-order methods aim to have linear convergence rate.
+This means that we cannot have first-order methods over LQR optimization
+that achieve an exponential convergence rate that is
+linear in iteration number close towards the optimal solution
+while \(K\) is constrained.
+As a corollary,
+this also rules out the efficiency of techniques such as
+barrier functions and other interior point methods
+that aim for polynomial iteration convergences.
+
+
+
+\subsection{Properties of the LQR Cost Function}
+Despite its difficulties, \(J\) has enjoyed several
+theoretical analyses, many which are found in~\cite{bu2019lqr}.
+
+\begin{lemma}[From~\cite{bu2019lqr}]
+  The sublevel sets of \(\braces{J < \alpha}\)
+  are compact for all \(\alpha > 0\).
+\end{lemma}
+
+\begin{lemma}[From~\cite{bu2019lqr}]
+  Let \(Y\) be the solution to the Lyapunov matrix equation
+  \begin{align}
+    (A - BK)^\top Y (A - BK) + \Sigma_K = Y
+  \end{align}
+  then the Hessian of the LQR cost function is characterized by
+  \begin{align}
+    \grad^2 J(K) \brackets{E, E}
+      = 2 \angles{(RE + B^\top P_K B E) Y, E}
+          - 4 \angles{B^\top (P_K ^\prime (K) \brackets{E}) (A - BK) Y, E}
+  \end{align}
+  where \(E \in \mbb{R}^{m \times n}\)
+  and \(P_K ^\prime (K) \brackets{E}\) is the action of differential
+  of the map \(K \mapsto P_K (K)\).
+\end{lemma}
+
+\begin{lemma}[From~\cite{bu2019lqr}]
+  Gradient flow along \(J\) by taking the initial value problem
+  \begin{align}
+    \dot{K} (t) = - \grad J(K),
+      \qquad
+      K(t_0) = K_0
+  \end{align}
+  is able to achieve a convergence rate of
+  \begin{align}
+    J(K_t) - J(K^\star) \leq e^{-\alpha t} \brackets{J(K_0) - J(K^\star)}
+  \end{align}
+  provide that \(K_0\) is stable,
+  and \(\alpha > 0\) is a constant determined by
+  \(A\), \(B\), \(Q\), \(R\), and \(K_0\).
+\end{lemma}
+
+
+\begin{lemma}[From~\cite{bu2019lqr}]
+  Discretization of gradient flow is possible.
+\end{lemma}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+\label{sec:conclusion}
+
+In this project we set out to study first-order methods of
+constrained LQR optimization.
+This report outlines some of the literature and texts relevant
+to further study,
+as well as presents our attempts at deriving basic results.
+Furthermore, we discuss fundamental limitations of constrained
+LQR optimization using first-order methods
+due to the existence of NP-Hardness.
+The primary value of this project was the author's
+increased familiarity with literature and mathematical techniques
+employed in this domain.
+
+
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}
+
