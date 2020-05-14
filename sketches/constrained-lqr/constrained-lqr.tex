@@ -1,0 +1,287 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=5em]{geometry} % 1 cm = 2.84528 em
+\usepackage[backend=bibtex]{biblatex}
+\bibliography{sources}
+% \nocite{*}
+
+\usepackage{lipsum}
+
+% Paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% Includes
+\input{axlib.tex}
+
+% Author
+\title{Constrained Linear Quadratic Regular Optimization}
+\author{}
+\date{\today}
+\date{}
+
+% Document
+\begin{document}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+We look at constrained linear quadratic regulator (LQR) optimization.
+
+\section{Background}
+Relevant background on linear systems, LQR, and matrix magic.
+
+\subsection{Linear Systems and the Linear Quadratic Regulator}
+Linear system dynamics
+\begin{align*}
+  x_{t + 1} = A x_t + B u_t,
+    \qquad (x_t)_{t = 0}^{\infty} \in \mbb{R}^n,
+    \quad (u_t)_{t = 0}^{\infty} \in \mbb{R}^p,
+\end{align*}
+Finite horizion linear quadratic regular (LQR) cost function
+\begin{align*}
+  J = \sum_{t = 0}^{T} x_t ^\top Q x_t + u_t ^\top R u_t,
+    \qquad
+    Q \succeq 0, \quad R \succ 0,
+\end{align*}
+which is finite when the system dynamics \((x_t, u_t)\)
+tends towards the origin.
+Infinite-horizon LQR average-cost function
+\begin{align*}
+  J = \limsup_{T \to \infty} \frac{1}{T} \sum_{t = 0}^{T - 1}
+        x_t ^\top Q x_t + u_t ^\top R u_t,
+    \qquad
+    Q \succeq 0, \quad R \succ 0,
+\end{align*}
+which allows for systems whose stability is not necessarily at the origin.
+Both versions of LQR admit an optimal feedback control sequence
+that is linear, \ie, \(u = Kt\),
+with respect to the algebraic Riccati equation in \(P\) where
+\begin{align*}
+  P = Q + A^\top P A - A^\top P B (R + B^\top P B)^{-1} B^\top P A,
+    \qquad K = -(R + B^\top P B)^{-1} B^\top P A
+\end{align*}
+where the solution for \(P \succ 0\), if it exists, is unique.
+
+\subsection{Affine Systems}
+Given the affine system
+\begin{align*}
+  x_{t + 1} = A x_t + B u_t + c
+\end{align*}
+we can reformulate it as a linear system
+\begin{align}
+  z_{t + 1}
+    = \begin{bmatrix} x_{t + 1} \\ 1 \end{bmatrix}
+    = \begin{bmatrix} A & c \\ 0 & 1 \end{bmatrix}
+      \begin{bmatrix} x_t \\ 1 \end{bmatrix}
+      + \begin{bmatrix} B \\ 0 \end{bmatrix}
+        u_t
+    = \tilde{A} z_t + \tilde{B} u_t
+    \label{eqn:affine-system}
+\end{align}
+
+\subsection{Completing the Square}
+For the matrix case with variable in \(x\)
+from Wikipedia~\cite{wiki2020square},
+\begin{align}
+  x^\top Q x + p^\top x + r
+    = (x - h)^\top Q (x - h) + k,
+    \qquad h = - \frac{1}{2} Q^{-1} p,
+    \qquad k = r - \frac{1}{4} p^\top Q^{-1} p
+    \label{eqn:matrix-square}
+\end{align}
+where \(Q\) is assumed to be invertible.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Some Results with Affine Constraints}
+
+\begin{theorem}
+  \label{thm:affine-lqr}
+  An infinite horizon average-cost LQR problem with
+  quadratic-plus-affine terms
+  \begin{align*}
+    \text{minimize}
+      &\quad \limsup_{T \to \infty} \frac{1}{T}
+        \sum_{t = 0}^{T - 1}
+          x_t ^\top Q x_t + q^\top x_t + q_0
+          + u_t ^\top R u_t + r^\top u_t + r_0 \\
+    \text{subject to}
+      &\quad x_{t + 1} = A x_t + B u_t, \enskip \text{for all \(t\)}
+  \end{align*}
+  admits an equivalent infinite horizon average-cost LQR problem
+  without affine terms.
+\end{theorem}
+\begin{proof}
+  Applying \eqref{eqn:matrix-square} we can write the objective as
+  \begin{align*}
+    \limsup_{T \to \infty}
+    \frac{1}{T} \sum_{t = 0}^{T - 1}
+      (x_t - h) ^\top Q (x_t - h)
+      + (u_t - l)^\top R (u_t - l) + k,
+  \end{align*}
+  with coefficients
+  \begin{align*}
+    h = - \frac{1}{2} Q^{-1} q,
+    \qquad l = - \frac{1}{2} R^{-1} r,
+    \qquad k = q_0 + r_0 - \frac{1}{4} \parens{q^\top Q q + r^\top R r}
+  \end{align*}
+  Observe that \(k\) is constant with respect to the variables
+  \((x_t, u_t)\) and the objective is equivalently
+  \begin{align*}
+    k + \limsup_{T \to \infty} \frac{1}{T} \sum_{t = 0}^{T - 1}
+      (x_t - h)^\top Q (x_t - h) + (u_t - l)^\top R (u_t - l).
+  \end{align*}
+  Define the change-of-variables
+  \(\tilde{x}_t = x_t - h\) and \(\tilde{u}_t = u_t - l\) for all \(t\),
+  which induces the affine system
+  \begin{align*}
+    \tilde{x}_{t + 1} = A \tilde{x}_t + B \tilde{u}_t + (A h + B l - h)
+  \end{align*}
+  and after the appropriate change of variables to recover a linear system
+  as in \eqref{eqn:affine-system},
+  \begin{align*}
+    z_{t + 1}
+      = \begin{bmatrix} A & (Ah + Bl - h) \\ 0 & 1 \end{bmatrix}
+        \begin{bmatrix} \tilde{x}_t \\ 1 \end{bmatrix}
+        + \begin{bmatrix} B \\ 0 \end{bmatrix}
+          \tilde{u}_t
+      = \tilde{A} z_t + \tilde{B} \tilde{u}_t.
+  \end{align*}
+  For this, the reduced problem is then
+  \begin{align*}
+    \text{minimize}
+      &\quad k + \limsup_{T \to \infty} \frac{1}{T} \sum_{t = 0}^{T - 1}
+        z_t ^\top \begin{bmatrix} Q & 0 \\ 0 & 0 \end{bmatrix} z_t
+        + \tilde{u}_t ^\top R \tilde{u}_t \\
+    \text{subject to}
+      &\quad z_{t + 1}
+        = \begin{bmatrix} A & (Ah + Bl - h) \\ 0 & 1 \end{bmatrix}
+          z_t
+          + \begin{bmatrix} B \\ 0 \end{bmatrix}
+          \tilde{u}_t, \enskip \text{for all \(t\)}
+  \end{align*}
+  with variables in \((z_t)_{t = 0}^{\infty}\)
+  and \((u_t)_{t = 0}^{\infty}\).
+  Barring the \(k\) offset in the objective,
+  this is now equivalent to an infinite horizion average-cost
+  LQR problem with no affine terms.
+\end{proof}
+
+Because quadratic-plus-affine terms can be eliminated to yield
+a problem with purely quadratic cost,
+Theorem~\ref{thm:affine-lqr} implies that
+quadratic systems also have an optimal feedback control sequence
+that is linear for the equivalent system with
+trajectory in \((z_t, \tilde{u}_t)_{t = 0}^{\infty}\).
+But since \((z_t, \tilde{u}_t)\) are linear transformations of
+the original trajectory \((x_t, u_t)\),
+the optimal feedback policy for the original dynamics is also linear.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Affine Constraints}
+
+Consider the following constrained discrete-time LQR problem
+\begin{align*}
+  \text{minimize}
+    &\quad \lim_{T \to \infty} \frac{1}{T}
+      \sum_{t = 0}^{T - 1} x_t ^\top Q x_t + u_t ^\top R u_t \\
+  \text{subject to}
+    &\quad x_{t + 1} = A x_t + B u_t, \enskip \forall t \\
+    &\quad C x_t = d, \enskip \forall t
+\end{align*}
+where \(C\) is fat and full-rank.
+Affine constraints with average costs allow us to capture
+the behavior of systems whose steady limiting behavior
+may not necessarily converge to the origin.
+
+We know that in the unconstrained case (without the \(C x_t = d\) constraint)
+the optimal feedback sequence \(\parens{u_t}\)
+is linear with \(u_t = K x_t\)
+and can be derived by solving the algebraic Riccati equation in \(P\),
+as shown in~\cite{boyd2008ee363},
+\begin{align*}
+  P = Q + A^\top P A - A^\top P B (R + B^\top P B)^{-1} B^\top P A,
+    \qquad
+    K = - (R + B^\top P B)^{-1} B^\top P A
+\end{align*}
+We show how to rewrite the affine constrained average-cost LQR problem.
+This implies that, with a few technical assumptions,
+the optimal policy in the affine constrained case is also linear.
+
+\subsection{Rewriting Affine Constraints}
+
+First, the constraints \(C x_t = d\) implies that
+we can decompose states as
+\begin{align*}
+  x_t = \hat{x} + N y_t,
+    \qquad
+  \hat{x} = C^\dagger d,
+    \qquad
+  \ran N = \ker C
+\end{align*}
+where \(C^\dagger\) is the Moore-Penrose Pseudoinverse of \(C\),
+and although we do not fix \(N\), we can interpret it as a projection
+matrix, such that \(\dim y_t = \dim x_t\).
+In other words, the state trajectory \((x_t)\) must lie
+exclusively in the affine space \(\hat{x} + \ker C\).
+The state dynamics can then be written as
+\begin{align*}
+  \hat{x} + N y_{t + 1}
+    = A \parens{\hat{x} + N y_t} + B u_t
+\end{align*}
+
+\begin{assumption}
+  There exists \(\hat{u}\) such that \(\hat{x} = A \hat{x} + B \hat{u}\).
+\end{assumption}
+
+Under this assumption, we can decompose
+\(u_t = \hat{u} + v_t\), such that some sub-state dynamics is now
+\begin{align*}
+  N y_{t + 1} = A N y_t + B v_t
+\end{align*}
+
+\begin{assumption}
+  \(\ran (AN) \subseteq \ran B\)
+\end{assumption}
+
+This assumption ensures the existence of \(v_t\)
+that can ensure each \(x_{t + 1} \in \hat{x} + \ker C\):
+in other words, \(B\) is a sufficiently strong control matrix.
+We can then refactor the entire state dynamics as
+\begin{align}
+  \begin{bmatrix} \hat{x} \\ N y_{t + 1} \end{bmatrix}
+    = \begin{bmatrix} A & 0 \\ 0 & A \end{bmatrix}
+      \begin{bmatrix} \hat{x} \\ N y_{t} \end{bmatrix}
+      + \begin{bmatrix} B & 0 \\ 0 & B \end{bmatrix}
+        \begin{bmatrix} \hat{u} \\ v_t \end{bmatrix}
+  \label{eqn:modified-dynamics}
+\end{align}
+and the corresponding LQR optimization problem can be written as
+\begin{align*}
+  \text{minimize}
+    &\quad \lim_{T \to \infty} \frac{1}{T}
+      \sum_{t = 0}^{T - 1}
+        \begin{bmatrix} \hat{x} \\ (N y_t) \end{bmatrix} ^\top
+        \begin{bmatrix} Q & Q \\ Q & Q \end{bmatrix}
+        \begin{bmatrix} \hat{x} \\ (N y_t) \end{bmatrix}
+        +
+        \begin{bmatrix} \hat{u} \\ v_t \end{bmatrix}^\top
+        \begin{bmatrix} R & R \\ R & R \end{bmatrix}
+        \begin{bmatrix} \hat{u} \\ v_t \end{bmatrix} \\
+  \text{subject to}
+    &\quad \eqref{eqn:modified-dynamics}
+\end{align*}
+with variables in \((y_t)\) and \((v_t)\).
+Since \(Q \succeq 0\) and \(R \succ 0\), we have \(I \otimes Q \succeq 0\)
+and \(I \otimes R \succeq 0\),
+so this is an average-cost LQR problem with PSD cost matrices,
+for which we know that the optimal control policy is linear.
+
+
+\printbibliography
+
+\end{document}
+
