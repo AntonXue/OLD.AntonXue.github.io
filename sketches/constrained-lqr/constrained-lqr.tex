@@ -201,50 +201,72 @@ the optimal feedback policy for the original dynamics is also linear.
   \end{itemize}
 \end{theorem}
 \begin{proof}
-  Supposing the assumptions, we can rewrite our system dynamics as
-  \begin{align}
-    \begin{bmatrix} \hat{x} \\ N z_{t + 1} \end{bmatrix}
-      = \begin{bmatrix} A & 0 \\ 0 & A \end{bmatrix}
-        \begin{bmatrix} \hat{x} \\ N z_t \end{bmatrix}
-        + \begin{bmatrix} B & 0 \\ 0 & B \end{bmatrix}
-          \begin{bmatrix} \hat{u} \\ v_t \end{bmatrix}
-      \label{eqn:subspace-dynamics}
-  \end{align}
-  Defining the following for compactness,
+  Supposing the assumptions, we can write our system dynamics as
   \begin{align*}
-    J(z_t, v_t)
-      &= \begin{bmatrix} \hat{x} \\ N z_t \end{bmatrix}^\top
+    \hat{x} + N x_{t + 1}
+      = A \parens{\hat{x} + N x_t} + B \parens{\hat{u} + v_t}
+  \end{align*}
+  where we treat \(N\) as a projection matrix onto \(\ker C\).
+  However this is not quite in a standard linear systems form.
+  Further factor the system matrices into
+  \(A = A_1 + A_2\) and \(B = B_1 + B_2\) such that
+  \begin{align*}
+    \ran A_1 \subseteq \ran B_1 \subseteq \ker C^\perp,
+      \qquad \ran A_2 \subseteq \ran B_2 \subseteq \ker C,
+  \end{align*}
+  Let \(y_t = N x_t\); the goal of such factorization is to ensure that
+  \begin{align*}
+    A_1 y_t + B_1 v_t = 0 \in \ker C^\perp,
+      \qquad
+      A_2 y_t + B_2 v_t \in \ker C
+  \end{align*}
+  In effect, the \((A_1, B_1)\) sub-system needs to eliminate
+  action in \(\ker C^\perp\):
+  for which appropriate \(v_t\) can be found given \(y_t\)
+  due to the (linear) \(\ran AN \subseteq \ran B\) assumption.
+  while \((A_2, B_2)\) is parameterized to lie purely in \(\ker C\).
+  Thus, we need only care about the \((A_2, B_2)\) sub-system,
+  for which results can be linearly translated back to the
+  original \((A, B)\) system.
+  Define the following for compactness,
+  \begin{align*}
+    J(y_t, v_t)
+      &= \begin{bmatrix} \hat{x} \\ y_t \end{bmatrix}^\top
         \begin{bmatrix} Q & 0 \\ 0 & Q \end{bmatrix}
-        \begin{bmatrix} \hat{x} \\ N z_t \end{bmatrix}
-        + \begin{bmatrix} 0 \\ 2 Q \hat{x} \end{bmatrix}
-          \begin{bmatrix} \hat{x} \\ N z_t \end{bmatrix}
+        \begin{bmatrix} \hat{x} \\ y_t \end{bmatrix}
+        + \begin{bmatrix} 0 \\ 2 Q \hat{x} \end{bmatrix}^\top
+          \begin{bmatrix} \hat{x} \\ y_t \end{bmatrix}
         + \begin{bmatrix} \hat{u} \\ v_t \end{bmatrix}^\top
           \begin{bmatrix} R & 0 \\ 0 & R \end{bmatrix}
           \begin{bmatrix} \hat{u} \\ v_t \end{bmatrix}
-        + \begin{bmatrix} 0 \\ 2 R \hat{x} \end{bmatrix}
+        + \begin{bmatrix} 0 \\ 2 R \hat{x} \end{bmatrix}^\top
           \begin{bmatrix} \hat{u} \\ v_t \end{bmatrix} \\
   \end{align*}
-  makes it so that
+  and noting that
   \begin{align*}
     x_t ^\top Q x_t + u_t ^\top R u_t
-      = \parens{\hat{x} + N z_t}^\top Q \parens{\hat{x} + N z_t}
+      = \parens{\hat{x} + y_t}^\top Q \parens{\hat{x} + y_t}
         + \parens{\hat{u} + v_t}^\top R \parens{\hat{u} + v_t}
-      = J(z_t, v_t)
+      = J(y_t, v_t)
   \end{align*}
-  and that the objective can now be written as
+  makes it so that the optimizatoin problem can be written as
   \begin{align*}
     \text{minimize}
       &\quad
         \limsup_{T \to \infty} \frac{1}{T} \sum_{t = 0}^{T - 1}
-          J(z_t, v_t) \\
+          J(y_t, v_t) \\
     \text{subject to}
-      &\quad \eqref{eqn:subspace-dynamics}
+      &\quad y_{t + 1} = A_2 y_t + B_2 v_t
   \end{align*}
-  with variables in \((z_t)_{t = 0}^{\infty}\) and \((v_t)_{t = 0}^{\infty}\).
+  with variables in \((y_t)_{t = 0}^{\infty}\) and \((v_t)_{t = 0}^{\infty}\).
   Since \(J\) is a quadratic-plus-affine decomposition of the
   state and control costs,
-  we know that this infinite-horizon average-cost LQR problem
-  has an optimal feedback controller that is linear.
+  we know that this infinite-horizon average-cost LQR problem.
+  As noted earlier,
+  this system is derived from linear transformations on our original
+  system \((A, B)\), and so an optimal controller linear for \((A_2, B_2)\)
+  also implies linearity for \((A, B)\).
+
 \end{proof}
 
 
