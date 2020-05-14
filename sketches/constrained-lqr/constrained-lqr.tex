@@ -39,7 +39,7 @@ Linear system dynamics
     \qquad (x_t)_{t = 0}^{\infty} \in \mbb{R}^n,
     \quad (u_t)_{t = 0}^{\infty} \in \mbb{R}^p,
 \end{align*}
-Finite horizion linear quadratic regular (LQR) cost function
+Finite horizon linear quadratic regular (LQR) cost function
 \begin{align*}
   J = \sum_{t = 0}^{T} x_t ^\top Q x_t + u_t ^\top R u_t,
     \qquad
@@ -165,7 +165,7 @@ where \(Q\) is assumed to be invertible.
   with variables in \((z_t)_{t = 0}^{\infty}\)
   and \((u_t)_{t = 0}^{\infty}\).
   Barring the \(k\) offset in the objective,
-  this is now equivalent to an infinite horizion average-cost
+  this is now equivalent to an infinite horizon average-cost
   LQR problem with no affine terms.
 \end{proof}
 
@@ -223,7 +223,7 @@ the optimal feedback policy for the original dynamics is also linear.
   In effect, the \((A_1, B_1)\) sub-system needs to eliminate
   action in \(\ker C^\perp\):
   for which appropriate \(v_t\) can be found given \(y_t\)
-  due to the (linear) \(\ran AN \subseteq \ran B\) assumption.
+  due to the (linear) \(\ran AN \subseteq \ran B\) assumption;
   while \((A_2, B_2)\) is parameterized to lie purely in \(\ker C\).
   Thus, we need only care about the \((A_2, B_2)\) sub-system,
   for which results can be linearly translated back to the
@@ -249,7 +249,7 @@ the optimal feedback policy for the original dynamics is also linear.
         + \parens{\hat{u} + v_t}^\top R \parens{\hat{u} + v_t}
       = J(y_t, v_t)
   \end{align*}
-  makes it so that the optimizatoin problem can be written as
+  makes it so that the optimization problem can be written as
   \begin{align*}
     \text{minimize}
       &\quad
