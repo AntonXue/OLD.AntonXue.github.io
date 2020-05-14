@@ -17,7 +17,7 @@
 
 % Author
 \title{Constrained Linear Quadratic Regular Optimization}
-\author{}
+\author{Anton Xue}
 \date{\today}
 \date{}
 
@@ -179,106 +179,74 @@ But since \((z_t, \tilde{u}_t)\) are linear transformations of
 the original trajectory \((x_t, u_t)\),
 the optimal feedback policy for the original dynamics is also linear.
 
+\begin{theorem}
+  The infinite-horizon average-cost LQR problem with affine constraints
+  \begin{align*}
+    \text{minimize}
+      &\quad \limsup_{T \to \infty} \frac{1}{T} \sum_{t = 0}^{T - 1}
+        x_t ^\top Q x_t + u_t ^\top R u_t \\
+    \text{subject to}
+      &\quad x_{t + 1} = A x_t + B u_t, \enskip \text{for all \(t\)} \\
+      &\quad C x_t = d, \enskip \text{for all \(t\)}
+  \end{align*}
+  where \(C\) is fat and full rank,
+  admits an optimal feedback control policy that is linear if:
+  \begin{itemize}
+    \item There exists \(\hat{u}\) such that
+      \(\hat{x} = A \hat{x} + B \hat{u}\), where
+      \(\hat{x} = C^\dagger d\).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Affine Constraints}
+    \item \(\ran AN \subseteq \ran B\),
+      where \(\ran N = \ker C\).
+  \end{itemize}
+\end{theorem}
+\begin{proof}
+  Supposing the assumptions, we can rewrite our system dynamics as
+  \begin{align}
+    \begin{bmatrix} \hat{x} \\ N z_{t + 1} \end{bmatrix}
+      = \begin{bmatrix} A & 0 \\ 0 & A \end{bmatrix}
+        \begin{bmatrix} \hat{x} \\ N z_t \end{bmatrix}
+        + \begin{bmatrix} B & 0 \\ 0 & B \end{bmatrix}
+          \begin{bmatrix} \hat{u} \\ v_t \end{bmatrix}
+      \label{eqn:subspace-dynamics}
+  \end{align}
+  Defining the following for compactness,
+  \begin{align*}
+    J(z_t, v_t)
+      &= \begin{bmatrix} \hat{x} \\ N z_t \end{bmatrix}^\top
+        \begin{bmatrix} Q & 0 \\ 0 & Q \end{bmatrix}
+        \begin{bmatrix} \hat{x} \\ N z_t \end{bmatrix}
+        + \begin{bmatrix} 0 \\ 2 Q \hat{x} \end{bmatrix}
+          \begin{bmatrix} \hat{x} \\ N z_t \end{bmatrix}
+        + \begin{bmatrix} \hat{u} \\ v_t \end{bmatrix}^\top
+          \begin{bmatrix} R & 0 \\ 0 & R \end{bmatrix}
+          \begin{bmatrix} \hat{u} \\ v_t \end{bmatrix}
+        + \begin{bmatrix} 0 \\ 2 R \hat{x} \end{bmatrix}
+          \begin{bmatrix} \hat{u} \\ v_t \end{bmatrix} \\
+  \end{align*}
+  makes it so that
+  \begin{align*}
+    x_t ^\top Q x_t + u_t ^\top R u_t
+      = \parens{\hat{x} + N z_t}^\top Q \parens{\hat{x} + N z_t}
+        + \parens{\hat{u} + v_t}^\top R \parens{\hat{u} + v_t}
+      = J(z_t, v_t)
+  \end{align*}
+  and that the objective can now be written as
+  \begin{align*}
+    \text{minimize}
+      &\quad
+        \limsup_{T \to \infty} \frac{1}{T} \sum_{t = 0}^{T - 1}
+          J(z_t, v_t) \\
+    \text{subject to}
+      &\quad \eqref{eqn:subspace-dynamics}
+  \end{align*}
+  with variables in \((z_t)_{t = 0}^{\infty}\) and \((v_t)_{t = 0}^{\infty}\).
+  Since \(J\) is a quadratic-plus-affine decomposition of the
+  state and control costs,
+  we know that this infinite-horizon average-cost LQR problem
+  has an optimal feedback controller that is linear.
+\end{proof}
 
-Consider the following constrained discrete-time LQR problem
-\begin{align*}
-  \text{minimize}
-    &\quad \lim_{T \to \infty} \frac{1}{T}
-      \sum_{t = 0}^{T - 1} x_t ^\top Q x_t + u_t ^\top R u_t \\
-  \text{subject to}
-    &\quad x_{t + 1} = A x_t + B u_t, \enskip \forall t \\
-    &\quad C x_t = d, \enskip \forall t
-\end{align*}
-where \(C\) is fat and full-rank.
-Affine constraints with average costs allow us to capture
-the behavior of systems whose steady limiting behavior
-may not necessarily converge to the origin.
-
-We know that in the unconstrained case (without the \(C x_t = d\) constraint)
-the optimal feedback sequence \(\parens{u_t}\)
-is linear with \(u_t = K x_t\)
-and can be derived by solving the algebraic Riccati equation in \(P\),
-as shown in~\cite{boyd2008ee363},
-\begin{align*}
-  P = Q + A^\top P A - A^\top P B (R + B^\top P B)^{-1} B^\top P A,
-    \qquad
-    K = - (R + B^\top P B)^{-1} B^\top P A
-\end{align*}
-We show how to rewrite the affine constrained average-cost LQR problem.
-This implies that, with a few technical assumptions,
-the optimal policy in the affine constrained case is also linear.
-
-\subsection{Rewriting Affine Constraints}
-
-First, the constraints \(C x_t = d\) implies that
-we can decompose states as
-\begin{align*}
-  x_t = \hat{x} + N y_t,
-    \qquad
-  \hat{x} = C^\dagger d,
-    \qquad
-  \ran N = \ker C
-\end{align*}
-where \(C^\dagger\) is the Moore-Penrose Pseudoinverse of \(C\),
-and although we do not fix \(N\), we can interpret it as a projection
-matrix, such that \(\dim y_t = \dim x_t\).
-In other words, the state trajectory \((x_t)\) must lie
-exclusively in the affine space \(\hat{x} + \ker C\).
-The state dynamics can then be written as
-\begin{align*}
-  \hat{x} + N y_{t + 1}
-    = A \parens{\hat{x} + N y_t} + B u_t
-\end{align*}
-
-\begin{assumption}
-  There exists \(\hat{u}\) such that \(\hat{x} = A \hat{x} + B \hat{u}\).
-\end{assumption}
-
-Under this assumption, we can decompose
-\(u_t = \hat{u} + v_t\), such that some sub-state dynamics is now
-\begin{align*}
-  N y_{t + 1} = A N y_t + B v_t
-\end{align*}
-
-\begin{assumption}
-  \(\ran (AN) \subseteq \ran B\)
-\end{assumption}
-
-This assumption ensures the existence of \(v_t\)
-that can ensure each \(x_{t + 1} \in \hat{x} + \ker C\):
-in other words, \(B\) is a sufficiently strong control matrix.
-We can then refactor the entire state dynamics as
-\begin{align}
-  \begin{bmatrix} \hat{x} \\ N y_{t + 1} \end{bmatrix}
-    = \begin{bmatrix} A & 0 \\ 0 & A \end{bmatrix}
-      \begin{bmatrix} \hat{x} \\ N y_{t} \end{bmatrix}
-      + \begin{bmatrix} B & 0 \\ 0 & B \end{bmatrix}
-        \begin{bmatrix} \hat{u} \\ v_t \end{bmatrix}
-  \label{eqn:modified-dynamics}
-\end{align}
-and the corresponding LQR optimization problem can be written as
-\begin{align*}
-  \text{minimize}
-    &\quad \lim_{T \to \infty} \frac{1}{T}
-      \sum_{t = 0}^{T - 1}
-        \begin{bmatrix} \hat{x} \\ (N y_t) \end{bmatrix} ^\top
-        \begin{bmatrix} Q & Q \\ Q & Q \end{bmatrix}
-        \begin{bmatrix} \hat{x} \\ (N y_t) \end{bmatrix}
-        +
-        \begin{bmatrix} \hat{u} \\ v_t \end{bmatrix}^\top
-        \begin{bmatrix} R & R \\ R & R \end{bmatrix}
-        \begin{bmatrix} \hat{u} \\ v_t \end{bmatrix} \\
-  \text{subject to}
-    &\quad \eqref{eqn:modified-dynamics}
-\end{align*}
-with variables in \((y_t)\) and \((v_t)\).
-Since \(Q \succeq 0\) and \(R \succ 0\), we have \(I \otimes Q \succeq 0\)
-and \(I \otimes R \succeq 0\),
-so this is an average-cost LQR problem with PSD cost matrices,
-for which we know that the optimal control policy is linear.
 
 
 \printbibliography
