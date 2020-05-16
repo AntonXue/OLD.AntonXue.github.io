@@ -270,6 +270,56 @@ the optimal feedback policy for the original dynamics is also linear.
 \end{proof}
 
 
+\subsection{Quadratic Constraints}
+Consider the following LQR problem with quadratic constraints of form
+\begin{align}
+  \text{minimize} &\quad \sum_{t = 0}^{\infty}
+    x_t ^\top Q x_t + u_t ^\top R u_t
+    \label{eqn:quad-lqr} \\
+  \text{subject to}
+    &\quad x_{t + 1} = A x_t + B u_t, \enskip \text{for all \(t\)} \\
+    &\quad x_t ^\top C_x x_t \leq d_x, \enskip \text{for all \(t\)} \\
+    &\quad u_t ^\top C_u u_t \leq d_u, \enskip \text{for all \(t\)}
+\end{align}
+where \(C_x, C_u \succeq 0\) and \(d_x, d_u > 0\).
+
+\begin{theorem}
+  Assuming strong duality holds,
+  the optimal control policy for \eqref{eqn:quad-lqr} is linear in \((x_t)\).
+\end{theorem}
+\begin{proof}
+  Formulate the partial Lagrangian with constraints, omitting system dynamics,
+  \begin{align*}
+    L((x_t), (u_t), (\lambda_t), (\rho_t))
+      = \sum_{t = 0}^{\infty}
+        x_t ^\top Q x_t + u_t ^\top R u_t
+        + \lambda_t (x_t ^\top C_x x_t - d_x)
+        + \rho_t (u_t ^\top C_u u_t - d_u).
+  \end{align*}
+  For the dual function to be defined, we require that each
+  \(Q + \lambda_t C_x \succeq 0\) and
+  \(R + \rho_t C_u \succeq 0\).
+  Assuming strong duality holds, such optimal
+  \((\lambda_t ^\star, u_t ^\star)\) co-state variables then exist,
+  and in fact the following problem
+  \begin{align}
+    \text{minimize} &\quad \sum_{t = 0}^{\infty}
+        x_t ^\top (Q + \lambda_t ^\star I) x_t
+        + u_t ^\top (R + \rho_t ^\star I) u_t
+      = \sum_{t = 0}^{\infty}
+        x_t ^\top \tilde{Q} x_t + u_t ^\top \tilde{R} u_t
+      \label{eqn:quad-dualed-lqr} \\
+    \text{subject to}
+      &\quad x_{t + 1} = A x_t + B u_t, \enskip \text{for all \(t\)}
+  \end{align}
+  where \(\tilde{Q}\) and \(\tilde{R}\) exist because
+  the objective is quadratic in \((x_t, u_t)\).
+  Consequently, \eqref{eqn:quad-dualed-lqr} and \eqref{eqn:quad-lqr}
+  are equivalent,
+  and so there is a stabilizing optimal controller that is linear
+  for \eqref{eqn:quad-dualed-lqr} iff there is one for \eqref{eqn:quad-lqr}.
+\end{proof}
+
 
 \printbibliography
 
