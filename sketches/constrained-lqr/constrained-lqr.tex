@@ -277,9 +277,9 @@ Consider the following LQR problem with quadratic constraints of form
     x_t ^\top Q x_t + u_t ^\top R u_t
     \label{eqn:quad-lqr} \\
   \text{subject to}
-    &\quad x_{t + 1} = A x_t + B u_t, \enskip \text{for all \(t\)} \\
-    &\quad x_t ^\top C_x x_t \leq d_x, \enskip \text{for all \(t\)} \\
-    &\quad u_t ^\top C_u u_t \leq d_u, \enskip \text{for all \(t\)}
+    &\quad x_{t + 1} = A x_t + B u_t, \enskip \text{for all \(t\)} \nonumber \\
+    &\quad x_t ^\top C_x x_t \leq d_x, \enskip \text{for all \(t\)} \nonumber \\
+    &\quad u_t ^\top C_u u_t \leq d_u, \enskip \text{for all \(t\)} \nonumber
 \end{align}
 where \(C_x, C_u \succeq 0\) and \(d_x, d_u > 0\).
 
@@ -310,14 +310,15 @@ where \(C_x, C_u \succeq 0\) and \(d_x, d_u > 0\).
         x_t ^\top \tilde{Q} x_t + u_t ^\top \tilde{R} u_t
       \label{eqn:quad-dualed-lqr} \\
     \text{subject to}
-      &\quad x_{t + 1} = A x_t + B u_t, \enskip \text{for all \(t\)}
+      &\quad x_{t + 1} = A x_t + B u_t, \enskip \text{for all \(t\)} \nonumber
   \end{align}
   where \(\tilde{Q}\) and \(\tilde{R}\) exist because
   the objective is quadratic in \((x_t, u_t)\).
-  Consequently, \eqref{eqn:quad-dualed-lqr} and \eqref{eqn:quad-lqr}
+  Consequently, problems \eqref{eqn:quad-dualed-lqr} and \eqref{eqn:quad-lqr}
   are equivalent,
   and so there is a stabilizing optimal controller that is linear
-  for \eqref{eqn:quad-dualed-lqr} iff there is one for \eqref{eqn:quad-lqr}.
+  for \eqref{eqn:quad-dualed-lqr} iff there is one
+  for \eqref{eqn:quad-lqr}.
 \end{proof}
 
 
