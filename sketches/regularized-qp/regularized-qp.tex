@@ -1,0 +1,163 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=5em]{geometry} % 1 cm = 2.84528 em
+\usepackage[backend=bibtex]{biblatex}
+\bibliography{sources}
+% \nocite{*}
+
+\usepackage{lipsum}
+
+% Paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% Includes
+\input{axlib.tex}
+
+% Author
+\title{Regularized Equality Constrained Quadratic Optimization}
+\author{Anton Xue}
+\date{\today}
+\date{}
+
+% Document
+\begin{document}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+We look at regularized approximations
+of equality-constrained quadratic programming.
+In particular, what is \(\norm{x^\star - x_{\lambda} ^\star}\),
+where \(x^\star\) is the optimal solution to the original problem,
+while \(x_{\lambda} ^\star\) is the solution to the regularized problem.
+
+
+\section{Background}
+Stephen Boyd and Lieven Vandenberghe~\cite{boyd2004convex}.
+
+\subsection{Equality Constrained Quadratic Programming}
+
+A quadratic program with equality constraints~\cite{boyd2004convex} is
+\begin{align}
+  \text{minimize} &\quad \frac{1}{2} x^\top M x
+    \label{eqn:qp} \\
+  \text{subject to} &\quad Ax = b
+\end{align}
+with variable in \(x \in \mbb{R}^n\),
+where \(M \succeq 0\) and the constraint \(A \in \mbb{R}^{m \times n}\) is,
+for our purposes, fat and full rank.
+
+The \(\ell^2\) regularized version for \(\lambda > 0\) looks like
+\begin{align}
+  \text{minimize} &\quad \frac{1}{2} x^\top M x + \lambda x^\top x
+    \label{eqn:reg-qp} \\
+  \text{subject to} &\quad Ax = b
+\end{align}
+
+\subsection{Karush-Kuhn-Tucker Conditions}
+The Lagrangian for \eqref{eqn:qp} is
+\begin{align*}
+  L(x, p) = \frac{1}{2} x^\top M x + p^\top (Ax - b)
+\end{align*}
+for which the
+optimality conditions~\cite{boyd2004convex} are
+\begin{align*}
+  M x^\star + A^\top p^\star = b,
+    \qquad Ax^\star = b
+\end{align*}
+or more compcatctly expressed:
+\begin{align}
+  \begin{bmatrix} M & A^\top \\ A & 0 \end{bmatrix}
+  \begin{bmatrix} x^\star \\ p^\star \end{bmatrix}
+  = \begin{bmatrix} 0 \\ b \end{bmatrix}
+    \label{eqn:kkt-qp}
+\end{align}
+
+On the other hand the Lagrangian of the
+regularized problem \eqref{eqn:reg-qp} is
+\begin{align*}
+  L_\lambda (x, p) = \frac{1}{2} x^\top (M + \lambda I) x + p^\top (Ax - b)
+\end{align*}
+which has the KKT conditions
+\begin{align}
+  \begin{bmatrix} M + \lambda I & A^\top \\ A & 0 \end{bmatrix}
+  \begin{bmatrix} x_\lambda ^\star \\ p_\lambda ^\star \end{bmatrix}
+    = \begin{bmatrix} 0 \\ b \end{bmatrix}
+    \label{eqn:kkt-reg-qp}
+\end{align}
+
+\subsection{Matrix Inversion}
+Consider a symmetric matrix
+\begin{align*}
+  M = \begin{bmatrix} A & B \\ B^\top & C \end{bmatrix}
+\end{align*}
+when \(A \succ 0\), define
+the Schur complement \(S = C - B^\top A^{-1} B\).
+Then
+\begin{align*}
+  \begin{bmatrix} A & B \\ B^\top C \end{bmatrix}^{-1}
+    \begin{bmatrix}
+      A^{-1} + A^{-1} B S^{-1} B^\top A^{-1} & - A^{-1} B S^{-1} \\
+      - S^{-1} B^\top A^{-1} & S^{-1}
+    \end{bmatrix}
+\end{align*}
+
+
+\section{Bounding Norms}
+Noting that by linearity
+\begin{align*}
+  \begin{bmatrix} M & A^\top \\ A & 0 \end{bmatrix}
+    \begin{bmatrix} x^\star \\ p^\star \end{bmatrix}
+  + \begin{bmatrix} \lambda I & 0 \\ 0 & 0 \end{bmatrix}
+    \begin{bmatrix} x^\star \\ p^\star \end{bmatrix}
+  = \begin{bmatrix} M + \lambda I & A^\top \\ A & 0 \end{bmatrix}
+    \begin{bmatrix} x^\star \\ p^\star \end{bmatrix}
+  = \begin{bmatrix} \lambda x^\star \\ b \end{bmatrix}
+\end{align*}
+and so through subtracting equations,
+\begin{align*}
+  \begin{bmatrix} M + \lambda I & A^\top \\ A & 0 \end{bmatrix}
+    \begin{bmatrix}
+      x^\star - x_{\lambda} ^\star \\ p^\star - p_\lambda ^\star
+    \end{bmatrix}
+    &= \begin{bmatrix} \lambda x^\star \\ 0 \end{bmatrix}
+\end{align*}
+Given our assumptions on \(M + \lambda I \succ 0\) and \(A\) is full rank.
+For ease of notation, define \(\Lambda = M + \lambda I\).
+The Schur complement is then
+\(S = - A \Lambda^{-1} A^\top\), and
+\begin{align*}
+  \begin{bmatrix}
+    x^\star - x_\lambda ^\star \\ p^\star - p_\lambda ^\star \end{bmatrix}
+  = \begin{bmatrix}
+      \Lambda^{-1} + \Lambda^{-1} A^\top S^{-1} A \Lambda^{-1}
+        & - \Lambda^{-1} A^\top S^{-1} \\
+      - S^{-1} A \Lambda^{-1} & S^{-1}
+    \end{bmatrix}
+    \begin{bmatrix}
+      \lambda x^\star \\ 0
+    \end{bmatrix}
+\end{align*}
+In other words:
+\begin{align*}
+  x^\star - x_\lambda ^\star
+    = \parens{\Lambda^{-1} -
+      \Lambda^{-1} A^\top (A \Lambda^{-1} A^\top)^{-1} A \Lambda^{-1}}
+      \lambda x^\star
+\end{align*}
+To simplify notation slightly, use \(\Gamma = \Lambda^{-1}\)
+because it looks like an upside-down \(L\).
+Then
+\begin{align*}
+  x^\star - x_\lambda ^\star
+    = \parens{\Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma)}
+      \lambda x^\star
+\end{align*}
+
+
+\printbibliography
+
+\end{document}
+
