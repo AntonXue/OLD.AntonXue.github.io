@@ -17,7 +17,7 @@
 
 % Author
 \title{Regularized Equality Constrained Quadratic Optimization}
-\author{Anton Xue}
+\author{Anton Xue and Nikolai Matni}
 \date{\today}
 \date{}
 
@@ -41,17 +41,17 @@ Stephen Boyd and Lieven Vandenberghe~\cite{boyd2004convex}.
 
 A quadratic program with equality constraints~\cite{boyd2004convex} is
 \begin{align}
-  \text{minimize} &\quad \frac{1}{2} x^\top M x
+  \text{minimize} &\quad \frac{1}{2} x^\top Q x
     \label{eqn:qp} \\
   \text{subject to} &\quad Ax = b
 \end{align}
 with variable in \(x \in \mbb{R}^n\),
-where \(M \succeq 0\) and the constraint \(A \in \mbb{R}^{m \times n}\) is,
+where \(Q \succeq 0\) and the constraint \(A \in \mbb{R}^{m \times n}\) is,
 for our purposes, fat and full rank.
 
 The \(\ell^2\) regularized version for \(\lambda > 0\) looks like
 \begin{align}
-  \text{minimize} &\quad \frac{1}{2} x^\top M x + \lambda x^\top x
+  \text{minimize} &\quad \frac{1}{2} x^\top Q x + \lambda x^\top x
     \label{eqn:reg-qp} \\
   \text{subject to} &\quad Ax = b
 \end{align}
@@ -59,17 +59,17 @@ The \(\ell^2\) regularized version for \(\lambda > 0\) looks like
 \subsection{Karush-Kuhn-Tucker Conditions}
 The Lagrangian for \eqref{eqn:qp} is
 \begin{align*}
-  L(x, p) = \frac{1}{2} x^\top M x + p^\top (Ax - b)
+  L(x, p) = \frac{1}{2} x^\top Q x + p^\top (Ax - b)
 \end{align*}
 for which the
 optimality conditions~\cite{boyd2004convex} are
 \begin{align*}
-  M x^\star + A^\top p^\star = b,
+  Q x^\star + A^\top p^\star = b,
     \qquad Ax^\star = b
 \end{align*}
 or more compcatctly expressed:
 \begin{align}
-  \begin{bmatrix} M & A^\top \\ A & 0 \end{bmatrix}
+  \begin{bmatrix} Q & A^\top \\ A & 0 \end{bmatrix}
   \begin{bmatrix} x^\star \\ p^\star \end{bmatrix}
   = \begin{bmatrix} 0 \\ b \end{bmatrix}
     \label{eqn:kkt-qp}
@@ -78,11 +78,11 @@ or more compcatctly expressed:
 On the other hand the Lagrangian of the
 regularized problem \eqref{eqn:reg-qp} is
 \begin{align*}
-  L_\lambda (x, p) = \frac{1}{2} x^\top (M + \lambda I) x + p^\top (Ax - b)
+  L_\lambda (x, p) = \frac{1}{2} x^\top (Q + \lambda I) x + p^\top (Ax - b)
 \end{align*}
 which has the KKT conditions
 \begin{align}
-  \begin{bmatrix} M + \lambda I & A^\top \\ A & 0 \end{bmatrix}
+  \begin{bmatrix} Q + \lambda I & A^\top \\ A & 0 \end{bmatrix}
   \begin{bmatrix} x_\lambda ^\star \\ p_\lambda ^\star \end{bmatrix}
     = \begin{bmatrix} 0 \\ b \end{bmatrix}
     \label{eqn:kkt-reg-qp}
@@ -91,13 +91,13 @@ which has the KKT conditions
 \subsection{Matrix Inversion}
 Consider a symmetric matrix
 \begin{align*}
-  M = \begin{bmatrix} A & B \\ B^\top & C \end{bmatrix}
+  Q = \begin{bmatrix} A & B \\ B^\top & C \end{bmatrix}
 \end{align*}
 when \(A \succ 0\), define
 the Schur complement \(S = C - B^\top A^{-1} B\).
 Then
 \begin{align*}
-  \begin{bmatrix} A & B \\ B^\top C \end{bmatrix}^{-1}
+  \begin{bmatrix} A & B \\ B^\top & C \end{bmatrix}^{-1}
     \begin{bmatrix}
       A^{-1} + A^{-1} B S^{-1} B^\top A^{-1} & - A^{-1} B S^{-1} \\
       - S^{-1} B^\top A^{-1} & S^{-1}
@@ -108,24 +108,24 @@ Then
 \section{Bounding Norms}
 Noting that by linearity
 \begin{align*}
-  \begin{bmatrix} M & A^\top \\ A & 0 \end{bmatrix}
+  \begin{bmatrix} Q & A^\top \\ A & 0 \end{bmatrix}
     \begin{bmatrix} x^\star \\ p^\star \end{bmatrix}
   + \begin{bmatrix} \lambda I & 0 \\ 0 & 0 \end{bmatrix}
     \begin{bmatrix} x^\star \\ p^\star \end{bmatrix}
-  = \begin{bmatrix} M + \lambda I & A^\top \\ A & 0 \end{bmatrix}
+  = \begin{bmatrix} Q + \lambda I & A^\top \\ A & 0 \end{bmatrix}
     \begin{bmatrix} x^\star \\ p^\star \end{bmatrix}
   = \begin{bmatrix} \lambda x^\star \\ b \end{bmatrix}
 \end{align*}
 and so through subtracting equations,
 \begin{align*}
-  \begin{bmatrix} M + \lambda I & A^\top \\ A & 0 \end{bmatrix}
+  \begin{bmatrix} Q + \lambda I & A^\top \\ A & 0 \end{bmatrix}
     \begin{bmatrix}
       x^\star - x_{\lambda} ^\star \\ p^\star - p_\lambda ^\star
     \end{bmatrix}
     &= \begin{bmatrix} \lambda x^\star \\ 0 \end{bmatrix}
 \end{align*}
-Given our assumptions on \(M + \lambda I \succ 0\) and \(A\) is full rank.
-For ease of notation, define \(\Lambda = M + \lambda I\).
+Given our assumptions on \(Q + \lambda I \succ 0\) and \(A\) is full rank.
+For ease of notation, define \(\Lambda = Q + \lambda I\).
 The Schur complement is then
 \(S = - A \Lambda^{-1} A^\top\), and
 \begin{align*}
@@ -155,6 +155,101 @@ Then
     = \parens{\Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma)}
       \lambda x^\star
 \end{align*}
+
+\begin{theorem}
+  Without loss of generality, assume that
+  \begin{align*}
+    Q = \diag(q_1, q_2, \ldots, q_n),
+      \quad q_1 \geq \cdots \geq q_n \geq 0.
+  \end{align*}
+  Then
+  \begin{align*}
+    \norm{x^\star - x_\lambda ^\star}
+      \leq \parens{\frac{\lambda}{q_n +\lambda} -\frac{\lambda}{q_1 +\lambda}}
+        \norm{x^\star}
+  \end{align*}
+\end{theorem}
+\begin{proof}
+  Our angle of attack is to seek a bound
+  \(\norm{\Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma}\).
+  For this, note that both
+  \(\Gamma \succ 0\)
+  and \(\Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma \succ 0\)
+  and so one technique is to find a matrix \(G\) such that
+  \begin{align*}
+    G \prec \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma
+      \quad \implies \quad
+    \norm{\Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma}
+      \leq \norm{\Gamma - G}
+  \end{align*}
+  We can iteratively construct \(G\).
+  Let a singular value decomposition of \(A\) be
+  \begin{align*}
+    A = U \Sigma V^\top
+      = U \begin{bmatrix} \Sigma_1 & 0 \end{bmatrix}
+          \begin{bmatrix} V_1 ^\top \\ V_2 ^\top \end{bmatrix}
+      = U \Sigma_1 V_1 ^\top,
+      \qquad \Sigma_1 = \diag (\sigma_1, \sigma_2, \ldots, \sigma_m)
+  \end{align*}
+  Then first upper-bounding the inside of the inverse
+  in order to lower-bound the overall inverse,
+  \begin{align*}
+    A \Gamma A^\top
+      = U \Sigma_1 V_1 ^\top
+          \begin{bmatrix}
+            \frac{1}{q_1 + \lambda} & & \\
+            & \ddots & \\
+            & & \frac{1}{q_n + \lambda}
+          \end{bmatrix}
+          V_1 \Sigma_1 U^\top
+      \preceq
+        \frac{1}{q_n + \lambda} U \Sigma_1 ^2 U^\top
+  \end{align*}
+  Then for the inverse we would have
+  \begin{align*}
+    \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma
+      &\preceq
+        \Gamma A^\top \bracks{(q_n +\lambda) U\Sigma_1 ^{-2} U^\top}A\Gamma \\
+      &= \parens{q_n + \lambda}
+          \Gamma V_1 \Sigma_1 U^\top
+            \bracks{U \Sigma_1 ^{-2} U^\top}
+            U \Sigma_1 V_1 ^\top \Gamma \\
+      &= \parens{q_n + \lambda} \Gamma \Gamma
+  \end{align*}
+  Putting these together:
+  \begin{align*}
+    \Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma
+      &\preceq \Gamma \bracks{I - (q_n + \lambda) \Gamma} \\
+      &\preceq \Gamma \braces{I
+            - (q_n + \lambda)
+            \begin{bmatrix}
+              \frac{1}{q_1 + \lambda} & & \\
+              & \ddots & \\
+              & & \frac{1}{q_n + \lambda}
+            \end{bmatrix}} \\
+      &\preceq \Gamma \parens{1 - \frac{q_n + \lambda}{q_1 + \lambda}}
+  \end{align*}
+  Applying sub-multiplicativity of norms we arrive at
+  \begin{align*}
+    \norm{x^\star - x_\lambda ^\star}
+      &= \norm{\parens{\Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma}
+      \lambda x^\star} \\
+    &\leq
+      \norm{\Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma}
+        \cdot \norm{\lambda x^\star} \\
+    &\leq
+      \norm{\Gamma}
+        \cdot \parens{1 - \frac{q_n + \lambda}{q_1 + \lambda}}
+        \cdot \lambda \norm{x^\star} \\
+    &=
+      \frac{1}{q_n + \lambda}
+        \parens{1 - \frac{q_n + \lambda}{q_1 + \lambda}}
+        \lambda \norm{x^\star} \\
+    &= \parens{\frac{\lambda}{q_n + \lambda} - \frac{\lambda}{q_1 + \lambda}}
+        \norm{x^\star}
+  \end{align*}
+
+\end{proof}
 
 
 \printbibliography
