@@ -162,11 +162,10 @@ Then
     Q = \diag(q_1, q_2, \ldots, q_n),
       \quad q_1 \geq \cdots \geq q_n \geq 0.
   \end{align*}
-  Then
+  Then for \(\lambda \leq q_1\),
   \begin{align*}
     \norm{x^\star - x_\lambda ^\star}
-      \leq \parens{\frac{\lambda}{q_n +\lambda} -\frac{\lambda}{q_1 +\lambda}}
-        \norm{x^\star}
+      \leq \frac{q_1 - q_n}{(q_1 + \lambda)^2} \lambda \norm{x^\star}
   \end{align*}
 \end{theorem}
 \begin{proof}
@@ -214,22 +213,31 @@ Then
           \Gamma V_1 \Sigma_1 U^\top
             \bracks{U \Sigma_1 ^{-2} U^\top}
             U \Sigma_1 V_1 ^\top \Gamma \\
-      &= \parens{q_n + \lambda} \Gamma \Gamma
+      &\preceq \parens{q_n + \lambda} \Gamma \Gamma
   \end{align*}
-  Putting these together:
+  Putting these together,
+  when \(\lambda \leq q_1\)
   \begin{align*}
     \Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma
-      &\preceq \Gamma \bracks{I - (q_n + \lambda) \Gamma} \\
-      &\preceq \Gamma \braces{I
-            - (q_n + \lambda)
-            \begin{bmatrix}
-              \frac{1}{q_1 + \lambda} & & \\
-              & \ddots & \\
-              & & \frac{1}{q_n + \lambda}
-            \end{bmatrix}} \\
-      &\preceq \Gamma \parens{1 - \frac{q_n + \lambda}{q_1 + \lambda}}
+      &\preceq \Gamma - (q_n + \lambda) \Gamma \Gamma \\
+      &\preceq
+        \begin{bmatrix}
+        \frac{1}{q_1 + \lambda} & & \\ & \ddots & \\ & & \frac{1}{q_n + \lambda}
+        \end{bmatrix}
+        - (q_n + \lambda)
+          \begin{bmatrix}
+            \frac{1}{(q_1 + \lambda)^2} & & \\ & \ddots & \\ & & \frac{1}{(q_n + \lambda)^2}
+          \end{bmatrix} \\
+      &= \begin{bmatrix}
+            \frac{q_1 + \lambda}{(q_1 + \lambda)^2}
+              - \frac{q_n + \lambda}{(q_1 + \lambda)^2} & & \\
+            & \ddots & \\
+            & & \frac{q_n + \lambda}{(q_n + \lambda)^2}
+                - \frac{q_n + \lambda}{(q_n + \lambda)^2}
+          \end{bmatrix}
+        \preceq \frac{q_1 -  q_n}{(q_1 + \lambda)^2} I
   \end{align*}
-  Applying sub-multiplicativity of norms we arrive at
+  Consequently, for the original bound
   \begin{align*}
     \norm{x^\star - x_\lambda ^\star}
       &= \norm{\parens{\Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma}
@@ -238,15 +246,8 @@ Then
       \norm{\Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma}
         \cdot \norm{\lambda x^\star} \\
     &\leq
-      \norm{\Gamma}
-        \cdot \parens{1 - \frac{q_n + \lambda}{q_1 + \lambda}}
-        \cdot \lambda \norm{x^\star} \\
-    &=
-      \frac{1}{q_n + \lambda}
-        \parens{1 - \frac{q_n + \lambda}{q_1 + \lambda}}
-        \lambda \norm{x^\star} \\
-    &= \parens{\frac{\lambda}{q_n + \lambda} - \frac{\lambda}{q_1 + \lambda}}
-        \norm{x^\star}
+      \frac{q_1 - q_n}{(q_1 + \lambda)^2}
+        \lambda \norm{x^\star}
   \end{align*}
 
 \end{proof}
