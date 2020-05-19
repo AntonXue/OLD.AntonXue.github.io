@@ -29,9 +29,8 @@
 \section{Introduction}
 We look at regularized approximations
 of equality-constrained quadratic programming.
-In particular, what is \(\norm{x^\star - x_{\lambda} ^\star}\),
-where \(x^\star\) is the optimal solution to the original problem,
-while \(x_{\lambda} ^\star\) is the solution to the regularized problem.
+In particular, how much does the optimal solution deviate
+when a regularizer is introduced?
 
 
 \section{Background}
@@ -57,7 +56,7 @@ The \(\ell^2\) regularized version for \(\lambda > 0\) looks like
 \end{align}
 
 \subsection{Karush-Kuhn-Tucker Conditions}
-The Lagrangian for \eqref{eqn:qp} is
+The Lagrangian for \eqref{eqn:qp} is of form
 \begin{align*}
   L(x, p) = \frac{1}{2} x^\top Q x + p^\top (Ax - b)
 \end{align*}
@@ -159,39 +158,50 @@ Then
 \begin{theorem}
   Without loss of generality, assume that
   \begin{align*}
-    Q = \diag(q_1, q_2, \ldots, q_n),
-      \quad q_1 \geq \cdots \geq q_n \geq 0.
+    Q = \begin{bmatrix} q_1 & & \\ & \ddots & \\ & & q_n \end{bmatrix},
+      \qquad q_1 \geq \cdots \geq q_n > 0.
   \end{align*}
-  Then for \(\lambda \leq q_1\),
+  Then for \(\lambda \leq q_n\),
   \begin{align*}
     \norm{x^\star - x_\lambda ^\star}
-      \leq \frac{q_1 - q_n}{(q_1 + \lambda)^2} \lambda \norm{x^\star}
+      \leq \parens{\frac{\lambda}{q_n + \lambda}
+              - \frac{\lambda}{q_1 + \lambda}} \norm{x^\star}
   \end{align*}
 \end{theorem}
 \begin{proof}
-  Our angle of attack is to seek a bound
-  \(\norm{\Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma}\).
-  For this, note that both
-  \(\Gamma \succ 0\)
-  and \(\Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma \succ 0\)
-  and so one technique is to find a matrix \(G\) such that
+  First note that
   \begin{align*}
-    G \prec \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma
-      \quad \implies \quad
-    \norm{\Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma}
-      \leq \norm{\Gamma - G}
+    \Lambda =
+      \begin{bmatrix}
+        q_1 + \lambda & & \\ & \ddots & \\ & & q_n + \lambda
+      \end{bmatrix},
+      \qquad
+      \Gamma = \Lambda^{-1}
+        = \begin{bmatrix}
+            \frac{1}{q_1 + \lambda} & & \\
+            & \ddots & \\
+            & & \frac{1}{q_n + \lambda}
+          \end{bmatrix}
   \end{align*}
-  We can iteratively construct \(G\).
-  Let a singular value decomposition of \(A\) be
+  We seek the bound the RHS of the inequality
+  \begin{align*}
+    \norm{x^\star - x_\lambda ^\star}
+      \leq \norm{\Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma}
+          \cdot \lambda \norm{x^\star}
+  \end{align*}
+  The primary challenge here is
+  correctly \textit{lower bounding} the
+  \(\Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma\) term.
+  For this we \textit{upper bound} the \(A \Gamma A^\top\) term.
+  Letting
   \begin{align*}
     A = U \Sigma V^\top
       = U \begin{bmatrix} \Sigma_1 & 0 \end{bmatrix}
-          \begin{bmatrix} V_1 ^\top \\ V_2 ^\top \end{bmatrix}
-      = U \Sigma_1 V_1 ^\top,
-      \qquad \Sigma_1 = \diag (\sigma_1, \sigma_2, \ldots, \sigma_m)
+          \begin{bmatrix} V_1 ^\top \\ V_2 ^\top \end{bmatrix},
+        \qquad \Sigma_1 =
+        \begin{bmatrix} \sigma_1 & & \\ & \ddots & \\ & & \sigma_m \end{bmatrix}
   \end{align*}
-  Then first upper-bounding the inside of the inverse
-  in order to lower-bound the overall inverse,
+  be an SVD of \(A\); an upper bound of \(A \Gamma A^\top\) is
   \begin{align*}
     A \Gamma A^\top
       = U \Sigma_1 V_1 ^\top
@@ -201,53 +211,34 @@ Then
             & & \frac{1}{q_n + \lambda}
           \end{bmatrix}
           V_1 \Sigma_1 U^\top
-      \preceq
-        \frac{1}{q_n + \lambda} U \Sigma_1 ^2 U^\top
+      \preceq \frac{1}{q_n + \lambda} U \Sigma_1 ^2 U^\top
   \end{align*}
-  Then for the inverse we would have
+  Consequently, a lower bound for
+  \(\Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma\) is
   \begin{align*}
     \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma
-      &\preceq
-        \Gamma A^\top \bracks{(q_n +\lambda) U\Sigma_1 ^{-2} U^\top}A\Gamma \\
-      &= \parens{q_n + \lambda}
-          \Gamma V_1 \Sigma_1 U^\top
-            \bracks{U \Sigma_1 ^{-2} U^\top}
-            U \Sigma_1 V_1 ^\top \Gamma \\
-      &\preceq \parens{q_n + \lambda} \Gamma \Gamma
+      \succeq
+        \Gamma V_1 \Sigma_1 U^\top
+          \parens{\frac{1}{q_n + \lambda} U \Sigma_1 ^2 U^\top}^{-1}
+          U \Sigma_1 V_1 ^\top \Gamma
+      = \parens{q_n + \lambda}
+          \Gamma V_1 V_1 ^\top \Gamma
+      \succeq \frac{q_n + \lambda}{q_1 + \lambda} \Gamma
   \end{align*}
-  Putting these together,
-  when \(\lambda \leq q_1\)
+  Then using this,
   \begin{align*}
     \Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma
-      &\preceq \Gamma - (q_n + \lambda) \Gamma \Gamma \\
-      &\preceq
-        \begin{bmatrix}
-        \frac{1}{q_1 + \lambda} & & \\ & \ddots & \\ & & \frac{1}{q_n + \lambda}
-        \end{bmatrix}
-        - (q_n + \lambda)
-          \begin{bmatrix}
-            \frac{1}{(q_1 + \lambda)^2} & & \\ & \ddots & \\ & & \frac{1}{(q_n + \lambda)^2}
-          \end{bmatrix} \\
-      &= \begin{bmatrix}
-            \frac{q_1 + \lambda}{(q_1 + \lambda)^2}
-              - \frac{q_n + \lambda}{(q_1 + \lambda)^2} & & \\
-            & \ddots & \\
-            & & \frac{q_n + \lambda}{(q_n + \lambda)^2}
-                - \frac{q_n + \lambda}{(q_n + \lambda)^2}
-          \end{bmatrix}
-        \preceq \frac{q_1 -  q_n}{(q_1 + \lambda)^2} I
+      \preceq \Gamma - \frac{q_n + \lambda}{q_1 + \lambda} \Gamma
+      \preceq \parens{\frac{1}{q_n + \lambda} - \frac{1}{q_1 + \lambda}} I
   \end{align*}
-  Consequently, for the original bound
+  for which we derive the desired bound
   \begin{align*}
     \norm{x^\star - x_\lambda ^\star}
-      &= \norm{\parens{\Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma}
-      \lambda x^\star} \\
-    &\leq
-      \norm{\Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma}
-        \cdot \norm{\lambda x^\star} \\
-    &\leq
-      \frac{q_1 - q_n}{(q_1 + \lambda)^2}
-        \lambda \norm{x^\star}
+      \leq \norm{\Gamma - \Gamma A^\top (A \Gamma A^\top)^{-1} A \Gamma}
+          \cdot \lambda \norm{x^\star}
+      \leq \parens{\frac{\lambda}{q_n + \lambda}
+                - \frac{\lambda}{q_1 + \lambda}}
+              \norm{x^\star}
   \end{align*}
 
 \end{proof}
