@@ -1,0 +1,98 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=5em]{geometry} % 1 cm = 2.84528 em
+\usepackage[backend=bibtex]{biblatex}
+\bibliography{sources}
+% \nocite{*}
+
+\usepackage{lipsum}
+
+% Paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% Includes
+\input{axlib.tex}
+
+% Author
+\title{Analysis of Projected Gradient Descent}
+\author{Anton Xue and Nikolai Matni}
+\date{\today}
+\date{}
+
+% Document
+\begin{document}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+Projected Gradient Descent
+
+
+\section{Background}
+Stephen Boyd and Lieven Vandenberghe~\cite{boyd2004convex}.
+
+\subsection{Quadratic Programs with Linear Equality}
+
+A quadratic program with equality constraints~\cite{boyd2004convex} is
+\begin{align}
+  \text{minimize} &\quad \frac{1}{2} x^\top M x
+    \label{eqn:qp} \\
+  \text{subject to} &\quad Ax = b
+\end{align}
+with variable in \(x \in \mbb{R}^n\),
+where \(Q \succeq 0\) and the constraint \(A \in \mbb{R}^{m \times n}\) is,
+for our purposes, fat and full rank.
+
+\subsection{Projected Gradient Descent}
+Projected gradient descent has the step rule
+\begin{align*}
+  x^+ = \hat{x} + (I - A^+ A) (I - t M) x
+\end{align*}
+where \(A^+\) is the Moore-Penrose pseudoinverse of \(A\)
+(such that \(I - A^+ A\) projects onto \(\ker A\));
+the least-norm solution of the linear constraint is \(\hat{x} = A^+ b\);
+and \(t < 1/L\) where \(L = \lambda_{\max} (M)\)
+is the Lipschitz constant of the gradient.
+
+
+\section{Taking steps}
+We seek to characterize the space in which projected
+gradient descent traverses.
+
+Starting at some initial \(x_0\),
+note that
+\begin{align*}
+  x_{k + 1}
+    = (I - A^+ A) (I - tM) x_k + \hat{x}
+    = \bracks{(I - A^+ A) (I - tM)}^k x_0
+        + \sum_{l = 0}^{k - 1} \bracks{(I - A^+ A) (I - tM)}^l \hat{x}
+\end{align*}
+However since \(t < 1 / \lambda_{\max} (M)\),
+the matrix \(I - tM\) is invertible;
+furthermore, since \(I - A^+ A\) is symmetric,
+the two commute (c.f., \cite{horn2012matrix} Theorem 4.5.17(a)):
+\begin{align*}
+  (I - A^+ A) (I - tM)
+    = (I - tM) (I - A^+ A)
+\end{align*}
+and because \(I - A^+ A\) is a projection matrix,
+\((I - A^+ A)^l = I - A^+ A\) for \(l > 0\).
+By definition of \(\hat{x}\),
+we also have that \((I - A^+ A) \hat{x} = 0\).
+Thus, the recursion simplifies to
+\begin{align*}
+  x_{k + 1}
+    = (I - A^+ A) (I - tM)^k x_0 + \hat{x}
+\end{align*}
+and in the limit, supposing that \(W^\top W\) projects onto \(\ker M\),
+\begin{align*}
+  x_{\infty} = (I - A^+ A) W^\top W x_0 + \hat{x}
+\end{align*}
+
+
+\printbibliography
+
+\end{document}
+
