@@ -16,7 +16,7 @@
 \input{axlib.tex}
 
 % Author
-\title{Regularized Equality Constrained Quadratic Optimization}
+\title{}
 \author{Anton Xue and Nikolai Matni}
 \date{\today}
 \date{}
@@ -242,6 +242,201 @@ Then
   \end{align*}
 
 \end{proof}
+
+\section{Optimal Value Deviation}
+One challenge with merely bounding
+\(\norm{x^\star - x_\lambda ^\star}\) is that
+this norm difference may grow unbounded.
+Consider an instance where the objective \(Q\) has a non-trivial kernel:
+we may have
+\begin{align*}
+  \norm{\Pi_{\ker Q} x^\star} \gg
+  \norm{\Pi_{\ker Q} x_\lambda ^\star}
+\end{align*}
+where \(\Pi_{\ker Q}\) is the projection onto \(\ker Q\);
+this is possible because the regularized problems would force
+\(\Pi_{\ker Q} x_\lambda ^\star\) to be close to the origin.
+Instead, another way of examining sub-optimality is to consider the 
+difference
+\begin{align*}
+  \frac{1}{2} (x_\lambda ^\star)^\top Q x_\lambda ^\star
+    - \frac{1}{2} (x^\star)^\top Q x^\star
+    > 0
+\end{align*}
+which we know holds because \(x_\lambda ^\star\) is no more optimal
+than \(x^\star\).
+
+\begin{theorem}[\cite{kovanic1979pseudoinverse}]
+  \label{thm:kovanic}
+  If \(X\) is an \(n \times q\) matirx contained in the column-space
+  of an \(n \times n\) symmetrical matrix \(V\), then
+  \begin{align*}
+    (V + X X^\top)^\dagger
+      = V^\dagger
+        - V ^\dagger X (I + X^\top V^\dagger X)^{-1} X^\top V^\dagger
+  \end{align*}
+  where ``to be in the column-space'' means the same as
+  \(V V^\dagger X = X\),
+  and in a more general case
+  \((I - V V^\dagger)X \neq 0\).
+\end{theorem}
+
+\begin{theorem}
+  Define
+  \begin{align*}
+    Z = I - A ^\dagger A,
+      \qquad \hat{x} = A^\dagger b
+  \end{align*}
+  so that solutions take form \(\hat{x} + Z v\),
+  then a bound on the optimality gap is
+  \begin{align*}
+    &\frac{1}{2} (x_\lambda ^\star)^\top Q x_\lambda ^\star
+      - \frac{1}{2} (x^\star)^\top Q x^\star \\
+    &\qquad \leq
+      \norm{Q^{1/2} \hat{x}}^2
+        \cdot \norm{Q^{1/2} Z}^2
+        \cdot \frac{\lambda m_0}{1 - \lambda m_0}
+        + \norm{Q^{1/2} \hat{x}}^4
+        \cdot \norm{Q^{1/2} Z}^4
+        \cdot \parens{\frac{\lambda m_0}{1 - \lambda m_0}}^2
+  \end{align*}
+  where \(m_0\) is the smallest non-zero eigenvalue of
+  \(V\).
+\end{theorem}
+\begin{proof}
+  Let \(\hat{x} = A^\dagger b\), and \(\Lambda = Q + \lambda I\), then
+  \begin{align*}
+    x^\star = \hat{x} - Z u,
+      \qquad x^\star = \hat{x} - Z y
+  \end{align*}
+  where
+  \begin{align*}
+    Z = I - A^\dagger A,
+      \qquad
+      u = (Z^\top M Z)^{\dagger} Z^\top Q \hat{x},
+      \qquad
+      y = (Z^\top \Lambda Z)^{\dagger} Z^\top \Lambda \hat{x}
+  \end{align*}
+  which can be derived from examining the optimality conditions of the
+  quadratic problem.
+  However, because \(\hat{x} \in \ker A^\top\),
+  there is a further simplification:
+  \begin{align*}
+    y = (Z^\top \Lambda Z)^{\dagger} Z^\top (Q + \lambda I) \hat{x}
+      = (Z^\top \Lambda Z)^{\dagger} Z^\top Q \hat{x}
+  \end{align*}
+  Comparing the objective values attained by \(x_\lambda ^\star\)
+  and \(x^\star\), we have
+  \begin{align*}
+    &\frac{1}{2} (x_\lambda ^\star)^\top Q x_\lambda ^\star
+      - \frac{1}{2} (x^\star)^\top Q x^\star \\
+    &\quad= \frac{1}{2} (\hat{x} + Z y)^\top Q (\hat{x} + Z y)
+          - \frac{1}{2} (\hat{x} + Z u)^\top Q (\hat{x} + Z u) \\
+    &\quad=
+      (\hat{x})^\top Q Z (y - u)
+       + \frac{1}{2} y^\top Z^\top Q Z y
+       - \frac{1}{2} u^\top Z^\top Q Z u \\
+    &\quad=
+      (\hat{x})^\top Q Z (y - u)
+        + \frac{1}{2}\parens{\norm{Q^{1/2} Z y} - \norm{Q^{1/2} Z u}} \\
+    &\quad\leq
+      (\hat{x})^\top Q Z (y - u)
+        + \frac{1}{2} \norm{Q^{1/2} Z (y - u)}^2
+        \tag{Reverse triangle inequality} \\
+    &\quad\leq
+      \norm{Q^{1/2}\hat{x}} \cdot \norm{Q^{1/2} Z (y - u)}
+        + \frac{1}{2} \norm{Q^{1/2} Z (y - u)}^2
+  \end{align*}
+  From here,
+  \begin{align*}
+    \norm{Q^{1/2} Z (y - u)}
+      &= \norm{Q^{1/2} Z \bracks{
+          \parens{Z^\top Q Z}^{\dagger} Z^\top Q \hat{x}
+          - \parens{Z^\top \Lambda Z}^{\dagger} Z^\top Q \hat{x}}} \\
+      &= \norm{Q^{1/2} Z \bracks{
+          \parens{Z^\top Q Z}^{\dagger} Z^\top Q \hat{x}
+          - \parens{Z^\top (Q + \lambda I) Z}^{\dagger} Z^\top Q \hat{x}}} \\
+  \end{align*}
+  We now apply Theorem~\ref{thm:kovanic}:
+  identifying the mapping \(V \mapsto Z^\top Q Z\)
+  and \(X \mapsto \sqrt{\lambda} Z^\top\).
+  First we show that \(X\) lies in the column space of \(V\).
+  Consider the eigenvalue decomposition
+  \begin{align*}
+    V = F^\top D F,
+      \qquad D = \diag(d_1, \ldots, d_k, 0, \ldots, 0),
+      \qquad X = \sqrt{\lambda} F^\top I,
+  \end{align*}
+  where \(F\) is orthogonal and \(D\) is diagonal.
+  Then \(D^\dagger = \diag(d_1 ^{-1}, \ldots, d_k ^{-1}, 0, \ldots 0)\)
+  and so
+  \begin{align*}
+    V V^\dagger X
+      = (F^\top D F) (F^\top D^\dagger F) F^\top \sqrt{\lambda} I
+      = \sqrt{\lambda} F^\top
+      = X
+  \end{align*}
+  Now, the above norm-bound can be re-written as follows,
+  \begin{align*}
+    &\norm{Q^{1/2} Z (y - u)} \\
+      &\quad =
+        \norm{Q^{1/2} Z
+          \bracks{
+            V^\dagger
+              - \parens{V^\dagger
+                - V^\dagger X(I + X^\top V^\dagger X)^{-1} X^\top V^\dagger}}
+            Z^\top Q \hat{x}} \\
+      &\quad =
+        \norm{Q^{1/2} Z
+          \parens{V^\dagger X(I+X^\top V^\dagger X)^{-1} X^\top V^\dagger}
+            Z^\top Q \hat{x}} \\
+      &\quad \leq
+        \norm{Q^{1/2} Z}
+          \cdot \norm{V^\dagger X}^2
+          \cdot \norm{Z^\top Q \hat{x}}
+          \cdot \norm{(I + X^\top V^\dagger X)^{-1}} \\
+      &\quad \leq
+        \norm{Q^{1/2} Z}
+          \cdot \norm{V^\dagger X}^2
+          \cdot \norm{Z^\top Q \hat{x}}
+          \cdot \parens{\sum_{l = 0}^{\infty} \norm{X^\top V^\dagger X}^l} \\
+      &\quad \leq
+        \norm{Q^{1/2} Z}
+          \cdot \norm{V^\dagger X}^2
+          \cdot \norm{Z^\top Q \hat{x}}
+          \cdot \parens{\sum_{l = 0}^{\infty} \lambda^l \norm{V^\dagger}^l} \\
+      &\quad \leq
+        \norm{Q^{1/2} Z}
+          \cdot \norm{V^\dagger X}^2
+          \cdot \norm{Z^\top Q \hat{x}}
+          \cdot \parens{1 - \lambda m_0}^{-1} \\
+      &\quad \leq
+        \norm{Q^{1/2} Z}
+          \cdot \norm{Z^\top Q \hat{x}}
+          \cdot \frac{\lambda m_0}{1 - \lambda m_0} \\
+      &\quad \leq \norm{Q^{1/2} Z}^2 \cdot \norm{Q^{1/2} \hat{x}}
+          \cdot \frac{\lambda m_0}{1 - \lambda m_0}
+  \end{align*}
+  where \(m_0\) is the smallest non-zero eigenvalue of \(V\),
+  and so
+  \begin{align*}
+    &\frac{1}{2} (x_\lambda ^\star)^\top Q x_\lambda ^\star
+      - \frac{1}{2} (x^\star)^\top Q x^\star \\
+    &\quad \leq \norm{Q^{1/2} \hat{x}}
+          \cdot \norm{Q^{1/2} Z (y - u)}
+          + \frac{1}{2} \norm{Q^{1/2} Z (y - u)}^2 \\
+    &\quad \leq
+      \norm{Q^{1/2} \hat{x}}^2
+        \cdot \norm{Q^{1/2} Z}^2
+        \cdot \frac{\lambda m_0}{1 - \lambda m_0}
+        + \norm{Q^{1/2} \hat{x}}^4
+        \cdot \norm{Q^{1/2} Z}^4
+        \cdot \parens{\frac{\lambda m_0}{1 - \lambda m_0}}^2
+  \end{align*}
+  and this vanishes as \(\lambda \to 0\).
+
+\end{proof}
+
 
 
 \printbibliography

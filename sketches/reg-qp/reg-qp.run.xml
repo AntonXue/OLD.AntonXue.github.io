@@ -44,11 +44,11 @@
   <internal package="biblatex" priority="9" active="0">
     <generic>latex</generic>
     <provides type="dynamic">
-      <file>regularized-qp.aux</file>
-      <file>regularized-qp-blx.bib</file>
+      <file>reg-qp.aux</file>
+      <file>reg-qp-blx.bib</file>
     </provides>
     <requires type="dynamic">
-      <file>regularized-qp.bbl</file>
+      <file>reg-qp.bbl</file>
     </requires>
     <requires type="static">
       <file>blx-dm.def</file>
@@ -67,20 +67,20 @@
     <cmdline>
       <binary>bibtex</binary>
       <option>-min-crossrefs 2</option>
-      <infile>regularized-qp</infile>
+      <infile>reg-qp</infile>
     </cmdline>
     <input>
-      <file>regularized-qp.aux</file>
+      <file>reg-qp.aux</file>
     </input>
     <output>
-      <file>regularized-qp.bbl</file>
+      <file>reg-qp.bbl</file>
     </output>
     <provides type="dynamic">
-      <file>regularized-qp.bbl</file>
+      <file>reg-qp.bbl</file>
     </provides>
     <requires type="dynamic">
-      <file>regularized-qp.aux</file>
-      <file>regularized-qp-blx.bib</file>
+      <file>reg-qp.aux</file>
+      <file>reg-qp-blx.bib</file>
     </requires>
     <requires type="editable">
       <file>sources.bib</file>
