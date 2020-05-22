@@ -293,7 +293,7 @@ than \(x^\star\).
   \begin{align*}
     \frac{1}{2} (x_\lambda ^\star)^\top Q x_\lambda ^\star
       - \frac{1}{2} (x^\star)^\top Q x^\star
-      = O\parens{\frac{\lambda q_0}{q_0 - \lambda}}
+      \leq O\parens{\frac{\lambda q_0}{q_0 - \lambda}}
   \end{align*}
   where \(q_0\) is the smallest non-zero eigenvalue of
   \(Q\) and \(\lambda < q_0\).
@@ -316,7 +316,7 @@ than \(x^\star\).
   quadratic problem.
   However, because \(\hat{x} \in \ran A^\top = (\ker A)^\perp\),
   there is a further simplification as
-  \(Z \hat{x} = 0\):
+  \(Z^\top \hat{x} = 0\):
   \begin{align*}
     y = (Z^\top \Lambda Z)^{\dagger} Z^\top (Q + \lambda I) \hat{x}
       = (Z^\top \Lambda Z)^{\dagger} Z^\top Q \hat{x}
@@ -366,16 +366,17 @@ than \(x^\star\).
   For this, consider the eigen decomposition
   \begin{align*}
     V = F D F^\top,
+      \qquad F = \begin{bmatrix} F_1 & F_2 \end{bmatrix},
       \qquad D = \diag(d_1, \ldots, d_k, 0, \ldots, 0),
-      \qquad X = \sqrt{\lambda} F
+      \qquad X = \sqrt{\lambda} F_1
   \end{align*}
   where \(F\) is orthogonal.
   Then \(D^\dagger = \diag(d_1 ^{-1}, \ldots, d_k ^{-1}, 0, \ldots, 0)\)
   and so
   \begin{align*}
     V V^\dagger X
-      = (F D F^\top)(F D^\dagger F^\top) \sqrt{\lambda} F
-      = \sqrt{\lambda} F
+      = (F D F^\top)(F D^\dagger F^\top) \sqrt{\lambda} F_1
+      = \sqrt{\lambda} F_1
       = X
   \end{align*}
   thus, Theorem~\ref{thm:kovanic} applies and
@@ -466,9 +467,9 @@ than \(x^\star\).
             \cdot \norm{Q^{1/2} Z (y - u)} \\
     &\quad \leq
       \max\{\lambda_{\max} (Q)^2, \lambda_{\max} (Q)^3\}
-       \cdot \max\{q_0 ^{-2}, q_0 ^{-3}\}
+       \cdot \max\{q_0 ^{-2}, q_0 ^{-3}, q_0 ^{-4}\}
        \cdot \parens{\frac{\norm{b}}{\sigma_{\min} (A)}}^2
-       O \parens{\frac{q_0 \lambda}{q_0 - \lambda}}
+       O \parens{\frac{\lambda q_0}{q_0 - \lambda}}
   \end{align*}
 
 \end{proof}
