@@ -293,10 +293,10 @@ than \(x^\star\).
   \begin{align*}
     \frac{1}{2} (x_\lambda ^\star)^\top Q x_\lambda ^\star
       - \frac{1}{2} (x^\star)^\top Q x^\star
-      = O\parens{\frac{\lambda m_0}{m_0 - \lambda}}
+      = O\parens{\frac{\lambda q_0}{q_0 - \lambda}}
   \end{align*}
-  where \(m_0\) is the smallest non-zero eigenvalue of
-  \(Q\) and \(\lambda < m_0\).
+  where \(q_0\) is the smallest non-zero eigenvalue of
+  \(Q\) and \(\lambda < q_0\).
 \end{theorem}
 \begin{proof}
   Let \(\hat{x} = A^\dagger b\), and \(\Lambda = Q + \lambda I\), then
@@ -404,12 +404,12 @@ than \(x^\star\).
       = \norm{Q^{1/2} Z V^\dagger Z^\top Q A ^\dagger b}
       \leq
         \lambda_{\max} (Q) ^{3/2}
-          \frac{1}{m_0}
+          \frac{1}{q_0}
           \frac{1}{\sigma_{\min} (A)}
           \norm{b}
       \label{eqn:qhalf-mid}
   \end{align}
-  where \(m_0\) is the smallest non-zero eigenvalue of \(Q\).
+  where \(q_0\) is the smallest non-zero eigenvalue of \(Q\).
   For the third inside term:
   \begin{align*}
     &\norm{Q^{1/2} Z y} \\
@@ -426,34 +426,34 @@ than \(x^\star\).
           \cdot \norm{A^\dagger b}
           \cdot \norm{(I + X^\top V^\dagger X)^{-1}} \\
       &\quad\leq
-        \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b}}{m_0 \sigma_{\min} (A)}
+        \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b}}{q_0 \sigma_{\min} (A)}
         + \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b} \lambda}
-                {m_0 ^2 \sigma_{\min} (A)}
+                {q_0 ^2 \sigma_{\min} (A)}
         \cdot \norm{(I + X^\top V^\dagger X)^{-1}} \\
       &\quad\leq
-        \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b}}{m_0 \sigma_{\min} (A)}
+        \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b}}{q_0 \sigma_{\min} (A)}
         + \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b} \lambda}
-                {m_0 ^2 \sigma_{\min} (A)}
+                {q_0 ^2 \sigma_{\min} (A)}
           \sum_{l = 0}^{\infty} \norm{X^\top V^\dagger X}^l \\
       &\quad\leq
-        \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b}}{m_0 \sigma_{\min} (A)}
+        \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b}}{q_0 \sigma_{\min} (A)}
         + \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b} \lambda}
-                {m_0 ^2 \sigma_{\min} (A)}
-          \sum_{l = 0}^{\infty} \parens{\lambda / m_0}^l \\
+                {q_0 ^2 \sigma_{\min} (A)}
+          \sum_{l = 0}^{\infty} \parens{\lambda / q_0}^l \\
       &\quad\leq
-        \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b}}{m_0 \sigma_{\min} (A)}
+        \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b}}{q_0 \sigma_{\min} (A)}
         + \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b} \lambda}
-                {m_0 ^2 \sigma_{\min} (A)}
-            \parens{1 - \frac{\lambda}{m_0}}^{-1}
+                {q_0 ^2 \sigma_{\min} (A)}
+            \parens{1 - \frac{\lambda}{q_0}}^{-1}
   \end{align*}
-  which requires \(\lambda < m_0\) for convergence.
+  which requires \(\lambda < q_0\) for convergence.
   Finally for the right outer term:
   \begin{align*}
     \norm{Q^{1/2} Z (y - u)}
       = \norm{Q^{1/2} Z V^\dagger X
         (I + X^\top V^\dagger X)^{-1} X^\top V^\dagger Z^\top Q A ^\dagger b}
-      \leq \frac{\lambda_{\max} (Q)^{3/2} \norm{b} \lambda}{m_0 ^2 \sigma_{\min} (A)}
-      \parens{1 - \frac{\lambda}{m_0}}^{-1}
+      \leq \frac{\lambda_{\max} (Q)^{3/2} \norm{b} \lambda}{q_0 ^2 \sigma_{\min} (A)}
+      \parens{1 - \frac{\lambda}{q_0}}^{-1}
   \end{align*}
   Putting these together, we find that
   \begin{align*}
@@ -466,9 +466,9 @@ than \(x^\star\).
             \cdot \norm{Q^{1/2} Z (y - u)} \\
     &\quad \leq
       \max\{\lambda_{\max} (Q)^2, \lambda_{\max} (Q)^3\}
-       \cdot \max\{m_0 ^{-2}, m_0 ^{-3}\}
+       \cdot \max\{q_0 ^{-2}, q_0 ^{-3}\}
        \cdot \parens{\frac{\norm{b}}{\sigma_{\min} (A)}}^2
-       O \parens{\frac{m_0 \lambda}{m_0 - \lambda}}
+       O \parens{\frac{q_0 \lambda}{q_0 - \lambda}}
   \end{align*}
 
 \end{proof}
