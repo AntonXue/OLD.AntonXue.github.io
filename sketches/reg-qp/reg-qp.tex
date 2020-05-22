@@ -16,7 +16,7 @@
 \input{axlib.tex}
 
 % Author
-\title{}
+\title{Regularized Equality-Constrained Quadratic Programming}
 \author{Anton Xue and Nikolai Matni}
 \date{\today}
 \date{}
@@ -255,7 +255,8 @@ we may have
 \end{align*}
 where \(\Pi_{\ker Q}\) is the projection onto \(\ker Q\);
 this is possible because the regularized problems would force
-\(\Pi_{\ker Q} x_\lambda ^\star\) to be close to the origin.
+\(\Pi_{\ker Q} x_\lambda ^\star\) to be close to the origin
+rather than hiding far away from zero inside \(\ker Q\).
 Instead, another way of examining sub-optimality is to consider the 
 difference
 \begin{align*}
@@ -290,24 +291,18 @@ than \(x^\star\).
   so that solutions take form \(\hat{x} + Z v\),
   then a bound on the optimality gap is
   \begin{align*}
-    &\frac{1}{2} (x_\lambda ^\star)^\top Q x_\lambda ^\star
-      - \frac{1}{2} (x^\star)^\top Q x^\star \\
-    &\qquad \leq
-      \norm{Q^{1/2} \hat{x}}^2
-        \cdot \norm{Q^{1/2} Z}^2
-        \cdot \frac{\lambda m_0}{1 - \lambda m_0}
-        + \norm{Q^{1/2} \hat{x}}^4
-        \cdot \norm{Q^{1/2} Z}^4
-        \cdot \parens{\frac{\lambda m_0}{1 - \lambda m_0}}^2
+    \frac{1}{2} (x_\lambda ^\star)^\top Q x_\lambda ^\star
+      - \frac{1}{2} (x^\star)^\top Q x^\star
+      = O\parens{\frac{\lambda m_0}{m_0 - \lambda}}
   \end{align*}
   where \(m_0\) is the smallest non-zero eigenvalue of
-  \(V\).
+  \(Q\) and \(\lambda < m_0\).
 \end{theorem}
 \begin{proof}
   Let \(\hat{x} = A^\dagger b\), and \(\Lambda = Q + \lambda I\), then
   \begin{align*}
     x^\star = \hat{x} - Z u,
-      \qquad x^\star = \hat{x} - Z y
+      \qquad x_\lambda ^\star = \hat{x} - Z y
   \end{align*}
   where
   \begin{align*}
@@ -319,8 +314,9 @@ than \(x^\star\).
   \end{align*}
   which can be derived from examining the optimality conditions of the
   quadratic problem.
-  However, because \(\hat{x} \in \ker A^\top\),
-  there is a further simplification:
+  However, because \(\hat{x} \in \ran A^\top = (\ker A)^\perp\),
+  there is a further simplification as
+  \(Z \hat{x} = 0\):
   \begin{align*}
     y = (Z^\top \Lambda Z)^{\dagger} Z^\top (Q + \lambda I) \hat{x}
       = (Z^\top \Lambda Z)^{\dagger} Z^\top Q \hat{x}
@@ -338,102 +334,142 @@ than \(x^\star\).
        - \frac{1}{2} u^\top Z^\top Q Z u \\
     &\quad=
       (\hat{x})^\top Q Z (y - u)
-        + \frac{1}{2}\parens{\norm{Q^{1/2} Z y} - \norm{Q^{1/2} Z u}} \\
+        + \frac{1}{2}\parens{\norm{Q^{1/2} Z y}^2 - \norm{Q^{1/2} Z u}^2} \\
+    &\quad=
+      (\hat{x})^\top Q Z (y - u)
+        + \frac{1}{2}
+          \bracks{\parens{\norm{Q^{1/2} Z u} + \norm{Q^{1/2} Z y}}
+                \parens{\norm{Q^{1/2} Z y} - \norm{Q^{1/2} Z u}}} \\
     &\quad\leq
       (\hat{x})^\top Q Z (y - u)
-        + \frac{1}{2} \norm{Q^{1/2} Z (y - u)}^2
-        \tag{Reverse triangle inequality} \\
-    &\quad\leq
-      \norm{Q^{1/2}\hat{x}} \cdot \norm{Q^{1/2} Z (y - u)}
-        + \frac{1}{2} \norm{Q^{1/2} Z (y - u)}^2
+        + \frac{1}{2}
+          \bracks{\parens{\norm{Q^{1/2} Z u} + \norm{Q^{1/2} Z y}}
+            \cdot \norm{Q^{1/2} Z (y - u)}}
+            \tag{Reverse triangle}
   \end{align*}
-  From here,
+  Which simplifies to
+  \begin{align}
+    \frac{1}{2} (x_\lambda ^\star)^\top Q x_\lambda ^\star
+      - \frac{1}{2} (x^\star)^\top Q x^\star
+    \leq
+      \parens{\norm{Q^{1/2} \hat{x}}
+        + \frac{1}{2} \norm{Q^{1/2} Z u}
+        + \frac{1}{2} \norm{Q^{1/2} Z y}}
+            \cdot \norm{Q^{1/2} Z (y - u)}
+      \label{eqn:qhalf-terms}
+  \end{align}
+  We now apply to Theorem~\ref{thm:kovanic}
+  to \(Q^{1/2} Z y\):
+  identifying the mapping
+  \(V \mapsto Z^\top Q Z\) and \(X \mapsto \sqrt{\lambda} Z\),
+  first show that \(X\) lies in the column space of \(V\).
+  For this, consider the eigen decomposition
   \begin{align*}
-    \norm{Q^{1/2} Z (y - u)}
-      &= \norm{Q^{1/2} Z \bracks{
-          \parens{Z^\top Q Z}^{\dagger} Z^\top Q \hat{x}
-          - \parens{Z^\top \Lambda Z}^{\dagger} Z^\top Q \hat{x}}} \\
-      &= \norm{Q^{1/2} Z \bracks{
-          \parens{Z^\top Q Z}^{\dagger} Z^\top Q \hat{x}
-          - \parens{Z^\top (Q + \lambda I) Z}^{\dagger} Z^\top Q \hat{x}}} \\
-  \end{align*}
-  We now apply Theorem~\ref{thm:kovanic}:
-  identifying the mapping \(V \mapsto Z^\top Q Z\)
-  and \(X \mapsto \sqrt{\lambda} Z^\top\).
-  First we show that \(X\) lies in the column space of \(V\).
-  Consider the eigenvalue decomposition
-  \begin{align*}
-    V = F^\top D F,
+    V = F D F^\top,
       \qquad D = \diag(d_1, \ldots, d_k, 0, \ldots, 0),
-      \qquad X = \sqrt{\lambda} F^\top I,
+      \qquad X = \sqrt{\lambda} F
   \end{align*}
-  where \(F\) is orthogonal and \(D\) is diagonal.
-  Then \(D^\dagger = \diag(d_1 ^{-1}, \ldots, d_k ^{-1}, 0, \ldots 0)\)
+  where \(F\) is orthogonal.
+  Then \(D^\dagger = \diag(d_1 ^{-1}, \ldots, d_k ^{-1}, 0, \ldots, 0)\)
   and so
   \begin{align*}
     V V^\dagger X
-      = (F^\top D F) (F^\top D^\dagger F) F^\top \sqrt{\lambda} I
-      = \sqrt{\lambda} F^\top
+      = (F D F^\top)(F D^\dagger F^\top) \sqrt{\lambda} F
+      = \sqrt{\lambda} F
       = X
   \end{align*}
-  Now, the above norm-bound can be re-written as follows,
+  thus, Theorem~\ref{thm:kovanic} applies and
   \begin{align*}
-    &\norm{Q^{1/2} Z (y - u)} \\
-      &\quad =
-        \norm{Q^{1/2} Z
-          \bracks{
-            V^\dagger
-              - \parens{V^\dagger
-                - V^\dagger X(I + X^\top V^\dagger X)^{-1} X^\top V^\dagger}}
-            Z^\top Q \hat{x}} \\
-      &\quad =
-        \norm{Q^{1/2} Z
-          \parens{V^\dagger X(I+X^\top V^\dagger X)^{-1} X^\top V^\dagger}
-            Z^\top Q \hat{x}} \\
-      &\quad \leq
-        \norm{Q^{1/2} Z}
-          \cdot \norm{V^\dagger X}^2
-          \cdot \norm{Z^\top Q \hat{x}}
+    Q^{1/2} Z y
+      &= Q^{1/2} Z \parens{Z ^\top (Q+\lambda I) Z}^\dagger Z^\top Q \hat{x} \\
+      &= Q^{1/2} Z
+          \bracks{V^\dagger
+            - V^\dagger X (I + X^\top V^\dagger X)^{-1} X^\top V^\dagger}
+            Z^\top Q \hat{x}
+  \end{align*}
+  With this, we now bound the terms that appear in \eqref{eqn:qhalf-terms}.
+  For the easy one:
+  \begin{align}
+    \norm{Q^{1/2} \hat{x}}
+      = \norm{Q^{1/2} A^\dagger b}
+      \leq \lambda_{\max} (Q) ^{1/2}
+          \frac{1}{\sigma_{\min} (A)}
+          \norm{b}
+      \label{eqn:qhalf-left}
+  \end{align}
+  For the inside second term, accounting for the
+  fact that \(Z\) is a projection,
+  \begin{align}
+    \norm{Q^{1/2} Z u}
+      = \norm{Q^{1/2} Z V^\dagger Z^\top Q A ^\dagger b}
+      \leq
+        \lambda_{\max} (Q) ^{3/2}
+          \frac{1}{m_0}
+          \frac{1}{\sigma_{\min} (A)}
+          \norm{b}
+      \label{eqn:qhalf-mid}
+  \end{align}
+  where \(m_0\) is the smallest non-zero eigenvalue of \(Q\).
+  For the third inside term:
+  \begin{align*}
+    &\norm{Q^{1/2} Z y} \\
+      &\quad= \norm{Q^{1/2} Z
+          \bracks{V^\dagger
+            - V^\dagger X(I + X^\top V^\dagger X)^{-1} X^\top V^\dagger}
+          Z^\top Q A^\dagger b} \\
+      &\quad\leq \norm{Q^{1/2} Z V ^\dagger Z^\top Q A^\dagger b}
+        + \norm{Q^{1/2} Z V^\dagger X
+          (I + X^\top V^\dagger X)^{-1} X^\top V^\dagger
+          Z^\top Q A^\dagger b} \\
+      &\quad\leq \norm{Q^{1/2} Z V ^\dagger Z^\top Q A^\dagger b}
+        + \norm{Q}^{3/2} \norm{V^\dagger}^2 \cdot \norm{X}^2
+          \cdot \norm{A^\dagger b}
           \cdot \norm{(I + X^\top V^\dagger X)^{-1}} \\
-      &\quad \leq
-        \norm{Q^{1/2} Z}
-          \cdot \norm{V^\dagger X}^2
-          \cdot \norm{Z^\top Q \hat{x}}
-          \cdot \parens{\sum_{l = 0}^{\infty} \norm{X^\top V^\dagger X}^l} \\
-      &\quad \leq
-        \norm{Q^{1/2} Z}
-          \cdot \norm{V^\dagger X}^2
-          \cdot \norm{Z^\top Q \hat{x}}
-          \cdot \parens{\sum_{l = 0}^{\infty} \lambda^l \norm{V^\dagger}^l} \\
-      &\quad \leq
-        \norm{Q^{1/2} Z}
-          \cdot \norm{V^\dagger X}^2
-          \cdot \norm{Z^\top Q \hat{x}}
-          \cdot \parens{1 - \lambda m_0}^{-1} \\
-      &\quad \leq
-        \norm{Q^{1/2} Z}
-          \cdot \norm{Z^\top Q \hat{x}}
-          \cdot \frac{\lambda m_0}{1 - \lambda m_0} \\
-      &\quad \leq \norm{Q^{1/2} Z}^2 \cdot \norm{Q^{1/2} \hat{x}}
-          \cdot \frac{\lambda m_0}{1 - \lambda m_0}
+      &\quad\leq
+        \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b}}{m_0 \sigma_{\min} (A)}
+        + \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b} \lambda}
+                {m_0 ^2 \sigma_{\min} (A)}
+        \cdot \norm{(I + X^\top V^\dagger X)^{-1}} \\
+      &\quad\leq
+        \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b}}{m_0 \sigma_{\min} (A)}
+        + \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b} \lambda}
+                {m_0 ^2 \sigma_{\min} (A)}
+          \sum_{l = 0}^{\infty} \norm{X^\top V^\dagger X}^l \\
+      &\quad\leq
+        \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b}}{m_0 \sigma_{\min} (A)}
+        + \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b} \lambda}
+                {m_0 ^2 \sigma_{\min} (A)}
+          \sum_{l = 0}^{\infty} \parens{\lambda / m_0}^l \\
+      &\quad\leq
+        \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b}}{m_0 \sigma_{\min} (A)}
+        + \frac{\lambda_{\max} (Q)^{3/2} \cdot \norm{b} \lambda}
+                {m_0 ^2 \sigma_{\min} (A)}
+            \parens{1 - \frac{\lambda}{m_0}}^{-1}
   \end{align*}
-  where \(m_0\) is the smallest non-zero eigenvalue of \(V\),
-  and so
+  which requires \(\lambda < m_0\) for convergence.
+  Finally for the right outer term:
   \begin{align*}
-    &\frac{1}{2} (x_\lambda ^\star)^\top Q x_\lambda ^\star
-      - \frac{1}{2} (x^\star)^\top Q x^\star \\
-    &\quad \leq \norm{Q^{1/2} \hat{x}}
-          \cdot \norm{Q^{1/2} Z (y - u)}
-          + \frac{1}{2} \norm{Q^{1/2} Z (y - u)}^2 \\
-    &\quad \leq
-      \norm{Q^{1/2} \hat{x}}^2
-        \cdot \norm{Q^{1/2} Z}^2
-        \cdot \frac{\lambda m_0}{1 - \lambda m_0}
-        + \norm{Q^{1/2} \hat{x}}^4
-        \cdot \norm{Q^{1/2} Z}^4
-        \cdot \parens{\frac{\lambda m_0}{1 - \lambda m_0}}^2
+    \norm{Q^{1/2} Z (y - u)}
+      = \norm{Q^{1/2} Z V^\dagger X
+        (I + X^\top V^\dagger X)^{-1} X^\top V^\dagger Z^\top Q A ^\dagger b}
+      \leq \frac{\lambda_{\max} (Q)^{3/2} \norm{b} \lambda}{m_0 ^2 \sigma_{\min} (A)}
+      \parens{1 - \frac{\lambda}{m_0}}^{-1}
   \end{align*}
-  and this vanishes as \(\lambda \to 0\).
+  Putting these together, we find that
+  \begin{align*}
+    &\frac{1}{2} \parens{x_\lambda ^\star}^\top Q x_\lambda ^\star
+      - \frac{1}{2} x^\star Q x^\star \\
+    &\quad\leq
+      \parens{\norm{Q^{1/2} \hat{x}}
+        + \frac{1}{2} \norm{Q^{1/2} Z u}
+        + \frac{1}{2} \norm{Q^{1/2} Z y}}
+            \cdot \norm{Q^{1/2} Z (y - u)} \\
+    &\quad \leq
+      \max\{\lambda_{\max} (Q)^2, \lambda_{\max} (Q)^3\}
+       \cdot \max\{m_0 ^{-2}, m_0 ^{-3}\}
+       \cdot \parens{\frac{\norm{b}}{\sigma_{\min} (A)}}^2
+       O \parens{\frac{m_0 \lambda}{m_0 - \lambda}}
+  \end{align*}
 
 \end{proof}
 
