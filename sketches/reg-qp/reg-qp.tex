@@ -42,7 +42,7 @@ A quadratic program with equality constraints~\cite{boyd2004convex} is
 \begin{align}
   \text{minimize} &\quad \frac{1}{2} x^\top Q x
     \label{eqn:qp} \\
-  \text{subject to} &\quad Ax = b
+  \text{subject to} &\quad Ax = b \nonumber
 \end{align}
 with variable in \(x \in \mbb{R}^n\),
 where \(Q \succeq 0\) and the constraint \(A \in \mbb{R}^{m \times n}\) is,
@@ -52,7 +52,7 @@ The \(\ell^2\) regularized version for \(\lambda > 0\) looks like
 \begin{align}
   \text{minimize} &\quad \frac{1}{2} x^\top Q x + \lambda x^\top x
     \label{eqn:reg-qp} \\
-  \text{subject to} &\quad Ax = b
+  \text{subject to} &\quad Ax = b \nonumber
 \end{align}
 
 \subsection{Karush-Kuhn-Tucker Conditions}
@@ -243,7 +243,7 @@ Then
 
 \end{proof}
 
-\section{Optimal Value Deviation}
+\section{Suboptimality via Pseudoinverses}
 One challenge with merely bounding
 \(\norm{x^\star - x_\lambda ^\star}\) is that
 this norm difference may grow unbounded.
@@ -474,11 +474,11 @@ than \(x^\star\).
 
 \end{proof}
 
-\section{Interior Point Inspired}
+\section{Suboptimality via Interior Points}
 
 The analysis of interior point methods, in particular log-barrier functions
-in~\ref{boyd2004convex} Section 11.2
-is gives yet another way to bound optimality gap.
+in~\cite{boyd2004convex} Section 11.2
+gives yet another way to bound optimality gap.
 
 Consider an optimization problem of form
 \begin{align}
@@ -496,73 +496,95 @@ quadratic minimization,
 and in fact that \(M\) constant is not needed, but nevertheless
 this allows us to achieve theoretical guarantees.
 Intuitively, as \(t \to \infty\),
-the solution \(x^\star (t)\) converges to the optimal \(x^\star\).
+the solution \(x^\star (t)\) converges to the optimal \(x^\star\)
+of the original problem \eqref{eqn:qp}.
 
 \begin{theorem}
-  Let \(p^\star\) be the optimal value for the
-  original (quadratic linear equality constrained)
-  problem and \(x^\star (t)\) be the optimal (central-path) solutions to
-  \eqref{eqn:fake-barrier} as a function of \(t\), then
-  the optimality gap is
-  \begin{align*}
-    f(x^\star (t)) - p^\star \leq \frac{M - \norm{x^\star (t))}}{t},
-      \qquad M = \kappa(Q + (1/t)I) ^2 \cdot \norm{A^\dagger b}^2
-              + \varepsilon
-  \end{align*}
-  for small \(\varepsilon > 0\).
-\end{theorem}
-\begin{proof}
-  Based on the formulation of \eqref{eqn:fake-barrier},
-  the optimality conditions are
-  \begin{align*}
-    \nabla f(x) + \frac{1}{t} \nabla \phi(x) + A^\top \nu = 0,
-      \qquad
-      Ax = b
-  \end{align*}
-  which we identify with the Lagrangian of the following problem:
+  Let \(M > 0\) be sufficiently large such that
+  the problem
   \begin{align}
     \text{minimize} \quad f(x),
       \qquad \text{subject to} \quad Ax = b, \quad \norm{x}^2 \leq M
       \label{eqn:barrier-problem}
   \end{align}
-  with Lagrangian
+  is strictly feasible,
+  \(p^\star\) be the optimal value for the
+  original problem \eqref{eqn:qp},
+  and \(x^\star (t)\) be the optimal (central-path) solutions to
+  \eqref{eqn:fake-barrier} as a function of \(t\),
+  then the suboptimality is bounded by
+  \begin{align*}
+    f(x^\star (t)) - p^\star
+      \leq \frac{M - \norm{x^\star (t))}^2}{t}
+  \end{align*}
+\end{theorem}
+\begin{proof}
+  Based on the formulation of \eqref{eqn:fake-barrier},
+  its optimality conditions are
+  \begin{align*}
+    \nabla f(x) + \frac{1}{t} \nabla \phi(x) + A^\top \nu = 0,
+      \qquad
+      Ax = b
+  \end{align*}
+  which we identify with the Lagrangian of \eqref{eqn:barrier-problem}:
   \begin{align*}
     L(x, \lambda, \nu)
       = f(x) + \lambda \parens{\norm{x}^2 - M} + \nu^\top (Ax - b)
   \end{align*}
-  which suggests the mapping \(\lambda \mapsto 1/t\).
-  
-  Strong duality holds for \eqref{eqn:barrier-problem}
-  since the problem is strictly feasible.
-  This is because \(\hat{x} = A^\dagger b\) is the least-norm solution
-  of \(Ax = b\),
-  and examining the ellipsoidal level sets of
-  \(x \mapsto x^\top (Q + (1/t) I) x\):
-  major axis at \(\hat{x}\) has radius no more than
-  \(\norm{\hat{x}} \cdot \kappa (Q + (1/t) I)\).
-  As the optimal solution \(x^\star (t)\) must be at a \textit{smaller}
-  level set (given this is a minimization problem),
-  it likewise has a norm strictly smaller than
-  \(\norm{\hat{x}} \cdot \kappa (Q + (1/t) I) + \delta\)
-  for any small perturbation \(\delta > 0\).
-  
-  Because strong duality holds, letting \(p^\star\) be the optimal solution
-  to \eqref{eqn:fake-barrier} and \(g(\lambda, \nu)\)
-  the Lagrange dual function
+  via a mapping of \(\lambda^\star \mapsto 1/t\).
+  Since \eqref{eqn:barrier-problem} is a convex problem that is
+  strictly feasible by assumption, strong duality holds.
+  Let \(g(\lambda, \nu)\) be the Lagrange dual problem
   of \eqref{eqn:barrier-problem},
+  then \(g(\lambda, \nu) \leq p^\star\)
+  for all \(\lambda, \nu\) because
+  \eqref{eqn:barrier-problem} and
+  \eqref{eqn:fake-barrier} are equivalent problems:
+  with equivalent Lagrangian and optimality conditions.
+  Thus, \(g(\lambda, \nu) = f(x^\star (t), \lambda, \nu)\)
+  since \(x^\star (t)\) is optimal for \eqref{eqn:fake-barrier}.
+  Consequently, at optimal
+  \(\lambda^\star, \nu^\star\),
+  given that \(Ax = b\) at \(\nu^\star\),
   \begin{align*}
-    f(x^\star (t), \lambda, \nu^\star)
-      = f(x^\star(t)) + \lambda (\norm{x}^2 - M)
-      &\leq g(\lambda, \nu^\star) \leq p^\star
+    g(\lambda^\star, \nu^\star)
+      = f(x^\star (t), \lambda^\star, \nu^\star)
+      = f(x^\star(t)) + \lambda^\star (\norm{x^\star (t)}^2 - M)
+      \leq p^\star
   \end{align*}
-  and taking \(\lambda \mapsto 1 / t\) this simplifies to the desired result
+  and taking \(\lambda^\star \mapsto 1 / t\)
+  this simplifies to the desired result
   \begin{align*}
     f(x^\star (t)) - p^\star
       \leq \frac{M - \norm{x^\star (t)}^2}{t}
   \end{align*}
-  
 
 \end{proof}
+
+Since \(\norm{x^\star (t)} \leq \norm{x^\star}\) due to regularization,
+it suffices to take \(M = \norm{x^\star}^2 + \varepsilon\)
+for any small \(\varepsilon > 0\).
+To bound \(\norm{x^\star}\),
+leveraging the results from previous sections,
+where \(\hat{x} = A^\dagger b\) and \(Z = I - A^\dagger A\)
+such that solutions are of form \(\hat{x} - Z u\)
+\begin{align*}
+  M - \varepsilon &= \norm{x^\star}^2 \\
+    &= \norm{\hat{x}-Z(Z^\top Q Z)^\dagger Z^\top Q \hat{x}}^2 \\
+    &= \norm{\hat{x}}^2
+        + 2 \cdot \norm{\hat{x}}
+          \cdot \norm{Z(Z^\top Q Z)^\dagger Z^\top Q \hat{x}}
+        + \norm{Z(Z^\top Q Z)^\dagger Z^\top Q \hat{x}}^2 \\
+    &\leq \norm{\hat{x}}^2
+        + 2 \cdot \norm{\hat{x}}^2
+            \cdot \parens{\frac{q_{\max}}{q_{\min}}}
+        + \norm{\hat{x}}^2
+          \cdot \parens{\frac{q_{\max}}{q_{\min}}}^2 \\
+    &= \norm{\hat{x}}^2
+        \cdot \parens{1 + \frac{q_{\max}}{q_{\min}}}^2
+\end{align*}
+where \(q_{\max} = \lambda_{\max} (Q)\)
+and \(q_{\min}\) is the smallest non-zero eigenvalue of \(Q\).
 
 \printbibliography
 
