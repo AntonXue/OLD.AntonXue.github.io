@@ -581,7 +581,9 @@ such that solutions are of form \(\hat{x} - Z u\)
         + \norm{\hat{x}}^2
           \cdot \parens{\frac{q_{\max}}{q_{\min}}}^2 \\
     &= \norm{\hat{x}}^2
-        \cdot \parens{1 + \frac{q_{\max}}{q_{\min}}}^2
+        \cdot \parens{1 + \frac{q_{\max}}{q_{\min}}}^2 \\
+    &= \parens{\frac{\norm{b}}{\sigma_{\min} (A)}}^2
+        \parens{1 + \frac{q_{\max}}{q_{\min}}}^2 \\
 \end{align*}
 where \(q_{\max} = \lambda_{\max} (Q)\)
 and \(q_{\min}\) is the smallest non-zero eigenvalue of \(Q\).
