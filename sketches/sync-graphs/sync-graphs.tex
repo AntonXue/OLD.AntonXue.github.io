@@ -1,0 +1,135 @@
+\documentclass[12pt]{article}
+
+% Packages
+\usepackage[margin=5em]{geometry} % 1 cm = 2.84528 em
+\usepackage[backend=bibtex]{biblatex}
+\bibliography{sources}
+% \nocite{*}
+
+\usepackage{lipsum}
+
+% Paragraphs
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% Includes
+\input{axlib.tex}
+
+
+\let\pred\undefined
+\newcommand{\pred}{\mathbf{pred}}
+
+\let\depth\undefined
+\newcommand{\depth}{\mathbf{depth}}
+
+% Author
+\title{Synchronization Graphs}
+\author{R-KFC-A}
+\date{\today}
+\date{}
+
+% Document
+\begin{document}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+In this we examine parsing streams of tagged vertices
+into a canonical \textit{synchronization graph}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Background}
+
+\begin{definition}[Dependency Relation]
+  A dependency relation \(D \subseteq \Sigma \times \Sigma\)
+  is a \textit{symmetric} and \textit{reflexive}
+  relation on \(\Sigma\).
+\end{definition}
+
+Likewise an independence relation of \(D\) can be defined as
+the relative complement
+\(I = (\Sigma \times \Sigma) \setminus D\).
+
+Dependency relations are a general way of talking about
+\textit{equivalence} relations between two streams of data
+\(S_1, S_2 \in \Sigma^\star\),
+where we say \(S_1 \equiv_D S_2\) if \(S_2\) can be reached from \(S_1\)
+(and vice versa) by appling permutations based on
+the independence relation \(I\).
+
+\begin{definition}[Tree Dependence Relation]
+  A tree dependence relation \(T \subseteq \Sigma \times \Sigma\)
+  is a dependence relation such that
+  \((\Sigma, T)\) induces a graph with vertices
+  \(\Sigma\) and edges \(T\)
+  that forms a tree with a distinguished root \(\sigma_{\top}\).
+  Define the predecessor function with respect to this rooting,
+  with \(\pred(\sigma_\top) = \sigma_\top\);
+  recursively define the depth function
+  \(\depth(\sigma_\top) = 0\) and
+  \(\depth(\sigma) = 1 + \depth(\pred(\sigma))\).
+\end{definition}
+
+We define a \textit{synchronization graph},
+which is intended to model data streams that
+(1) are equipped with a dependence relationship
+and (2) have ``synchronizing''
+(also: visibly pushdown / parallel / end-marker'd) behavior.
+
+\begin{definition}[Synchronization Graph]
+  A synchronization graph \(G\) is a directed acyclic graph
+  with a unique \textit{source} (top) vertex \(\vee G\)
+  and a unique \textit{sink} (bot) vertex \(\wedge G\).
+  Recursively define \(G\) as follows:
+  \begin{enumerate}
+    \item[i.] (Base Case):
+      A single vertex is a syncrhonization graph.
+
+    \item[ii.] (Sequential Concatenation):
+      If \(G_1\) and \(G_2\) are synchronization graphs,
+      then \(G = G_1 \cdot u \cdot G_2\) is also a synchronization graph
+      for a new vertex \(u\), where
+      \begin{align*}
+        (\wedge G_1, u), (u, \vee G_2) \in G,
+        \qquad \vee G = \vee G_1,
+        \qquad \wedge G = \wedge G_2
+      \end{align*}
+
+
+    \item[iii.] (Parallel Union):
+      If \(G_1\) and \(G_2\) are synchronization graphs,
+      then \(G = u [ G_1 || G_2 ] v\) is also a synchronization graph
+      for new vertices \(u, v\) where
+      \begin{align*}
+        (u, \vee G_1), (u, \vee G_2),
+        (\wedge G_1, v), (\wedge G_2, v) \in G,
+          \qquad \vee G = u,
+          \qquad \wedge G = v
+      \end{align*}
+
+  \end{enumerate}
+\end{definition}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{A Parsing Problem}
+In this problem setting, we are given:
+\begin{enumerate}
+  \item[i.] A tree dependency relation \(T\) and its alphabet \(\Sigma\)
+
+  \item[ii.] A sequence of vertices \(v_1, v_2, \ldots\)
+    each labeled with an element of \(\Sigma\).
+
+\end{enumerate}
+
+The task is to generate a \textit{canonical} synchronization graph.
+
+
+\section{A Basic Algorithm}
+
+
+\printbibliography
+
+\end{document}
+
