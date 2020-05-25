@@ -19,6 +19,9 @@
 \let\pred\undefined
 \newcommand{\pred}{\mathbf{pred}}
 
+\let\ancestors\undefined
+\newcommand{\ancestors}{\mathbf{ancestors}}
+
 \let\depth\undefined
 \newcommand{\depth}{\mathbf{depth}}
 
@@ -68,12 +71,16 @@ the independence relation \(I\).
   \((\Sigma, T)\) induces a graph with vertices
   \(\Sigma\) and edges \(T\)
   that forms a tree with a distinguished root \(\sigma_{\top}\).
+  Furthermore, if \(\sigma_1 \in \ancestors(\sigma_2)\), then
+  \(\sigma_1 T \sigma_2\).
+\end{definition}
+
+There are a few functions we can define on \(T\).
   Define the predecessor function with respect to this rooting,
   with \(\pred(\sigma_\top) = \sigma_\top\);
   recursively define the depth function
   \(\depth(\sigma_\top) = 0\) and
   \(\depth(\sigma) = 1 + \depth(\pred(\sigma))\).
-\end{definition}
 
 We define a \textit{synchronization graph},
 which is intended to model data streams that
