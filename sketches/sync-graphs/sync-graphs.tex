@@ -22,6 +22,9 @@
 \let\depth\undefined
 \newcommand{\depth}{\mathbf{depth}}
 
+\let\next\undefined
+\newcommand{\next}{\mathbf{next}}
+
 % Author
 \title{Synchronization Graphs}
 \author{R-KFC-A}
@@ -112,14 +115,21 @@ and (2) have ``synchronizing''
   \end{enumerate}
 \end{definition}
 
+Note that synchronization graphs induce a natural partial order:
+\(u \preceq v\) if either (1) \(u = v\) or (2) \(v\) is reachable from \(u\).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{A Parsing Problem}
 In this problem setting, we are given:
 \begin{enumerate}
   \item[i.] A tree dependency relation \(T\) and its alphabet \(\Sigma\)
 
-  \item[ii.] A sequence of vertices \(v_1, v_2, \ldots\)
-    each labeled with an element of \(\Sigma\).
+  \item[ii.]
+    A sequence of vertices \(v_1, v_2, \ldots\)
+    each labeled with an element of \(\Sigma\):
+    that is, \(\tau(v_i) \in \Sigma\) for all \(i\).
+    This sequence is a linearization of a stream satisfying \(T\).
 
 \end{enumerate}
 
@@ -127,7 +137,100 @@ The task is to generate a \textit{canonical} synchronization graph.
 
 
 \section{A Basic Algorithm}
+A basic algorithm we have is to iteratively grow \(G\).
+Let \(\next()\) return the next vertex in the stream;
+iteratively keeping track of a \textit{frontier} of leaf vertices \(L\),
+every new vertex \(v\) has one of three possibilities:
+\begin{enumerate}
+  \item[1.]
+    It depends on exactly one \(l \in L\).
 
+  \item[2.]
+    It depends on more than one \(M \subseteq L\).
+    Furthermore, \(\depth(\tau(m)) < \depth(\tau(v))\)
+    for all \(m \in M\).
+    In this case \(v\) acts as a common ``synchronization point''
+    for \(M\).
+
+  \item[3.]
+    \(v\) is independent with all of \(L\),
+    in which case the \textit{most recent depenency} of \(v\),
+    written
+    \(u^\star = \bigvee \{ u \in G : \tau (u) T \tau (v)\} \)
+    is found and \(v\) appends to this.
+  
+\end{enumerate}
+
+
+\begin{center}
+\begin{algorithm}[H]
+  \DontPrintSemicolon
+  \SetAlgorithmName{Parsing Linearized Stream}
+  % \KwData{some data}
+  \KwResult{A fully constructed synchronization graph \(G\)}
+
+  \textbf{Precondition:} data stream \(S\) begins and ends with a
+  vertex labeled \(\sigma_\top\)\;
+
+  Initialize \(L \rightarrow \emptyset\)\;
+
+  Initialize \((V, E) \leftarrow (\emptyset, \emptyset)\).
+
+  Pop the first \(v \leftarrow \next()\) and set \(V \leftarrow \{v\}\).
+
+  \While{\(v \leftarrow \next()\) succeeds}{
+    Let \(M = \{l \in L : \tau(l) T \tau (v)\}\)
+    \(V \leftarrow V \cup \{v\}\)\;
+
+    \uIf{\(M = \{l\}\)}{
+      \(E \leftarrow E \cup \{(l, v)\}\)\;
+      \(L \leftarrow (L \setminus \{l\}) \cup \{v\}\)\;
+    }
+    \uElseIf{\(\abs{M} > 1\)}{
+      \(E \leftarrow E \cup \{(m, v) : m \in M\}\)\;
+      \(L \leftarrow (L \setminus M) \cup \{v\}\)
+    }
+    \Else{
+      \(u^\star = \bigvee \{u \in V : \tau(u) T \tau (v)\}\)\;
+      \(E \leftarrow E \cup \{(u^\star, v)\}\)\;
+      \(L \leftarrow L \cup \{v\}\)
+    }
+  }
+  \Return{\(G = (V,E)\)}
+
+  \caption{Algorithm}
+  % \caption{How to write algorithms}
+  \label{alg:parse-linearized}
+\end{algorithm}
+\end{center}
+
+
+
+\begin{lemma}
+  Two streams that are \(T\)-equivalent have the same decomposition
+  under Algorithm~\ref{alg:parse-linearized}.
+\end{lemma}
+\begin{proof}
+  \red{TODO}
+\end{proof}
+
+
+\begin{lemma}
+  At each iteration of the algorithm,
+  there is at most one \(l \in L\) such that
+  \(\depth(\tau(l)) = \depth(\tau(v))\)
+  and \(\tau(l) T \tau(v)\).
+\end{lemma}
+\begin{proof}
+  \red{TODO: something about induction}
+\end{proof}
+
+\begin{lemma}
+  At the each iteration, \((V, E)\) respects \(T\).
+\end{lemma}
+\begin{proof}
+  \red{TODO: Also something about induction}
+\end{proof}
 
 \printbibliography
 
