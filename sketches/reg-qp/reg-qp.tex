@@ -551,13 +551,15 @@ Additionally impose that \(\norm{x^\star (t)}^2 \leq M\) for all \(t > 0\).
   \end{align*}
   Thus, \(x^\star (t)\)
   is a feasible point of \eqref{eqn:barrier-problem}
-  (since \(\phi(x^\star (t)) \leq 0\) and \(A x^\star (t) = b\))
+  (since \(\phi(x^\star (t)) \leq 0\) and \(A x^\star (t) = b\)
+  by conditions of \eqref{eqn:fake-barrier})
   that minimizes the Lagrangian for points \(\hat{\lambda}, \hat{\nu}\).
   As \(\hat{\lambda} = 1/t > 0\), conclude that \(\hat{\lambda}, \hat{\nu}\)
   are dual-\textit{feasible} (not necessarily optimal) points of
   \eqref{eqn:barrier-problem}.
   Consequently, the Largange dual function value
   \(g(\hat{\lambda}, \hat{\nu})\) is finite, and
+  the desired suboptimality bound is achieved:
   \begin{align*}
     g(\hat{\lambda}, \hat{\nu})
       &= f(x^\star (t))
