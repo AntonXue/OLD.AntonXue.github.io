@@ -490,7 +490,7 @@ where
   f(x) = \frac{1}{2} x^\top Q x,
     \qquad \phi(x) = \norm{x}^2 - M
 \end{align*}
-where \(M > 0\) is a large constant.
+where \(M > 0\) is a large constant
 This problem is equivalent to \(\ell^2\) regularized constrained
 quadratic minimization,
 and in fact that \(M\) constant is not needed, but nevertheless
@@ -498,6 +498,8 @@ this allows us to achieve theoretical guarantees.
 Intuitively, as \(t \to \infty\),
 the solution \(x^\star (t)\) converges to the optimal \(x^\star\)
 of the original problem \eqref{eqn:qp}.
+
+Additionally impose that \(\norm{x^\star (t)}^2 \leq M\) for all \(t > 0\).
 
 \begin{theorem}
   Let \(M > 0\) be sufficiently large such that
@@ -507,11 +509,10 @@ of the original problem \eqref{eqn:qp}.
       \qquad \text{subject to} \quad Ax = b, \quad \norm{x}^2 \leq M
       \label{eqn:barrier-problem}
   \end{align}
-  is strictly feasible,
-  \(p^\star\) be the optimal value for the
-  original problem \eqref{eqn:qp},
-  and \(x^\star (t)\) be the optimal (central-path) solutions to
-  \eqref{eqn:fake-barrier} as a function of \(t\),
+  is feasible at \(x^\star (t)\) for all \(t > 0\),
+  the optimal (central path) solutions
+  to \eqref{eqn:fake-barrier} as a function of \(t\).
+  Let \(p^\star\) be the optimal value of \eqref{eqn:barrier-problem},
   then the suboptimality is bounded by
   \begin{align*}
     f(x^\star (t)) - p^\star
@@ -519,61 +520,68 @@ of the original problem \eqref{eqn:qp}.
   \end{align*}
 \end{theorem}
 \begin{proof}
-  Based on the formulation of \eqref{eqn:fake-barrier},
+  Note that \eqref{eqn:fake-barrier} is minimized at
+  \(x^\star (t)\) for each \(t > 0\), with optimality conditions
   \begin{align*}
-    \text{mimimize} \quad f(x) + \frac{1}{t} \phi(x),
-      \qquad \text{subject to} \quad Ax = b
-  \end{align*}
-  its optimality conditions are
-  \begin{align*}
-    \nabla f(x) + \frac{1}{t} \nabla \phi(x) + A^\top \nu = 0,
+    \nabla f(x^\star (t))
+        + \frac{1}{t} \nabla \phi(x^\star (t))
+        + A^\top \gamma = 0,
       \qquad
-      Ax = b
+      \phi(x^\star (t)) \leq 0,
+      \qquad
+      Ax^\star (t) = b
   \end{align*}
-  which we identify with the Lagrangian of \eqref{eqn:barrier-problem}:
+  We show that every \(x^\star (t)\) corresponds to
+  a dual feasible point of \eqref{eqn:barrier-problem},
+  and hence a lower bound on \(p^\star\).
+  To see this, examine the Lagrangian of \eqref{eqn:barrier-problem}:
   \begin{align*}
     L(x, \lambda, \nu)
-      = f(x) + \lambda \parens{\norm{x}^2 - M} + \nu^\top (Ax - b)
+      = f(x) + \lambda \phi(x) + \nu^\top (Ax - b)
   \end{align*}
-  via a mapping of \(\lambda^\star \mapsto 1/t\).
-  Since this is the Lagrangian of a convex problem that is
-  strictly feasible by assumption, strong duality holds.
-  Let \(g(\lambda, \nu)\) be the Lagrange dual problem
-  of \eqref{eqn:barrier-problem},
-  then \(g(\lambda, \nu) \leq p^\star\)
-  for all \(\lambda, \nu\) because
-  \eqref{eqn:barrier-problem} and
-  \eqref{eqn:fake-barrier} are equivalent problems:
-  with equivalent Lagrangian and optimality conditions.
-  Thus, \(g(\lambda, \nu) = f(x^\star (t), \lambda, \nu)\)
-  since \(x^\star (t)\) is optimal for \eqref{eqn:fake-barrier}.
-  Consequently, at optimal
-  \(\lambda^\star, \nu^\star\),
-  given that \(Ax = b\) at \(\nu^\star\),
+  and relating
+  \eqref{eqn:fake-barrier} with \eqref{eqn:barrier-problem}
+  by using the mappings
+  \(\hat{\lambda} \mapsto 1 / t\)
+  and \(\hat{\nu} \mapsto \gamma\),
   \begin{align*}
-    g(\lambda^\star, \nu^\star)
-      = f(x^\star (t), \lambda^\star, \nu^\star)
-      = f(x^\star(t)) + \lambda^\star (\norm{x^\star (t)}^2 - M)
+    L(x, \hat{\lambda}, \hat{\nu})
+      = f(x) + \hat{\lambda} \phi(x) + \hat{\nu}^\top (Ax - b)
+      = f(x) + \frac{1}{t} \phi(x) + \gamma^\top (Ax - b)
+  \end{align*}
+  Thus, \(x^\star (t)\)
+  is a feasible point of \eqref{eqn:barrier-problem}
+  (since \(\phi(x^\star (t)) \leq 0\) and \(A x^\star (t) = b\))
+  that minimizes the Lagrangian for points \(\hat{\lambda}, \hat{\nu}\).
+  As \(\hat{\lambda} = 1/t > 0\), conclude that \(\hat{\lambda}, \hat{\nu}\)
+  are dual-\textit{feasible} (not necessarily optimal) points of
+  \eqref{eqn:barrier-problem}.
+  Consequently, the Largange dual function value
+  \(g(\hat{\lambda}, \hat{\nu})\) is finite, and
+  \begin{align*}
+    g(\hat{\lambda}, \hat{\nu})
+      &= f(x^\star (t))
+          + \hat{\lambda} \phi(x^\star (t))
+          + \hat{\nu}^\top (Ax^\star (t) - b) \\
+      &= f(x^\star (t)) + \hat{\lambda} \phi(x^\star (t)) \\
+      &= f(x^\star (t)) + \frac{1}{t} (\norm{x^\star (t)}^2 - M)
       \leq p^\star
   \end{align*}
-  and taking \(\lambda^\star \mapsto 1 / t\)
-  this simplifies to the desired result
-  \begin{align*}
-    f(x^\star (t)) - p^\star
-      \leq \frac{M - \norm{x^\star (t)}^2}{t}
-  \end{align*}
-
 \end{proof}
 
+For \textit{sufficiently} large enough \(M > 0\), we also have
+that \(f(x^\star) = p^\star\) is also the optimal value of
+\eqref{eqn:qp}.
+
+So how large of an \(M\) is needed?
 Since \(\norm{x^\star (t)} \leq \norm{x^\star}\) due to regularization,
-it suffices to take \(M = \norm{x^\star}^2 + \varepsilon\)
-for any small \(\varepsilon > 0\).
+it suffices to take \(M \geq \norm{x^\star}^2\).
 To bound \(\norm{x^\star}\),
 leveraging the results from previous sections,
 where \(\hat{x} = A^\dagger b\) and \(Z = I - A^\dagger A\)
 such that solutions are of form \(\hat{x} - Z u\)
 \begin{align*}
-  M - \varepsilon &= \norm{x^\star}^2 \\
+  \norm{x^\star}^2
     &= \norm{\hat{x}-Z(Z^\top Q Z)^\dagger Z^\top Q \hat{x}}^2 \\
     &= \norm{\hat{x}}^2
         + 2 \cdot \norm{\hat{x}}
@@ -587,7 +595,8 @@ such that solutions are of form \(\hat{x} - Z u\)
     &= \norm{\hat{x}}^2
         \cdot \parens{1 + \frac{q_{\max}}{q_{\min}}}^2 \\
     &= \parens{\frac{\norm{b}}{\sigma_{\min} (A)}}^2
-        \parens{1 + \frac{q_{\max}}{q_{\min}}}^2 \\
+        \parens{1 + \frac{q_{\max}}{q_{\min}}}^2
+        \leq M
 \end{align*}
 where \(q_{\max} = \lambda_{\max} (Q)\)
 and \(q_{\min}\) is the smallest non-zero eigenvalue of \(Q\).
