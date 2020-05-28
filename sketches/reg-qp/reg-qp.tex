@@ -520,6 +520,10 @@ of the original problem \eqref{eqn:qp}.
 \end{theorem}
 \begin{proof}
   Based on the formulation of \eqref{eqn:fake-barrier},
+  \begin{align*}
+    \text{mimimize} \quad f(x) + \frac{1}{t} \phi(x),
+      \qquad \text{subject to} \quad Ax = b
+  \end{align*}
   its optimality conditions are
   \begin{align*}
     \nabla f(x) + \frac{1}{t} \nabla \phi(x) + A^\top \nu = 0,
@@ -532,7 +536,7 @@ of the original problem \eqref{eqn:qp}.
       = f(x) + \lambda \parens{\norm{x}^2 - M} + \nu^\top (Ax - b)
   \end{align*}
   via a mapping of \(\lambda^\star \mapsto 1/t\).
-  Since \eqref{eqn:barrier-problem} is a convex problem that is
+  Since this is the Lagrangian of a convex problem that is
   strictly feasible by assumption, strong duality holds.
   Let \(g(\lambda, \nu)\) be the Lagrange dual problem
   of \eqref{eqn:barrier-problem},
